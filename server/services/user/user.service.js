@@ -15,18 +15,20 @@ let me = async (req, res) => {
 let login = (req, res) => {
 	User.findOne({email: req.body.email, password: sha256(req.body.password)}, (err, rep) => {
 		if (err || !rep) {
-			res.json({
-				type: false,
-				data: "No user found"
-			})
+			res.json({type: false, data: "No user found"})
 		}
 		else {
-			res.json({
-				type: true,
-				data: rep
-			})
+			res.json({type: true, data: rep})
 		}
 	})
+}
+
+let checkLogin = async (req, res) => {
+	let user = await User.findOne({token : req.token})
+
+	if (user) {
+		res.json({type : true})
+	}
 }
 
 let register = async (req, res) => {
