@@ -1,4 +1,4 @@
-class Gmail {
+class Meteo {
 	constructor() {
 		console.log("construit");
 	}
@@ -9,5 +9,5 @@ class Gmail {
 }
 
 module.exports = {
-	Gmail
+	Meteo
 }

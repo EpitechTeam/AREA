@@ -8,6 +8,16 @@ class Facebook {
 		this.token = token
 	}
 
+	async facebookConnected() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+
+		if (service.facebook == undefined) {
+			return (1);
+		}
+		return (0);
+	}
+
 	async changeAccessToken(newAccessToken) {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
@@ -53,6 +63,30 @@ class Facebook {
 		catch (err) {
 			console.log(err);
 			return (err);
+		}
+	}
+
+	async uploadPost(MessageOfPost) {
+		var body = MessageOfPost;
+
+		try {
+			FB.setAccessToken(this.accessToken);
+			let facebookResponse = await FB.api('me/feed', 'post', { message: body });
+			return (facebookResponse);
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
+	async uplodPhoto(path, description) {
+		try {
+			FB.setAccessToken(this.accessToken);
+			let facebookResponse = await FB.api('me/photos', 'post', { source: fs.createReadStream(path), caption: description });
+			return (facebookResponse)
+		}
+		catch (err) {
+			console.log(err);
 		}
 	}
 

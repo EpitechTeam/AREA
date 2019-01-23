@@ -1,4 +1,4 @@
-class Instagram {
+class Calendar {
 	constructor() {
 		console.log("construit");
 	}
@@ -9,5 +9,5 @@ class Instagram {
 }
 
 module.exports = {
-	Instagram
+	Calendar
 }

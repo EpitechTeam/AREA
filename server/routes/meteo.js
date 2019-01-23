@@ -2,8 +2,8 @@ let express	= require("express")
 let router	= express.Router()
 let ensureAuthorized 	= require("./../middlewares/ensureAuthorized")
 
-let instagramService = require('../services/instagram/instagram.service')
+let meteoService = require('../services/Meteo/meteo.service')
 
-router.get('/addInstagramConnection', instagramService.addInstagramConnection)
+router.get('/addMeteoConnection', meteoService.addMeteoConnection)
 
 module.exports = router

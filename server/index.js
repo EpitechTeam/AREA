@@ -13,12 +13,12 @@ let fs					= require("fs")
 
 let users       = require('./routes/user')
 let facebook       = require('./routes/facebook')
-let gmail       = require('./routes/gmail')
-let yammer       = require('./routes/yammer')
+let calendar       = require('./routes/calendar')
+let meteo       = require('./routes/meteo')
+let intra       = require('./routes/intra')
 let twitter       = require('./routes/twitter')
 let outlook       = require('./routes/outlook')
 let one_drive       = require('./routes/one-drive')
-let instagram       = require('./routes/instagram')
 
 let config = require(path.resolve(path.resolve(__dirname)  + '/config/index.js'))
 let port = config.PORT
@@ -73,12 +73,12 @@ app.use((req, res, next) => {
 
 app.use('/', users)
 app.use('/', facebook)
-app.use('/', gmail)
-app.use('/', instagram)
 app.use('/', twitter)
-app.use('/', yammer)
 app.use('/', one_drive)
 app.use('/', outlook)
+app.use('/', intra)
+app.use('/', calendar)
+app.use('/', meteo)
 
 process.on('uncaughtException', err => {
 	console.log(err)

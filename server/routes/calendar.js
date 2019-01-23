@@ -2,8 +2,8 @@ let express	= require("express")
 let router	= express.Router()
 let ensureAuthorized 	= require("./../middlewares/ensureAuthorized")
 
-let gmailService = require('../services/gmail/gmail.service')
+let calendarService = require('../services/calendar/calendar.service')
 
-router.get('/addGmailConnection', gmailService.addGmailConnection)
+router.get('/addCalendarConnection', calendarService.addCalendarConnection)
 
 module.exports = router
