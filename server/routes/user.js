@@ -10,4 +10,8 @@ router.post('/login', userService.login)
 
 router.post('/register', userService.register)
 
+router.post('/checkLogin', ensureAuthorized, userService.register)
+
+router.get('/about.json', ensureAuthorized, userService.about)
+
 module.exports = router

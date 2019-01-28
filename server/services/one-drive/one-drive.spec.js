@@ -26,7 +26,7 @@ class One_drive {
 	}
 
 	/*Upload file on one drive*/
-	async uploadFile() {
+	async uploadFile(path_local_file, path_to_the_destination) {
 		let stream = fs.createReadStream('./logo.png'); //path to local file
 		client
 		.api('/me/drive/root/children/logo.png/content') // path to the destination in OneDrive
@@ -35,7 +35,7 @@ class One_drive {
 		});
 	}
 
-	async downloadFile() {
+	async downloadFile(path_of_source_file, path_to_save_file) {
 		client
 		.api('/me/drive/root/children/Book.xlsx/content') // path of  source file in OneDrive
 		.getStream((err, downloadStream) => {
