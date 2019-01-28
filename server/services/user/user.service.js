@@ -64,8 +64,25 @@ let register = async (req, res) => {
 	res.json({type: true, data : user});
 }
 
+let about = async (req, res) => {
+	//Client ip
+
+	//Server
+	//--Current time
+	//--Services
+	//---Name
+	//---Actions
+	//----name
+	//----description
+	//---Reactions
+	//----name
+	//----dexription
+
+}
+
 module.exports = {
 	me,
 	login,
-	register
+	register,
+	about
 }
