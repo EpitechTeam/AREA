@@ -1,0 +1,21 @@
+<nav class="header-nav" *ngIf="isConnected">
+  <img routerLink="/home" src="../assets/img/logo.svg" alt="logo">
+
+  <div id="nav-links">
+    <a routerLink="/home">My Waves</a>
+    <a routerLink="/manage">Manage</a>
+  </div>
+
+  <div class="flex-box flex-box-centered" id="profile-box">
+    <div id="profile-box-info" (click)="onProfileNavClicked()">
+      <img src="https://api.adorable.io/avatars/50/abott@adorable.png" alt="avatar">
+      <span id="user-name">{{ user.firstname }} {{ user.lastname }}</span>
+      <i class="fa fa-angle-down"></i>
+    </div>
+    <div id="profile-box-dropdown" *ngIf="profileNavShow">
+      <a class="font-light">Create a new wave</a>
+      <a class="font-black" (click)="onLogout()">Sign out</a>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>
