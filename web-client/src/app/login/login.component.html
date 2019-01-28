@@ -1,0 +1,42 @@
+<div class="flex-box flex-box-centered row" id="mainBox">
+  <div id="logoBox">
+    <img src="assets/img/logo.svg" alt="logo" id="sonarLogo">
+  </div>
+  <div id="inputBox">
+    <div class="inline-flex-box" id="header">
+      <div class="inline-flex-box column" (click)="onLoginLabelClick()">
+        <span [class.unselected-label]="login === false">Login</span>
+        <div [class.unselected-div]="login === false" class="selected-div"></div>
+      </div>
+      <div class="inline-flex-box column" (click)="onLoginRegisterlClick()">
+        <span [class.unselected-label]="login === true">Register</span>
+        <div class="selected-div" [class.unselected-div]="login === true"></div>
+      </div>
+    </div>
+
+    <div class="flex-box column child-box" *ngIf="login === true">
+      <span class="font-black s-22">Email</span>
+      <input type="text" placeholder="Email">
+
+      <span class="font-black s-22" style="margin-top: 20px">Password</span>
+      <input type="password" placeholder="Password">
+
+      <button class="font-black s-24 login-button" (click)="loginProcedure()">Log in</button>
+    </div>
+
+    <div class="flex-box column child-box" *ngIf="login === false">
+      <span class="font-black s-22">Email</span>
+      <input type="text" placeholder="Email">
+
+      <span class="font-black s-22" style="margin-top: 20px">Password</span>
+      <input type="password" placeholder="Password">
+
+      <button class="font-black s-24 login-button">Sign up</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="overlay" *ngIf="loading">
+  <div class="lds-dual-ring"></div>
+</div>
