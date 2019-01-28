@@ -3,7 +3,7 @@ var Schema       = mongoose.Schema;
 
 var MeteoSchema   = mongoose.Schema({
 	accessToken : String,
-	city : String
+	city : String,
 	toEmail : Boolean,
 	toCalendar : Boolean,
 	toTwitter : Boolean
