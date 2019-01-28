@@ -1,0 +1,22 @@
+<div class="content">
+  <div class="flex-box main">
+    <div class="main-head flex-box">
+      <div style="cursor: pointer">
+        <i class="fa fa-chevron-left"></i>
+        <span style="margin-left: 10px;" (click)="onGoBack()">My Waves</span>
+      </div>
+      <div class="next">
+        <span style="margin-right: 10px;">Actions</span>
+        <i class="fa fa-chevron-right"></i>
+      </div>
+    </div>
+    <div class="flex-box box-view wrapped">
+      <div class="col-20">
+        <app-services></app-services>
+      </div>
+      <div class="col-80" style="margin-left: 30px">
+        <app-ta-view></app-ta-view>
+      </div>
+    </div>
+  </div>
+</div>

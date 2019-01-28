@@ -1,0 +1,27 @@
+.card-list-box {
+  width: 900px;
+  min-width: 600px;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 50px;
+  height: 80%;
+}
+
+.card {
+  margin-bottom: 50px;
+  flex: 0 0 270px;
+  height: 380px;
+  background-color: white;
+  box-shadow: 0 0 6px hsla(0,0%,11%,0.16);
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+
+.card .image {
+  width: 90px;
+  height: 90px;
+}
