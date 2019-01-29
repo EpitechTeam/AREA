@@ -67,39 +67,7 @@ public class my_waves___add_activity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_waves___add);
 
-		
-		_bg__my_waves___add_ek2 = (View) findViewById(R.id._bg__my_waves___add_ek2);
-		item_ek4 = (ImageView) findViewById(R.id.item_ek4);
-		yammer_ek1 = (TextView) findViewById(R.id.yammer_ek1);
-		path_8 = (ImageView) findViewById(R.id.path_8);
-		path_9 = (ImageView) findViewById(R.id.path_9);
-		path_10 = (ImageView) findViewById(R.id.path_10);
-		path_11 = (ImageView) findViewById(R.id.path_11);
-		item_ek5 = (ImageView) findViewById(R.id.item_ek5);
-		gmail_ek1 = (TextView) findViewById(R.id.gmail_ek1);
-		path_7 = (ImageView) findViewById(R.id.path_7);
-		item_ek6 = (ImageView) findViewById(R.id.item_ek6);
-		twitter_ek1 = (TextView) findViewById(R.id.twitter_ek1);
-		path_6 = (ImageView) findViewById(R.id.path_6);
-		item_ek7 = (ImageView) findViewById(R.id.item_ek7);
-		instagram_ek3 = (TextView) findViewById(R.id.instagram_ek3);
-		path_4_ek2 = (ImageView) findViewById(R.id.path_4_ek2);
-		path_5_ek2 = (ImageView) findViewById(R.id.path_5_ek2);
-		ellipse_1_ek2 = (View) findViewById(R.id.ellipse_1_ek2);
-		item_ek8 = (ImageView) findViewById(R.id.item_ek8);
-		one_drive_ek1 = (TextView) findViewById(R.id.one_drive_ek1);
-		path_2_ek4 = (ImageView) findViewById(R.id.path_2_ek4);
-		path_3_ek4 = (ImageView) findViewById(R.id.path_3_ek4);
-		item_ek9 = (View) findViewById(R.id.item_ek9);
-		intra_epitech = (TextView) findViewById(R.id.intra_epitech);
-		item_ek10 = (View) findViewById(R.id.item_ek10);
-		facebook_ek1 = (TextView) findViewById(R.id.facebook_ek1);
-		logo = (ImageView) findViewById(R.id.logo);
-		background_ek18 = (View) findViewById(R.id.background_ek18);
-		new_wave = (TextView) findViewById(R.id.new_wave);
-		select_trigger = (TextView) findViewById(R.id.select_trigger);
-		path_ek9 = (ImageView) findViewById(R.id.path_ek9);
-		box_ek3 = (View) findViewById(R.id.box_ek3);
+
 	
 		
 		//custom code goes here

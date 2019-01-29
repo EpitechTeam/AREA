@@ -25,10 +25,17 @@ import android.os.Bundle;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-    public class bottom_navigation_activity extends Activity {
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+	public class bottom_navigation_activity extends Activity  {
+
+        AccountFragment accountFragment = new AccountFragment();
+        ServiceManager serviceManager = new ServiceManager();
 
         public void addWaves(View v) {
             Intent myIntent = new Intent(this, my_waves___add_activity.class);
@@ -61,8 +68,12 @@ import android.view.View;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this);
+		AppEventsLogger.activateApp(this);
 		setContentView(R.layout.bottom_nav);
-
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ServiceManager", serviceManager);
+        accountFragment.setArguments(bundle);
 		BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_waves);
@@ -80,7 +91,7 @@ import android.view.View;
 
     public void switchToFragmentAccount() {
         FragmentManager manager = getFragmentManager();
-        manager.beginTransaction().replace(R.id.fragment_container, new account_fragment()).commit();
+        manager.beginTransaction().replace(R.id.fragment_container, accountFragment).commit();
     }
 
 }
