@@ -84,7 +84,7 @@
 						android:layout_width="310dp"
 						android:layout_height="1dp" />
 
-					<TextView android:id="@+id/facebook_ek10"
+					<TextView android:id="@+id/    private CallbackManager callbackManager;facebook_ek10"
 						android:fontFamily="Roboto"
 						android:layout_gravity="center_horizontal|center"
 						android:gravity="center"

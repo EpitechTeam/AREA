@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import exportkit.xd.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -58,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 */
     static final int RC_SIGN_IN = 9797;
-
-    private LoginButton loginButton;
     private CallbackManager callbackManager;
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -68,28 +67,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        callbackManager = CallbackManager.Factory.create();
+      /*  callbackManager = CallbackManager.Factory.create();
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d("Facebook", loginResult.getAccessToken().getToken());
-            }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(getApplicationContext(), R.string.com_facebook_smart_login_confirmation_cancel, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Toast.makeText(getApplicationContext(), R.string.com_facebook_internet_permission_error_message, Toast.LENGTH_SHORT).show();
-            }
-        });
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         Button signOutButton = findViewById(R.id.sign_out_button);
         signOutButton.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -114,8 +97,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);*/
     }
+/*
 
     private void signOut(){
         mGoogleSignInClient.revokeAccess()
@@ -170,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
             signInButton.setEnabled(true);
         }
     }
+*/
 
 /*
 
