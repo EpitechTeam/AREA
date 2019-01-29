@@ -72,13 +72,13 @@ app.use((req, res, next) => {
 })
 
 app.use('/', users)
-app.use('/', facebook)
-app.use('/', twitter)
-app.use('/', one_drive)
-app.use('/', outlook)
-app.use('/', intra)
-app.use('/', calendar)
-app.use('/', meteo)
+app.use('/facebook', facebook)
+app.use('/twitter', twitter)
+app.use('/one_drive', one_drive)
+app.use('/outlook', outlook)
+app.use('/intra', intra)
+app.use('/calendar', calendar)
+app.use('/meteo', meteo)
 
 process.on('uncaughtException', err => {
 	console.log(err)
