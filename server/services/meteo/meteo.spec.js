@@ -63,20 +63,21 @@ class Meteo {
 	}
 
 	async addConnection(city, insee) {
-		//Creer l'objet meteo et le link au service
-		let newMeteo = new MeteoModal({
-			accessToken : process.env.METEO_TOKEN,
-			city : city,
-			insee : insee,
-			toEmail : false,
-			toCalendar : false,
-			toTwitter : false
-		})
+		var user = await User.findOne({token : this.token})
+		var service = await Service.findOne({"_id" : user.services})
 
-		await newMeteo.save();
-
-		let user = await User.findOne({token : this.token})
-		await Service.updateOne({"_id" : user.services}, { $set: { meteo : newMeteo._id }})
+		if (user && !service.meteo) {
+			let newMeteo = new MeteoModal({
+				accessToken : process.env.METEO_TOKEN,
+				city : city,
+				insee : insee,
+				toEmail : false,
+				toCalendar : false,
+				toTwitter : false
+			})
+			await newMeteo.save();
+			await Service.updateOne({"_id" : user.services}, { $set: { meteo : newMeteo._id }})
+		}
 	}
 
 	async meteoByEmail() {

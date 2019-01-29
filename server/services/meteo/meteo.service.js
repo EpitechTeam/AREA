@@ -5,7 +5,7 @@ let serviceConfig = require('../../config/service')
 let MeteoSpec = require('./meteo.spec');
 
 let addMeteoConnection = async (req, res) => {
-	let newMeteo = new MeteoSpec(req.token)
+	let newMeteo = new MeteoSpec.Meteo(req.token)
 
 	await newMeteo.addConnection(req.body.city, req.body.insee)
 	res.json({type : true, data : "done"})
