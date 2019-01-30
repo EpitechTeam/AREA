@@ -6,7 +6,7 @@
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="800dp">
     <RelativeLayout
         android:id="@+id/top_ek9"
         android:layout_width="wrap_content"
@@ -41,8 +41,8 @@
 
     <RelativeLayout
         android:id="@+id/content_ek1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="279dp"
+        android:layout_height="616dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="111dp">
 
@@ -97,14 +97,14 @@
 
         <RelativeLayout
             android:id="@+id/items_ek2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="253dp"
+            android:layout_height="301dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="287dp">
 
             <com.google.android.gms.common.SignInButton
-                android:id="@+id/sign_in_button"
+                android:id="@+id/google_sign_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -119,6 +119,14 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp" />
+
+                <Button
+                    android:id="@+id/google_sign_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:visibility="invisible"
+                    android:layout_marginTop="80dp"
+                    android:text="google+ Sign out"/>
 
         </RelativeLayout>
 
