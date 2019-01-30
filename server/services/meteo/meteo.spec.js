@@ -62,6 +62,30 @@ class Meteo {
 		return;
 	}
 
+	async removeFromEmail() {
+		let user = await User.findOne({token: this.token})
+		let services = await Service.findOne({"_id" : user.services})
+
+		await MeteoModal.updateOne({"_id" : services.meteo}, { $set: { toEmail : false }})
+		return;
+	}
+
+	async removeFromTwitter() {
+		let user = await User.findOne({token: this.token})
+		let services = await Service.findOne({"_id" : user.services})
+
+		await MeteoModal.updateOne({"_id" : services.meteo}, { $set: { toTwitter : false }})
+		return;
+	}
+
+	async removeFromCalendar() {
+		let user = await User.findOne({token: this.token})
+		let services = await Service.findOne({"_id" : user.services})
+
+		await MeteoModal.updateOne({"_id" : services.meteo}, { $set: { toCalendar : false }})
+		return;
+	}
+
 	async addConnection(city, insee) {
 		var user = await User.findOne({token : this.token})
 		var service = await Service.findOne({"_id" : user.services})

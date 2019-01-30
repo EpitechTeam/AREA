@@ -12,23 +12,44 @@ let addMeteoConnection = async (req, res) => {
 }
 
 let addMeteoToTwitter = async (req, res) => {
-	let newMeteo = new MeteoSpec(req.token)
+	let newMeteo = new MeteoSpec.Meteo(req.token)
 
-	await MeteoSpec.addMeteoToTwitter();
+	await newMeteo.addMeteoToTwitter();
 	res.json({type : true, data : "done"})
 }
 
 let addMeteoToEmail = async (req, res) => {
-	let newMeteo = new MeteoSpec(req.token)
+	let newMeteo = new MeteoSpec.Meteo(req.token)
 
-	await MeteoSpec.addMeteoToEmail();
+	await newMeteo.addMeteoToEmail();
 	res.json({type : true, data : "done"})
 }
 
 let addMeteoToCalendar = async (req, res) => {
-	let newMeteo = new MeteoSpec(req.token)
+	let newMeteo = new MeteoSpec.Meteo(req.token)
 
-	await MeteoSpec.addMeteoToCalendar();
+	await newMeteo.addMeteoToCalendar();
+	res.json({type : true, data : "done"})
+}
+
+let removeFromTwitter = async (req, res) => {
+	let newMeteo = new MeteoSpec.Meteo(req.token)
+
+	await newMeteo.removeFromTwitter();
+	res.json({type : true, data : "done"})
+}
+
+let removeFromEmail = async (req, res) => {
+	let newMeteo = new MeteoSpec.Meteo(req.token)
+
+	await newMeteo.removeFromEmail();
+	res.json({type : true, data : "done"})
+}
+
+let removeFromCalendar = async (req, res) => {
+	let newMeteo = new MeteoSpec.Meteo(req.token)
+
+	await newMeteo.removeFromCalendar();
 	res.json({type : true, data : "done"})
 }
 
@@ -36,5 +57,8 @@ module.exports = {
 	addMeteoConnection,
 	addMeteoToEmail,
 	addMeteoToTwitter,
-	addMeteoToCalendar
+	addMeteoToCalendar,
+	removeFromEmail,
+	removeFromTwitter,
+	removeFromCalendar
 }

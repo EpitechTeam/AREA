@@ -12,4 +12,10 @@ router.put('/addMeteoToCalendar', ensureAuthorized, meteoService.addMeteoToTwitt
 
 router.put('/addMeteoToTwitter', ensureAuthorized, meteoService.addMeteoToCalendar)
 
+router.put('/removeFromEmail', ensureAuthorized, meteoService.removeFromEmail)
+
+router.put('/removeFromCalendar', ensureAuthorized, meteoService.removeFromTwitter)
+
+router.put('/removeFromTwitter', ensureAuthorized, meteoService.removeFromCalendar)
+
 module.exports = router
