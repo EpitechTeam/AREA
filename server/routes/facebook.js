@@ -14,6 +14,18 @@ router.get('/transferPicture', ensureAuthorized, facebookService.transferPicture
 
 router.put('/changeAccessToken', ensureAuthorized, facebookService.changeAccessToken)
 
+router.put('/addEventToTwitter', ensureAuthorized, facebookService.addEventToTwitter)
+
+router.put('/addEventToEmail', ensureAuthorized, facebookService.addEventToEmail)
+
+router.put('/addEventToCalendar', ensureAuthorized, facebookService.addEventToCalendar)
+
+router.put('/removeEventFromEmail', ensureAuthorized, facebookService.removeEventFromEmail)
+
+router.put('/removeEventFromTwitter', ensureAuthorized, facebookService.removeEventFromTwitter)
+
+router.put('/removeEventFromCalendar', ensureAuthorized, facebookService.removeEventFromCalendar)
+
 /*isConntected*/
 
 module.exports = router

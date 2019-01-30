@@ -30,6 +30,38 @@ class Facebook {
 		return;
 	}
 
+	async addEvent(to) {
+		let user = await User.findOne({token: this.token})
+		let services = await Service.findOne({"_id" : user.services})
+
+		if (to == "email") {
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToEmail : true }})
+		} else if (to == "twitter") {
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToTwitter : true }})
+		} else if (to == "calendar"){
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToCalendar : true }})
+		} else {
+			return;
+		}
+		return;
+	}
+
+	async removeEvent(from) {
+		let user = await User.findOne({token: this.token})
+		let services = await Service.findOne({"_id" : user.services})
+
+		if (from == "email") {
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToEmail : false }})
+		} else if (from == "twitter") {
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToTwitter : false }})
+		} else if (from == "calendar"){
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToCalendar : false }})
+		} else {
+			return;
+		}
+		return;
+	}
+
 	async getStatus() {
 		try {
 			FB.setAccessToken(this.accessToken);
