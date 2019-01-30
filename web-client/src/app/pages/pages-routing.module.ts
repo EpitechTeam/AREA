@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddTriggerComponent } from './my-waves/add-trigger/add-trigger.component';
 
 // Page Components
-import { MyWavesComponent } from './my-waves/my-waves.component';
+import {MyWavesComponent} from './my-waves/my-waves.component';
+import {AddActionComponent} from './my-waves/add-action/add-action.component';
+import {AddTriggerComponent} from './my-waves/add-trigger/add-trigger.component';
+import {ManageComponent} from './manage/manage.component';
+
 
 const routes: Routes = [
-  { path: 'myWaves', component: MyWavesComponent },
-  { path: 'myWaves/addTrigger', component: AddTriggerComponent },
+    { path: 'myWaves', component: MyWavesComponent },
+    { path: 'myWaves/addTrigger', component: AddTriggerComponent },
+    { path: 'myWaves/addAction', component: AddActionComponent },
+    { path: 'manage', component: ManageComponent },
 ];
 
 @NgModule({

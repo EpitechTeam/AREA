@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
+import {Router} from '@angular/router';
+import {ServicesComponent} from '../services/services.component';
 
 @Component({
   selector: 'app-add-trigger',
   templateUrl: './add-trigger.component.html',
-  styleUrls: ['./add-trigger.component.css']
+  styleUrls: ['./add-trigger.component.css'],
+  viewProviders: [ServicesComponent]
 })
 export class AddTriggerComponent implements OnInit {
 
-  constructor(private location: Location) { }
+  Title = 'Choose a Trigger';
 
-  ngOnInit() {
-  }
+  constructor(private location: Location, private router: Router) { }
+
+  ngOnInit() {}
 
   onGoBack() {
     this.location.back();

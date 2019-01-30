@@ -1,0 +1,56 @@
+.connectedServices {
+    margin-top: 50px;
+    width: 470px;
+}
+
+.connectedService {
+    border-radius: 3px;
+    box-shadow: 0 0 6px hsla(0,0%,11%, 0.16);
+}
+
+.cs-header {
+    background-color: #3B5998;
+    border-radius: 3px 3px 0 0;
+    height: 45px;
+    padding-left: 60px;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.cs-header.facebook {
+    background-image: url("src/assets/img/facebook-logo.svg");
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position-x: 20px;
+    background-position-y: center;
+}
+
+.cs-header.twitter {
+    background-image: url("src/assets/img/twitter-logo.svg");
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position-x: 20px;
+    background-position-y: center;
+}
+
+.cs-body {
+    padding: 20px;
+}
+
+.cs-body .lightGreyStatus {
+    color: hsla(0,0%,11%,0.5);
+}
+.cs-body .statusRow {
+    padding: 5px;
+}
+
+.cs-body .status {
+    color: #48C791;
+}
+
+.cs-body .redStatus {
+    cursor: pointer;
+    text-align: end;
+    color: #AF2A1D;
+}
