@@ -53,6 +53,15 @@ let removeFromCalendar = async (req, res) => {
 	res.json({type : true, data : "done"})
 }
 
+let meteoOfUser = async (req, res) => {
+	let newMeteo = await new MeteoSpec.Meteo(req.token)
+
+	let data = await newMeteo.getMeteoOfUser()
+	console.log("-------DATA-------")
+	console.log(data);
+	res.json({type : true, data : data})
+}
+
 module.exports = {
 	addMeteoConnection,
 	addMeteoToEmail,
@@ -60,5 +69,6 @@ module.exports = {
 	addMeteoToCalendar,
 	removeFromEmail,
 	removeFromTwitter,
-	removeFromCalendar
+	removeFromCalendar,
+	meteoOfUser
 }

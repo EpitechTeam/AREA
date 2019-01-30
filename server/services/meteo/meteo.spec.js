@@ -27,10 +27,28 @@ class Meteo {
 			}
 		};
 
+		return (request(options));
+		// const request1 = request(options);
+		// const reponse1 = await request1
+		// console.log(reponse1);
+		// return (reponse1)
+		// var promise = await new Promise(function(resolve, reject) {
+		// 	request(options, function (error, response, body) {
+		// 		if (error) throw new Error(error);
+		// 		console.log(body);
+		// 		resolve(body);
+		// 		return (body);
+		// 	});
+		// });
+
 		try {
 			let response = await request(options);
-			// console.log(response);
-			return (response);
+			// console.log(response.body)
+			// promise.then(function(value) {
+			// 	console.log("----------Return----------")
+			// 	console.log(value)
+			// 	return (value)
+			// });
 		}
 		catch (err) {
 			console.log(err);
