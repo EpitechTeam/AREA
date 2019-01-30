@@ -2,8 +2,22 @@ let express	= require("express")
 let router	= express.Router()
 let ensureAuthorized 	= require("./../middlewares/ensureAuthorized")
 
-let meteoService = require('../services/Meteo/meteo.service')
+let meteoService = require('../services/meteo/meteo.service')
 
-router.get('/addMeteoConnection', meteoService.addMeteoConnection)
+router.post('/addMeteoConnection', ensureAuthorized, meteoService.addMeteoConnection)
+
+router.put('/addMeteoToEmail', ensureAuthorized, meteoService.addMeteoToEmail)
+
+router.put('/addMeteoToCalendar', ensureAuthorized, meteoService.addMeteoToTwitter)
+
+router.put('/addMeteoToTwitter', ensureAuthorized, meteoService.addMeteoToCalendar)
+
+router.put('/removeFromEmail', ensureAuthorized, meteoService.removeFromEmail)
+
+router.put('/removeFromCalendar', ensureAuthorized, meteoService.removeFromTwitter)
+
+router.put('/removeFromTwitter', ensureAuthorized, meteoService.removeFromCalendar)
+
+router.get('/meteoOfUser', ensureAuthorized, meteoService.meteoOfUser)
 
 module.exports = router

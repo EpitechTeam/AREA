@@ -4,6 +4,6 @@ let ensureAuthorized 	= require("./../middlewares/ensureAuthorized")
 
 let outlookService = require('../services/outlook/outlook.service')
 
-router.get('/addOutlookConnection', outlookService.addOutlookConnection)
+router.post('/addOutlookConnection', outlookService.addOutlookConnection)
 
 module.exports = router

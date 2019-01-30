@@ -43,10 +43,59 @@ let changeAccessToken = async(req, res) => {
 	res.json({data: "Token changed"})
 }
 
+let addEventToTwitter = async(req, res) => {
+	let newFacebook = new FacebookSpec.Facebook(req.token);
+	await newFacebook.addEvent("twitter")
+	res.json({type : true, data : "done"})
+}
+
+let addEventToEmail = async(req, res) => {
+	let newFacebook = new FacebookSpec.Facebook(req.token);
+	await newFacebook.addEvent("email")
+	res.json({type : true, data : "done"})
+}
+
+let addEventToCalendar = async(req, res) => {
+	let newFacebook = new FacebookSpec.Facebook(req.token);
+	await newFacebook.addEvent("calendar")
+	res.json({type : true, data : "done"})
+}
+
+let removeEventFromTwitter = async(req, res) => {
+	let newFacebook = new FacebookSpec.Facebook(req.token);
+	await newFacebook.removeEvent("twitter")
+	res.json({type : true, data : "done"})
+}
+
+let removeEventFromEmail = async(req, res) => {
+	let newFacebook = new FacebookSpec.Facebook(req.token);
+	await newFacebook.removeEvent("email")
+	res.json({type : true, data : "done"})
+}
+
+let removeEventFromCalendar = async(req, res) => {
+	let newFacebook = new FacebookSpec.Facebook(req.token);
+	await newFacebook.removeEvent("calendar")
+	res.json({type : true, data : "done"})
+}
+
+let isConnected = async(req, res) => {
+	let newFacebook = new FacebookSpec.Facebook(req.token);
+
+	res.json({type : await newFacebook.facebookConnected()})
+}
+
 module.exports = {
 	addFacebookConnection,
 	extendToken,
 	getMe,
 	transferPicture,
-	changeAccessToken
+	changeAccessToken,
+	addEventToTwitter,
+	addEventToCalendar,
+	addEventToEmail,
+	removeEventFromTwitter,
+	removeEventFromEmail,
+	removeEventFromCalendar,
+	isConnected
 }
