@@ -85,7 +85,12 @@ process.on('uncaughtException', err => {
 })
 
 app.get('/', (req, res) => {
-    res.json("AREA API V1.0")
+	res.json("AREA API V1.0")
+})
+
+app.post('/office365', (req, res) => {
+	console.log(req.body);
+	res.json({type : true})
 })
 
 function stop() {
