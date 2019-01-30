@@ -79,6 +79,12 @@ let removeEventFromCalendar = async(req, res) => {
 	res.json({type : true, data : "done"})
 }
 
+let isConnected = async(req, res) => {
+	let newFacebook = new FacebookSpec.Facebook(req.token);
+
+	res.json({type : await newFacebook.facebookConnected()})
+}
+
 module.exports = {
 	addFacebookConnection,
 	extendToken,
@@ -90,5 +96,6 @@ module.exports = {
 	addEventToEmail,
 	removeEventFromTwitter,
 	removeEventFromEmail,
-	removeEventFromCalendar
+	removeEventFromCalendar,
+	isConnected
 }
