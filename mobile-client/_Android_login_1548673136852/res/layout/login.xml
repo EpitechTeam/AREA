@@ -1,0 +1,176 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent" android:layout_height="wrap_content" >
+	<!-- 
+	/*
+	 *	This content is generated from the PSD File Info.
+	 *	(Alt+Shift+Ctrl+I).
+	 *
+	 *	@desc 		
+	 *	@file 		login
+	 *	@date 		0
+	 *	@title 		Login
+	 *	@author 	
+	 *	@keywords 	
+	 *	@generator 	Export Kit v1.2.8.xd
+	 *
+	 */
+	-->
+	<ScrollView android:id="@+id/login" 
+		android:layout_width="wrap_content" 
+		android:layout_height="match_parent" >
+
+		<RelativeLayout android:id="@+id/content_container" 
+			android:layout_width="wrap_content" 
+			android:layout_height="640dp" >
+
+
+
+			<RelativeLayout android:id="@+id/page_login_ek1"
+				android:layout_marginTop="0dp"
+				android:layout_marginStart="0dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				>
+
+				<View android:id="@+id/_bg__login_ek2"
+					android:background="@drawable/_bg__login_ek2_shape"
+					 android:layout_marginLeft="0dp"
+					 android:layout_marginStart="0dp"
+					android:layout_marginTop="0dp"
+					android:layout_width="360dp"
+					android:layout_height="640dp" />
+
+
+				<RelativeLayout android:id="@+id/inputs"
+					android:layout_marginTop="178dp"
+					android:layout_marginStart="39dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					>
+
+					<TextView android:id="@+id/or_register_here"
+						android:fontFamily="Roboto"
+						android:textSize="16sp"
+						android:textColor="#1c1c1c"
+						android:layout_marginLeft="80dp"
+						android:layout_marginTop="232dp"
+						android:layout_width="114dp"
+						android:layout_height="22dp"
+						android:text="Or register here"
+						 />
+
+
+					<RelativeLayout android:id="@+id/login_ek3"
+						android:layout_marginTop="160dp"
+						android:layout_marginStart="0dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						>
+
+						<View android:id="@+id/background"
+							android:background="@drawable/background_shape"
+							 android:layout_marginLeft="0dp"
+							 android:layout_marginStart="0dp"
+							android:layout_marginTop="0dp"
+							android:layout_width="282dp"
+							android:layout_height="50dp" />
+
+						<TextView android:id="@+id/sign_in"
+							android:fontFamily="Roboto"
+							android:layout_gravity="center_horizontal|center"
+							android:gravity="center"
+							android:textSize="20sp"
+							android:textColor="#ffffff"
+							android:layout_marginLeft="107dp"
+							android:layout_marginTop="13dp"
+							android:layout_width="67dp"
+							android:layout_height="28dp"
+							android:text="Sign in"
+							 />
+
+					</RelativeLayout>
+
+
+					<RelativeLayout android:id="@+id/password"
+						android:layout_marginTop="70dp"
+						android:layout_marginStart="0dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						>
+
+						<View android:id="@+id/background_ek1"
+							android:background="@drawable/background_ek1_shape"
+							 android:layout_marginLeft="0dp"
+							 android:layout_marginStart="0dp"
+							android:layout_marginTop="0dp"
+							android:layout_width="280dp"
+							android:layout_height="48dp" />
+
+						<TextView android:id="@+id/__________"
+							android:fontFamily="Roboto"
+							android:textSize="18sp"
+							android:textColor="#1c1c1c"
+							android:layout_marginLeft="10dp"
+							android:layout_marginTop="15dp"
+							android:layout_width="74dp"
+							android:layout_height="25dp"
+							android:text="*********"
+							 />
+
+					</RelativeLayout>
+
+
+					<RelativeLayout android:id="@+id/email"
+						android:layout_marginTop="0dp"
+						android:layout_marginStart="0dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						>
+
+						<View android:id="@+id/background_ek2"
+							android:background="@drawable/background_ek2_shape"
+							 android:layout_marginLeft="0dp"
+							 android:layout_marginStart="0dp"
+							android:layout_marginTop="0dp"
+							android:layout_width="280dp"
+							android:layout_height="48dp" />
+
+						<TextView android:id="@+id/david_z_1_hotmail_com"
+							android:fontFamily="Roboto"
+							android:textSize="18sp"
+							android:textColor="#1c1c1c"
+							android:layout_marginLeft="10dp"
+							android:layout_marginTop="15dp"
+							android:layout_width="190dp"
+							android:layout_height="25dp"
+							android:text="david.z.1@hotmail.com"
+							 />
+
+					</RelativeLayout>
+
+				</RelativeLayout>
+
+				<ImageView android:id="@+id/sonar"
+					android:src="@drawable/sonar"
+					android:contentDescription="sonar"
+					 android:layout_marginLeft="100dp"
+					 android:layout_marginStart="100dp"
+					android:layout_marginTop="75dp"
+					android:layout_width="161dp"
+					android:layout_height="53dp" />
+
+			</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+		</RelativeLayout>
+
+	</ScrollView>
+</HorizontalScrollView>

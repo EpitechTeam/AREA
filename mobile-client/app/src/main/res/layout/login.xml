@@ -1,0 +1,109 @@
+<!--
+/*
+ *	This content is generated from the PSD File Info.
+ *	(Alt+Shift+Ctrl+I).
+ *
+ *	@desc
+ *	@file 		login
+ *	@date 		0
+ *	@title 		Login
+ *	@author
+ *	@keywords
+ *	@generator 	Export Kit v1.2.8.xd
+ *
+ */
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/inputs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="0dp">
+
+        <TextView
+            android:id="@+id/or_register_here"
+            android:layout_width="114dp"
+            android:layout_height="22dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="232dp"
+            android:fontFamily="Roboto"
+            android:text="Or register here"
+            android:textColor="#1c1c1c"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:id="@+id/login_ek3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="160dp">
+
+            <Button
+                android:id="@+id/background"
+                android:layout_width="282dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/background_shape"
+                android:onClick="loginApi"
+                android:text="Login" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="70dp">
+
+            <EditText
+                android:id="@+id/background_ek1"
+                android:layout_width="280dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/background_ek1_shape"
+                android:hint="Password"
+                android:inputType="textPassword" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp">
+
+            <EditText
+                android:id="@+id/background_ek2"
+                android:layout_width="280dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/background_ek2_shape"
+                android:hint="example@mail.com" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/sonar"
+        android:layout_width="161dp"
+        android:layout_height="53dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:contentDescription="sonar"
+        android:src="@drawable/sonar" />
+
+</RelativeLayout>

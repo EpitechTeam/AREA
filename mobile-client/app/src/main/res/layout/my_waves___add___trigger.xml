@@ -1,0 +1,232 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent" android:layout_height="wrap_content" >
+	<!-- 
+	/*
+	 *	This content is generated from the PSD File Info.
+	 *	(Alt+Shift+Ctrl+I).
+	 *
+	 *	@desc 		
+	 *	@file 		login
+	 *	@date 		0
+	 *	@title 		Login
+	 *	@author 	
+	 *	@keywords 	
+	 *	@generator 	Export Kit v1.2.8.xd
+	 *
+	 */
+	-->
+	<ScrollView android:id="@+id/my_waves___add___trigger" 
+		android:layout_width="wrap_content" 
+		android:layout_height="match_parent" >
+
+		<RelativeLayout android:id="@+id/content_container" 
+			android:layout_width="wrap_content" 
+			android:layout_height="640dp" >
+
+
+
+
+
+
+
+			<RelativeLayout android:id="@+id/page_my_waves___add___trigger_ek1"
+				android:layout_marginTop="0dp"
+				android:layout_marginStart="0dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				>
+
+				<View android:id="@+id/_bg__my_waves___add___trigger_ek2"
+					android:background="@drawable/_bg__my_waves___add___trigger_ek2_shape"
+					 android:layout_marginLeft="0dp"
+					 android:layout_marginStart="0dp"
+					android:layout_marginTop="0dp"
+					android:layout_width="360dp"
+					android:layout_height="640dp" />
+
+
+				<RelativeLayout android:id="@+id/top_ek6"
+					android:layout_marginTop="0dp"
+					android:layout_marginStart="0dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					>
+
+					<View android:id="@+id/background_ek21"
+						android:background="@drawable/background_ek21_shape"
+						 android:layout_marginLeft="0dp"
+						 android:layout_marginStart="0dp"
+						android:layout_marginTop="0dp"
+						android:layout_width="360dp"
+						android:layout_height="180dp" />
+
+					<TextView android:id="@+id/new_wave_ek3"
+						android:fontFamily="Roboto"
+						android:layout_gravity="center_horizontal|center"
+						android:gravity="center"
+						android:textSize="26sp"
+						android:textColor="#ffffff"
+						android:layout_marginLeft="116dp"
+						android:layout_marginTop="20dp"
+						android:layout_width="125dp"
+						android:layout_height="35dp"
+						android:text="New Wave"
+						 />
+
+					<TextView android:id="@+id/select_trigger_ek1"
+						android:fontFamily="Roboto"
+						android:layout_gravity="center_horizontal|center"
+						android:gravity="center"
+						android:textSize="18sp"
+						android:textColor="#ffffff"
+						android:layout_marginLeft="125dp"
+						android:layout_marginTop="60dp"
+						android:layout_width="109dp"
+						android:layout_height="25dp"
+						android:text="Select trigger"
+						 />
+
+					<ImageView android:id="@+id/back_ek3"
+						android:src="@drawable/back_ek3"
+						android:contentDescription="back_ek3"
+						 android:layout_marginLeft="24dp"
+						 android:layout_marginStart="24dp"
+						android:layout_marginTop="26dp"
+						android:layout_width="12.84765625dp"
+						android:layout_height="18.8095703125dp" />
+
+					<View android:id="@+id/box_ek6"
+						android:background="@drawable/box_ek6_shape"
+						 android:layout_marginLeft="9dp"
+						 android:layout_marginStart="9dp"
+						android:layout_marginTop="10dp"
+						android:layout_width="58dp"
+						android:layout_height="51dp" />
+
+
+					<RelativeLayout android:id="@+id/logo_ek1"
+						android:layout_marginTop="101dp"
+						android:layout_marginStart="148dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						>
+
+						<ImageView android:id="@+id/logo_ek2"
+							android:src="@drawable/logo_ek2"
+							android:contentDescription="logo_ek2"
+							 android:layout_marginLeft="0dp"
+							 android:layout_marginStart="0dp"
+							android:layout_marginTop="0dp"
+							android:layout_width="65dp"
+							android:layout_height="65dp" />
+
+					</RelativeLayout>
+
+				</RelativeLayout>
+
+
+				<RelativeLayout android:id="@+id/items"
+					android:layout_marginTop="205dp"
+					android:layout_marginStart="20dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					>
+
+
+					<RelativeLayout android:id="@+id/facebook_ek2"
+						android:layout_marginTop="80dp"
+						android:layout_marginStart="0dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						>
+
+						<View android:id="@+id/item_ek17"
+							android:background="@drawable/item_ek17_shape"
+							 android:layout_marginLeft="0dp"
+							 android:layout_marginStart="0dp"
+							android:layout_marginTop="0dp"
+							android:layout_width="320dp"
+							android:layout_height="65dp" />
+
+						<TextView android:id="@+id/you_are_tagged_in_a_photo"
+							android:fontFamily="Roboto"
+							android:textSize="22sp"
+							android:textColor="#ffffff"
+							android:layout_marginLeft="15dp"
+							android:layout_marginTop="20dp"
+							android:layout_width="257dp"
+							android:layout_height="29dp"
+							android:text="You are tagged in a photo"
+							 />
+
+					</RelativeLayout>
+
+
+					<RelativeLayout android:id="@+id/facebook_ek3"
+						android:layout_marginTop="160dp"
+						android:layout_marginStart="0dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						>
+
+						<View android:id="@+id/item_ek18"
+							android:background="@drawable/item_ek18_shape"
+							 android:layout_marginLeft="0dp"
+							 android:layout_marginStart="0dp"
+							android:layout_marginTop="0dp"
+							android:layout_width="320dp"
+							android:layout_height="65dp" />
+
+						<TextView android:id="@+id/new_post_by_you_with_hashtag"
+							android:fontFamily="Roboto"
+							android:textSize="22sp"
+							android:textColor="#ffffff"
+							android:layout_marginLeft="15dp"
+							android:layout_marginTop="20dp"
+							android:layout_width="300dp"
+							android:layout_height="29dp"
+							android:text="New post by you with hashtag"
+							 />
+
+					</RelativeLayout>
+
+
+					<RelativeLayout android:id="@+id/facebook_ek4"
+						android:layout_marginTop="0dp"
+						android:layout_marginStart="0dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						>
+
+						<View android:id="@+id/item_ek19"
+							android:background="@drawable/item_ek19_shape"
+							 android:layout_marginLeft="0dp"
+							 android:layout_marginStart="0dp"
+							android:layout_marginTop="0dp"
+							android:layout_width="320dp"
+							android:layout_height="65dp" />
+
+						<TextView android:id="@+id/new_photo_post_by_you"
+							android:fontFamily="Roboto"
+							android:textSize="22sp"
+							android:textColor="#ffffff"
+							android:layout_marginLeft="15dp"
+							android:layout_marginTop="20dp"
+							android:layout_width="230dp"
+							android:layout_height="29dp"
+							android:text="New photo post by you"
+							 />
+
+					</RelativeLayout>
+
+				</RelativeLayout>
+
+			</RelativeLayout>
+
+
+
+
+		</RelativeLayout>
+
+	</ScrollView>
+</HorizontalScrollView>
