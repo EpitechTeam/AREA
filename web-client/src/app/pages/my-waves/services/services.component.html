@@ -1,18 +1,37 @@
-<div class="flex-box row flex-box-centered">
+<div class="flex-box box-view wrapped">
+  <div class="col-20">
+    <div class="flex-box row flex-box-centered">
 
-  <div class="flex-box column">
-    <input type="text" placeholder="Search" class="search">
+      <div class="flex-box column">
+        <input type="text" placeholder="Search" class="search">
 
-    <div class="flex-box services column">
-      <button class="facebook">Facebook</button>
-      <button class="twitter">Twitter</button>
-      <button class="facebook">Facebook</button>
-      <button class="twitter">Twitter</button>
-      <button class="facebook">Facebook</button>
-      <button class="twitter">Twitter</button>
-      <button class="facebook">Facebook</button>
+        <div class="flex-box services column">
+          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
+          <button class="twitter" (click)="OnServiceClicked('twitter')">Twitter</button>
+          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
+          <button class="twitter" (click)="OnServiceClicked('twitter')">Twitter</button>
+          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
+          <button class="twitter" (click)="OnServiceClicked('twitter')">Twitter</button>
+          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
+        </div>
+      </div>
+
+      <div class="separator"></div>
     </div>
   </div>
+  <div class="col-80" style="margin-left: 30px">
+    <div class="flex-box column flex-box-centered">
+      <div class="flex-box flex-box-centered">
+        <span class="font-bold box-view-title">{{ Title }}</span>
+      </div>
 
-  <div class="separator"></div>
+      <div class="box-view flex-box flex-wrap service-cards flex-box-centered">
+        <div class="flex-box column service-card {{card.class}}" *ngFor="let card of cards" (click)="OnNextStep(card)" >
+          <span class="service-card-action font-bold s-22">{{ card.title }}</span>
+          <span class="service-card-action-description font-bold s-20">{{ card.description }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TaViewComponent } from './ta-view.component';
+import { AddActionComponent } from './add-action.component';
 
-describe('TaViewComponent', () => {
-  let component: TaViewComponent;
-  let fixture: ComponentFixture<TaViewComponent>;
+describe('AddActionComponent', () => {
+  let component: AddActionComponent;
+  let fixture: ComponentFixture<AddActionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TaViewComponent ]
+      declarations: [ AddActionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TaViewComponent);
+    fixture = TestBed.createComponent(AddActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
