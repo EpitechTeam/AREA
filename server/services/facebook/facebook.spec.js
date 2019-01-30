@@ -13,9 +13,9 @@ class Facebook {
 		let service = await Service.findOne({"_id" : user.services})
 
 		if (service.facebook == undefined) {
-			return ("false");
+			return (false);
 		}
-		return ("true");
+		return (true);
 	}
 
 	async changeAccessToken(newAccessToken) {
