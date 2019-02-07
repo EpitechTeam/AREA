@@ -36,6 +36,7 @@ body {
 /* Flex */
 .flex-box {
   display: flex;
+  flex-direction: column;
 }
 
 .flex-wrap {
@@ -54,8 +55,12 @@ body {
   justify-content: space-between;
 }
 
+.space-around {
+  justify-content: space-around;
+}
+
 .row {
-  flex-direction: row;
+  flex-direction: row !important;
 }
 
 .column {
