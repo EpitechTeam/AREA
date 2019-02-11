@@ -11,17 +11,17 @@ import { ServicesComponent } from './my-waves/services/services.component';
 import { ManageComponent } from './manage/manage.component';
 
 @NgModule({
-  declarations: [
+    declarations: [
       MyWavesComponent,
       AddTriggerComponent,
       AddActionComponent,
       ServicesComponent,
       ManageComponent
-  ],
-  imports: [
+    ],
+    imports: [
       CommonModule,
       PagesRoutingModule,
       HttpClientModule
-  ]
+    ]
 })
 export class PagesModule { }

@@ -15,34 +15,21 @@ export class ManageComponent implements OnInit {
               private connector: ConnectorService) {
   }
 
-  test = '';
+  Connectors = this.connector.Connectors;
 
   ngOnInit() {
     this.GetData();
-
-  }
-
-  private IsO365Connected() {
-    return (this.connector.office365.IsConnected());
-  }
-
-  OnO365Login() {
-    this.connector.office365.Login();
-    return (false);
-  }
-
-  OnO365Logout() {
-    this.connector.office365.Logout();
-    return (false);
   }
 
   GetData() {
-    if (this.connector.office365.IsConnected()) {
-      let res;
-      this.connector.office365.GetData().subscribe(response => {
-        res = response;
-        this.test = res['givenName'] + ' ' + res['surname'];
-      });
-    }
+    this.Connectors.forEach((connector) => {
+      if (connector.IsConnected()) {
+        connector.GetData();
+      }
+    });
+  }
+
+  FilterConnectors(filter: boolean) {
+    return this.Connectors.filter((connector) => connector.IsConnected() === filter);
   }
 }

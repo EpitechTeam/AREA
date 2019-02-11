@@ -217,6 +217,16 @@ body {
   background-position-x: 15px;
 }
 
+.office365 {
+  background-color: #094AB2;
+  background-image: url("assets/img/onedrive-logo.svg");
+  background-repeat: no-repeat;
+  background-size: 25px;
+  background-position-y: center;
+  background-position-x: 15px;
+}
+
+
 .twitter {
   background-color: #55ACEE;
   background-image: url("assets/img/twitter-logo.svg");
@@ -311,4 +321,8 @@ body {
   .wrapped {
     flex-direction: column;
   }
+}
+
+.capitalize {
+  text-transform: capitalize;
 }

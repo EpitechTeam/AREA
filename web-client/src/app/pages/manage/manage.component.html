@@ -3,23 +3,24 @@
     <div class="flex-box">
       <div class="font-bold s-20">Connected services</div>
       <div class="connectedServices">
-        <div class="connectedService" *ngIf="connector.office365.IsConnected()">
-          <div class="cs-header s-18 font-bold facebook">
-            Office365
-          </div>
-          <div class="cs-body s-16 font-medium">
-            <div class="statusRow"><span class="lightGreyStatus">Connected as </span><span>{{ test }}</span></div>
-            <!--<div class="statusRow"><span class="lightGreyStatus">URL: </span><span>https://plus.google.com/111231976387317710994</span></div>-->
-            <div class="statusRow"><span class="lightGreyStatus">Status: </span><span class="status">Active</span></div>
-            <div class="statusRow redStatus" (click)="OnO365Logout()"><span>Disconnect from </span><span>Office365</span></div>
-          </div>
+        <div class="connectedService" *ngFor="let connector of FilterConnectors(true)">
+            <div class="cs-header s-18 font-bold {{ connector.class }}">
+              {{ connector.name }}
+            </div>
+            <div class="cs-body s-16 font-medium">
+              <div class="statusRow" *ngIf="connector.userImage">
+                <img src="{{ connector.userImage }}" alt="profile image">
+              </div>
+              <div class="statusRow"><span class="lightGreyStatus">Connected as </span><span class="capitalize">{{ connector.userName }}</span></div>
+              <div class="statusRow redStatus" (click)="connector.Logout()"><span>Disconnect from </span><span>{{ connector.name }}</span></div>
+            </div>
         </div>
       </div>
     </div>
     <div class="flex-box">
       <div class="font-bold s-20">Connect to services</div>
-      <div class="connectedServices">
-        <a href="#" *ngIf="!IsO365Connected()" (click)="OnO365Login()">Connect to Office365</a>
+      <div class="connectedServices" *ngFor="let connector of FilterConnectors(false)">
+        <a href="#" (click)="connector.Login()">Connect to {{ connector.name }}</a>
       </div>
     </div>
   </div>
