@@ -19,6 +19,8 @@ let intra       = require('./routes/intra')
 let twitter       = require('./routes/twitter')
 let outlook       = require('./routes/outlook')
 let one_drive       = require('./routes/one-drive')
+let office365       = require('./routes/office365')
+let request			= require('request');
 
 let config = require(path.resolve(path.resolve(__dirname)  + '/config/index.js'))
 let port = config.PORT
@@ -79,6 +81,7 @@ app.use('/outlook', outlook)
 app.use('/intra', intra)
 app.use('/calendar', calendar)
 app.use('/meteo', meteo)
+app.use('/', office365)
 
 process.on('uncaughtException', err => {
 	console.log(err)
@@ -86,11 +89,6 @@ process.on('uncaughtException', err => {
 
 app.get('/', (req, res) => {
 	res.json("AREA API V1.0")
-})
-
-app.post('/office365', (req, res) => {
-	console.log(req.body);
-	res.json({type : true})
 })
 
 function stop() {
