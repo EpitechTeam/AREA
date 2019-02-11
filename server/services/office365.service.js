@@ -45,15 +45,18 @@ var request = require("request");
 // 	});
 // }
 
+//Save token  to calendar
+//Save to Outlook
+//Save to One_drive
 let office365Connection = async (req, res) => {
-	//Save token  to calendar
-	//Save to Outlook
-	//Save to One_drive
 	let user = await User.findOne({token : req.token});
-	console.log(user);
-	let services = await Service.findOne({"_id" : user.services})
+	var services = await Service.findOne({"_id" : user.services})
 
-	console.log(services);
+	if (!req.body.accessToken) {
+		res.json({error : "give an accessToken"});
+		return;
+	}
+
 	if(!services.outlook) {
 		let newOutlook = new Outlook({
 			accessToken : req.body.accessToken,
@@ -62,12 +65,20 @@ let office365Connection = async (req, res) => {
 		await newOutlook.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { outlook : newOutlook._id}})
 	}
+	else {
+		let outlook = await Outlook.findOne({"_id" : services.outlook})
+		await Outlook.updateOne({"_id" : services.outlook}, { $set : { accessToken : req.body.accessToken}})
+	}
 	if (!services.calendar) {
 		let newCalendar = new Calendar({
 			accessToken : req.body.accessToken
 		})
 		await newCalendar.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { calendar : newCalendar._id}})
+	}
+	else {
+		let calendar = await Calendar.findOne({"_id" : services.outlook})
+		await Calendar.updateOne({"_id" : services.calendar}, { $set : { accessToken : req.body.accessToken}})
 	}
 	if (!services.one_drive) {
 		let newOne_drive = new One_drive({
@@ -77,9 +88,14 @@ let office365Connection = async (req, res) => {
 		await newOne_drive.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { one_drive : newOne_drive._id}})
 	}
+	else {
+		let one_drive = await One_drive.findOne({"_id" : services.one_drive})
+		await One_drive.updateOne({"_id" : services.one_drive}, { $set : { accessToken : req.body.accessToken}})
+	}
+
 	services = await Service.findOne({"_id" : user.services})
 	res.json({
-		body : req.body
+		data : "accessToken saved"
 	})
 }
 

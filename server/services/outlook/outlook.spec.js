@@ -27,14 +27,18 @@ class Outlook {
 	}
 
 	async setAccessToken(accessToken) {
-		this.client = MicrosoftGraph.Client.init({
-			authProvider: (done) => {
-				done(null, accessToken); //first parameter takes an error if you can't get an access token
-			}
-		});
 	}
 
-	async getMe() {
+	async getMe(accessToken) {
+		let user = await User.findOne({token : req.token});
+		let services = await Service.findOne({"_id" : user.services})
+		let outlook = await OutlookModal.findOne({"_id" : services.outlook})
+		this.client = MicrosoftGraph.Client.init({
+			authProvider: (done) => {
+				done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
+			}
+		});
+
 		this.client
 		.api('/me')
 		.get((err, res) => {
