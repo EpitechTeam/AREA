@@ -150,7 +150,10 @@ class Facebook {
 			let newFacebook = new FacebookModal({
 				accessToken : long_lived_token,
 				actionTag : false,
-				transferPicture : false
+				transferPicture : false,
+				eventToEmail : false,
+				eventToEmail : false,
+				eventToCalendar : false
 			})
 
 			await newFacebook.save();
