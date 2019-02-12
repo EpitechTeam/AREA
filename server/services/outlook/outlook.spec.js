@@ -5,8 +5,12 @@ const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 
 class Outlook {
 	constructor(token) {
+		create(token);
+	}
+
+	async create() {
 		this.token = token;
-		let user = await User.findOne({token : req.token});
+		let user = await User.findOne({token : this.token});
 		var services = await Service.findOne({"_id" : user.services})
 
 		if (services.outlook) {
