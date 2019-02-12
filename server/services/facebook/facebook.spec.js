@@ -141,24 +141,24 @@ class Facebook {
 	}
 
 	async setAccessToken(long_lived_token) {
-		let user = await User.findOne({token : this.token})
+		var user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
 
 		//Create facebook object linked to service with accessToken
+		//If facebook already exist
+		if (!service.facebook) {
+			let newFacebook = new FacebookModal({
+				accessToken : long_lived_token,
+				actionTag : false,
+				transferPicture : false
+			})
 
-		let newFacebook = new FacebookModal({
-			accessToken : long_lived_token,
-			actionTag : false,
-			transferPicture : false
-		})
-
-		await newFacebook.save();
-
-		let userFacebook = await FacebookModal.findOne({accessToken : long_lived_token})
-
-		let newServiceValues = { $set : {Facebook : userFacebook._id}}
-		await Service.updateOne({"_id" : user.services}, newServiceValues)
-
+			await newFacebook.save();
+			await Service.updateOne({"_id" : user.services}, { $set : {facebook : newFacebook._id}})
+		}
+		else {
+			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : long_lived_token}})
+		}
 		return;
 	}
 

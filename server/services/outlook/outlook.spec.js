@@ -1,5 +1,6 @@
 let OutlookModal	= require('./../../models/Outlook')
 let Service	= require('./../../models/Services')
+let User	= require('./../../models/User')
 const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 
 class Outlook {
@@ -7,9 +8,21 @@ class Outlook {
 		this.token = token;
 	}
 
+	async setFileToOneDrive() {
+		let user = await User.findOne({token : req.token});
+		let services = await Service.findOne({"_id" : user.services})
+
+		await OutlookModal.updateOne({"_id" : services.outlook}, { $set : {fileToOneDrive : true}})
+		return;
+	}
+
+	async getMyOption() {
+
+	}
 	async addOutlookConnection(accessToken) {
 		let newOutlook = new OutlookModal({
-			accessToken : accessToken
+			accessToken : accessToken,
+			fileToOneDrive : false
 		})
 
 		await newOutlook.save()

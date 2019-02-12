@@ -4,6 +4,8 @@ let ensureAuthorized 	= require("./../middlewares/ensureAuthorized")
 
 let outlookService = require('../services/outlook/outlook.service')
 
-router.post('/addOutlookConnection', outlookService.addOutlookConnection)
+router.post('/addOutlookConnection', ensureAuthorized, outlookService.addOutlookConnection)
+
+router.put('/addFileToOne_drive', ensureAuthorized, outlookService.addFileToOne_drive)
 
 module.exports = router
