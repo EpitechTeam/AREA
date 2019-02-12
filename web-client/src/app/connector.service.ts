@@ -199,7 +199,8 @@ class Facebook {
               'Authorization': this.userService.getUser().token
             })
           };
-          this.http.post(this.userService.baseUrl + 'facebook/addFacebookConnection', data, httpOptions);
+          this.http.post(this.userService.baseUrl + 'facebook/addFacebookConnection', data, httpOptions)
+              .subscribe();
           localStorage.setItem('facebookToken', userData.token);
           localStorage.setItem('facebookUser', JSON.stringify(userData));
           self.userId = userData.id;
@@ -213,6 +214,13 @@ class Facebook {
   }
 
   GetData() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getUser().token
+      })
+    };
+
     const userData = JSON.parse(localStorage.getItem('facebookUser'));
     this.userId = userData.id;
     this.userName = userData.name;
@@ -222,7 +230,10 @@ class Facebook {
     this.http.get(this.config.graphEndpoint + this.userId + '/photos?access_token=' + this.GetToken())
         .subscribe(data => {
     });
-    // https://graph.facebook.com/{your-user-id}/photos
-    //         ?access_token={your-user-access-token}
+
+    this.http.get(this.userService.baseUrl + 'facebook/getMe', httpOptions)
+        .subscribe(res => {
+          console.log(res);
+        });
   }
 }
