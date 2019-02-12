@@ -1,11 +1,9 @@
 class Calendar {
-	constructor() {
-		console.log("construit");
+	constructor(token) {
+		this.token = token
 	}
 
-	async testMethod() {
-		console.log("test method");
-	}
+	
 }
 
 module.exports = {

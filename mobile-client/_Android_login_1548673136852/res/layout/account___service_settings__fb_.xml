@@ -1,0 +1,169 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent" android:layout_height="wrap_content" >
+	<!-- 
+	/*
+	 *	This content is generated from the PSD File Info.
+	 *	(Alt+Shift+Ctrl+I).
+	 *
+	 *	@desc 		
+	 *	@file 		login
+	 *	@date 		0
+	 *	@title 		Login
+	 *	@author 	
+	 *	@keywords 	
+	 *	@generator 	Export Kit v1.2.8.xd
+	 *
+	 */
+	-->
+	<ScrollView android:id="@+id/account___service_settings__fb_" 
+		android:layout_width="wrap_content" 
+		android:layout_height="match_parent" >
+
+		<RelativeLayout android:id="@+id/content_container" 
+			android:layout_width="wrap_content" 
+			android:layout_height="640dp" >
+
+
+
+
+
+
+
+
+
+
+
+			<RelativeLayout android:id="@+id/page_account___service_settings__fb__ek1"
+				android:layout_marginTop="0dp"
+				android:layout_marginStart="0dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				>
+
+				<View android:id="@+id/_bg__account___service_settings__fb__ek2"
+					android:background="@drawable/_bg__account___service_settings__fb__ek2_shape"
+					 android:layout_marginLeft="0dp"
+					 android:layout_marginStart="0dp"
+					android:layout_marginTop="0dp"
+					android:layout_width="360dp"
+					android:layout_height="640dp" />
+
+
+				<RelativeLayout android:id="@+id/item_ek26"
+					android:layout_marginTop="100dp"
+					android:layout_marginStart="26dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					>
+
+
+					<RelativeLayout android:id="@+id/facebook_app_logo_ek5"
+						android:layout_marginTop="0dp"
+						android:layout_marginStart="120dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						>
+
+						<ImageView android:id="@+id/path_1_ek3"
+							android:src="@drawable/path_1_ek3"
+							android:contentDescription="path_1_ek3"
+							 android:layout_marginLeft="0dp"
+							 android:layout_marginStart="0dp"
+							android:layout_marginTop="0dp"
+							android:layout_width="71dp"
+							android:layout_height="71dp" />
+
+					</RelativeLayout>
+
+					<ImageView android:id="@+id/sep"
+						android:src="@drawable/sep"
+						android:contentDescription="sep"
+						 android:layout_marginLeft="0dp"
+						 android:layout_marginStart="0dp"
+						android:layout_marginTop="136dp"
+						android:layout_width="310dp"
+						android:layout_height="1dp" />
+
+					<TextView android:id="@+id/    private CallbackManager callbackManager;facebook_ek10"
+						android:fontFamily="Roboto"
+						android:layout_gravity="center_horizontal|center"
+						android:gravity="center"
+						android:textSize="26sp"
+						android:textColor="#3b5998"
+						android:layout_marginLeft="94dp"
+						android:layout_marginTop="86dp"
+						android:layout_width="119dp"
+						android:layout_height="35dp"
+						android:text="Facebook"
+						 />
+
+					<TextView android:id="@+id/disconnect_from_facebook"
+						android:fontFamily="Roboto"
+						android:layout_gravity="center_horizontal|center"
+						android:gravity="center"
+						android:textSize="16sp"
+						android:textColor="#d44638"
+						android:layout_marginLeft="56dp"
+						android:layout_marginTop="166dp"
+						android:layout_width="198dp"
+						android:layout_height="22dp"
+						android:text="Disconnect from Facebook"
+						 />
+
+				</RelativeLayout>
+
+
+				<RelativeLayout android:id="@+id/top_ek11"
+					android:layout_marginTop="0dp"
+					android:layout_marginStart="0dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					>
+
+					<View android:id="@+id/background_ek28"
+						android:background="@drawable/background_ek28_shape"
+						 android:layout_marginLeft="0dp"
+						 android:layout_marginStart="0dp"
+						android:layout_marginTop="0dp"
+						android:layout_width="360dp"
+						android:layout_height="70dp" />
+
+					<ImageView android:id="@+id/back_ek6"
+						android:src="@drawable/back_ek6"
+						android:contentDescription="back_ek6"
+						 android:layout_marginLeft="24dp"
+						 android:layout_marginStart="24dp"
+						android:layout_marginTop="26dp"
+						android:layout_width="12.847534179688dp"
+						android:layout_height="18.809631347656dp" />
+
+					<View android:id="@+id/box_ek11"
+						android:background="@drawable/box_ek11_shape"
+						 android:layout_marginLeft="9dp"
+						 android:layout_marginStart="9dp"
+						android:layout_marginTop="10dp"
+						android:layout_width="58dp"
+						android:layout_height="51dp" />
+
+					<TextView android:id="@+id/settings_ek2"
+						android:fontFamily="Roboto"
+						android:layout_gravity="center_horizontal|center"
+						android:gravity="center"
+						android:textSize="26sp"
+						android:textColor="#1c1c1c"
+						android:layout_marginLeft="127dp"
+						android:layout_marginTop="20dp"
+						android:layout_width="103dp"
+						android:layout_height="35dp"
+						android:text="Settings"
+						 />
+
+				</RelativeLayout>
+
+			</RelativeLayout>
+
+
+		</RelativeLayout>
+
+	</ScrollView>
+</HorizontalScrollView>

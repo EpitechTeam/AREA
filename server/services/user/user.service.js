@@ -2,6 +2,7 @@ let ObjectId	= require('mongodb').ObjectID
 let fs = require('fs')
 let path	= require('path')
 let User	= require('./../../models/User')
+let Service	= require('./../../models/Services')
 let sha256      = require('sha256')
 let jwt         = require('jsonwebtoken')
 let randomToken = require('random-token')
@@ -10,6 +11,15 @@ let config  = require('../../config/index')
 let me = async (req, res) => {
 	let user = await User.findOne({token: req.token});
 	res.json({user});
+}
+
+let getService = async (req, res) => {
+	let user = await User.findOne({token : req.token});
+	let services = await Service.findOne({"_id" : user.services})
+
+	res.json({
+		services : services
+	})
 }
 
 let login = (req, res) => {
@@ -84,5 +94,6 @@ module.exports = {
 	me,
 	login,
 	register,
-	about
+	about,
+	getService
 }

@@ -13,9 +13,9 @@ class Facebook {
 		let service = await Service.findOne({"_id" : user.services})
 
 		if (service.facebook == undefined) {
-			return (1);
+			return (false);
 		}
-		return (0);
+		return (true);
 	}
 
 	async changeAccessToken(newAccessToken) {
@@ -27,6 +27,38 @@ class Facebook {
 
 		await FacebookModal.updateOne({"_id" : service.facebook}, newValues)
 
+		return;
+	}
+
+	async addEvent(to) {
+		let user = await User.findOne({token: this.token})
+		let services = await Service.findOne({"_id" : user.services})
+
+		if (to == "email") {
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToEmail : true }})
+		} else if (to == "twitter") {
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToTwitter : true }})
+		} else if (to == "calendar"){
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToCalendar : true }})
+		} else {
+			return;
+		}
+		return;
+	}
+
+	async removeEvent(from) {
+		let user = await User.findOne({token: this.token})
+		let services = await Service.findOne({"_id" : user.services})
+
+		if (from == "email") {
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToEmail : false }})
+		} else if (from == "twitter") {
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToTwitter : false }})
+		} else if (from == "calendar"){
+			await FacebookModal.updateOne({"_id" : services.facebook}, { $set: { eventToCalendar : false }})
+		} else {
+			return;
+		}
 		return;
 	}
 
