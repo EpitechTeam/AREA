@@ -7,16 +7,19 @@ let outlookSpec = require('./outlook.spec')
 let addOutlookConnection = async (req, res) => {
 	let newOutlook = new OutlookSpec.Outlook(req.token);
 
-	await OutlookSpec.getMe();
+	await OutlookSpec.setAccessToken(req.body.accessToken);
 	res.json({type : true, data : "test"})
 }
 
-let getMe = async (req, res) => {
+let getEmail = async (req, res) => {
 
 }
 
 let getMyOption = async (req, res) => {
+	let newOutlook = new OutlookSpec.Outlook(req.token);
 
+	let option = await OutlookSpec.Outllook.getMyOption();
+	res.json({data : option})
 }
 
 let addFileToOne_drive = async (req, res) => {
@@ -28,5 +31,7 @@ let addFileToOne_drive = async (req, res) => {
 
 module.exports = {
 	addOutlookConnection,
-	addFileToOne_drive
+	addFileToOne_drive,
+	getMyOption,
+	getEmail
 }

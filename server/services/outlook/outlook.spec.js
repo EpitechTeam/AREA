@@ -17,29 +17,29 @@ class Outlook {
 	}
 
 	async getMyOption() {
-
-	}
-	async addOutlookConnection(accessToken) {
-		let newOutlook = new OutlookModal({
-			accessToken : accessToken,
-			fileToOneDrive : false
-		})
-
-		await newOutlook.save()
-
-		try {
-			let user = await User.findOne({token : this.token})
-		}
-		catch (err) {
-			console.log(err)
-		}
-
-		await Service.updateOne({"_id" : user.services}, { $set : { outlook : newOutlook._id }})
-
-		return;
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let	outllook = await OutlookModal.findOne({"_id" : service.outlook})
+		return outlook
 	}
 
 	async setAccessToken(accessToken) {
+		var user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+
+		if (!service.outlook) {
+			let newOutlook = new OutlookModal({
+				accessToken : accessToken,
+				fileToOneDrive : false,
+			})
+
+			await newOutlook.save();
+			await Service.updateOne({"_id" : user.services}, { $set : {outlook : newOutlook._id}})
+		}
+		else {
+			await OutlookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : accessToken}})
+		}
+		return;
 	}
 
 	async getMe(accessToken) {
