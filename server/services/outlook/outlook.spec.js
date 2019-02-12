@@ -14,7 +14,12 @@ class Outlook {
 
 		await newOutlook.save()
 
-		let user = await User.findOne({token : this.token})
+		try {
+			let user = await User.findOne({token : this.token})
+		}
+		catch (err) {
+			console.log(err)
+		}
 
 		await Service.updateOne({"_id" : user.services}, { $set : { outlook : newOutlook._id }})
 
@@ -22,14 +27,18 @@ class Outlook {
 	}
 
 	async setAccessToken(accessToken) {
-		this.client = MicrosoftGraph.Client.init({
-			authProvider: (done) => {
-				done(null, accessToken); //first parameter takes an error if you can't get an access token
-			}
-		});
 	}
 
-	async getMe() {
+	async getMe(accessToken) {
+		let user = await User.findOne({token : req.token});
+		let services = await Service.findOne({"_id" : user.services})
+		let outlook = await OutlookModal.findOne({"_id" : services.outlook})
+		this.client = MicrosoftGraph.Client.init({
+			authProvider: (done) => {
+				done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
+			}
+		});
+
 		this.client
 		.api('/me')
 		.get((err, res) => {
@@ -61,5 +70,3 @@ class Outlook {
 module.exports = {
 	Outlook
 }
-
-//https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=6cf6d447-0635-4914-a848-4cb72e761e39&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Foffice365&response_mode=form_post&scope=openid%20offline_access%20https%3A%2F%2Fgraph.microsoft.com%2Fmail.read&state=12345
