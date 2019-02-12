@@ -7,7 +7,7 @@ class One_drive {
 	}
 
 	async setAccessToken() {
-		var client = MicrosoftGraph.Client.init({
+		this.client = MicrosoftGraph.Client.init({
 			authProvider: (done) => {
 				done(null, "PassInAccessTokenHere"); //first parameter takes an error if you can't get an access token
 			}
@@ -15,7 +15,7 @@ class One_drive {
 	}
 
 	async deleteOneDriveItem(item_id) {
-		client
+		this.client
 		.api(`/me/drive/items/${ONE_DRIVE_FILE_ID_TO_DELETE}`)
 		.delete((err, res) => {
 			if (err) {
@@ -28,7 +28,7 @@ class One_drive {
 	/*Upload file on one drive*/
 	async uploadFile(path_local_file, path_to_the_destination) {
 		let stream = fs.createReadStream('./logo.png'); //path to local file
-		client
+		this.client
 		.api('/me/drive/root/children/logo.png/content') // path to the destination in OneDrive
 		.putStream(stream, (err) => {
 			console.log(err);
@@ -36,7 +36,7 @@ class One_drive {
 	}
 
 	async downloadFile(path_of_source_file, path_to_save_file) {
-		client
+		this.client
 		.api('/me/drive/root/children/Book.xlsx/content') // path of  source file in OneDrive
 		.getStream((err, downloadStream) => {
 			let writeStream = fs.createWriteStream('Book.xlsx'); // path to save file to

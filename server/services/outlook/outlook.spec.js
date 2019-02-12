@@ -6,6 +6,17 @@ const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 class Outlook {
 	constructor(token) {
 		this.token = token;
+		let user = await User.findOne({token : req.token});
+		var services = await Service.findOne({"_id" : user.services})
+
+		if (services.outlook) {
+			let outlook = await OutlookModal.findOne({"_id" : services.outlook})
+			this.client = MicrosoftGraph.Client.init({
+				authProvider: (done) => {
+					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
+				}
+			});
+		}
 	}
 
 	async setFileToOneDrive() {
@@ -43,15 +54,6 @@ class Outlook {
 	}
 
 	async getMe() {
-		let user = await User.findOne({token : req.token});
-		let services = await Service.findOne({"_id" : user.services})
-		let outlook = await OutlookModal.findOne({"_id" : services.outlook})
-		this.client = MicrosoftGraph.Client.init({
-			authProvider: (done) => {
-				done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
-			}
-		});
-
 		this.client
 		.api('/me')
 		.get((err, res) => {
