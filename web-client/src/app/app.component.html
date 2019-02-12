@@ -8,7 +8,7 @@
 
   <div class="flex-box flex-box-centered" id="profile-box">
     <div id="profile-box-info" (click)="onProfileNavClicked()">
-      <img src="https://api.adorable.io/avatars/50/abott@adorable.png" alt="avatar">
+      <img src="{{ pictureProfile }}" alt="avatar">
       <span id="user-name">{{ userService.getUser().first_name }} {{ userService.getUser().last_name }}</span>
       <i class="fa fa-angle-down"></i>
     </div>

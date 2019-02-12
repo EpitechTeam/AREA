@@ -10,6 +10,8 @@ export class AppComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   profileNavShow = false;
+  pictureProfile = '';
+
   onProfileNavClicked() {
     this.profileNavShow = !this.profileNavShow;
   }

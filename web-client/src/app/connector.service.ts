@@ -6,17 +6,19 @@ import {
   AuthService,
   FacebookLoginProvider,
 } from 'angular-6-social-login-v2';
+import {UserService} from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConnectorService {
   constructor(private http: HttpClient,
-              private socialAuthService: AuthService ) { }
+              private socialAuthService: AuthService,
+              private userSrevice: UserService) { }
 
   private office365 = new Office365(this.http);
   private epitech = new Epitech(this.http);
-  private facebook = new Facebook(this.http, this.socialAuthService);
+  private facebook = new Facebook(this.http, this.socialAuthService, this.userSrevice);
 
   Connectors = [
       this.office365,
@@ -150,15 +152,13 @@ class Epitech {
 
 class Facebook {
   constructor(private http: HttpClient,
-              private socialAuthService: AuthService) {}
+              private socialAuthService: AuthService,
+              private  userService: UserService) {}
 
   name = 'Facebook';
   class = 'facebook';
 
   config = {
-    clientID: '51f85228-564b-4196-90c9-5c6dc6e4d193',
-    authority: 'https://login.microsoftonline.com/common',
-    graphScopes: ['user.read'],
     graphEndpoint: 'https://graph.facebook.com/'
   };
 
@@ -190,6 +190,16 @@ class Facebook {
 
     this.socialAuthService.signIn(socialPlatformProvider).then(
         (userData) => {
+          const data  = {
+            accessToken: userData.token
+          };
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+              'Authorization': this.userService.getUser().token
+            })
+          };
+          this.http.post(this.userService.baseUrl + 'facebook/addFacebookConnection', data, httpOptions);
           localStorage.setItem('facebookToken', userData.token);
           localStorage.setItem('facebookUser', JSON.stringify(userData));
           self.userId = userData.id;

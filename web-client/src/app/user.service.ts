@@ -35,11 +35,13 @@ export class UserService {
     return this.http.post(this.baseUrl + 'login', body, this.httpOptions);
   }
 
-  register(email, password) {
+  register(email, password, firstname, lastname) {
 
     const body = {
       'email': email,
-      'password': password
+      'password': password,
+      'first_name': firstname,
+      'last_name': lastname,
     };
     return this.http.post(this.baseUrl + 'register', body, this.httpOptions);
   }

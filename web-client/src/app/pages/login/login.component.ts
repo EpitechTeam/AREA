@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   loading = false;
   email = '';
   password = '';
+  firstname = '';
+  lastname = '';
 
   constructor(private router: Router, private userService: UserService) {
   }
@@ -52,22 +54,18 @@ export class LoginComponent implements OnInit {
 
   registerProcedure() {
     this.loading = true;
-    this.userService.register(this.email, this.password)
+    this.userService.register(this.email, this.password, this.firstname, this.lastname)
         .subscribe(response => {
-
-          this.login = true;
-
-          // let res;
-          // // @ts-ignore
-          // res = response;
-          // if (res.type === false) {
-          //   this.loading = false;
-          //   this.bad = true;
-          // } else {
-          //   this.loading = false;
-          //   localStorage.setItem('appUser', JSON.stringify(res.data));
-          //   this.router.navigate(['pages/myWaves']).then();
-          // }
+          let res;
+          // @ts-ignore
+          res = response;
+          if (res.type === false) {
+            this.loading = false;
+            this.bad = true;
+          } else {
+            this.loading = false;
+            this.login = true;
+          }
         });
   }
 
