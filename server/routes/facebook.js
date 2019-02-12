@@ -27,6 +27,8 @@ router.put('/removeEventFromTwitter', ensureAuthorized, facebookService.removeEv
 router.put('/removeEventFromCalendar', ensureAuthorized, facebookService.removeEventFromCalendar)
 
 router.get('/isConnected', ensureAuthorized, facebookService.isConnected)
+
+router.get('/myOption', ensureAuthorized, facebookService.getMyOption)
 /*isConntected*/
 
 module.exports = router
