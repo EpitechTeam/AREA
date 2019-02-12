@@ -5,6 +5,7 @@ import { PagesBlankRoutingModule } from './pages-blank-routing.module';
 
 // Pages Blank Components
 import { LoginComponent } from './login/login.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { LoginComponent } from './login/login.component';
   ],
   imports: [
     CommonModule,
-    PagesBlankRoutingModule
+    PagesBlankRoutingModule,
+    FormsModule
   ]
 })
 export class PagesBlankModule { }

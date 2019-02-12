@@ -8,10 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {
   SocialLoginModule,
   AuthServiceConfig,
-  GoogleLoginProvider,
   FacebookLoginProvider,
-  LinkedinLoginProvider,
-  VkontakteLoginProvider,
 } from 'angular-6-social-login-v2';
 
 // Configs

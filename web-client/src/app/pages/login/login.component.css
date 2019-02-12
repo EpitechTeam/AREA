@@ -101,6 +101,12 @@
   box-shadow: 0 0 6px hsla(0,0%,11%,0.16);
   color: white;
   cursor: pointer;
+  transition: all 0.15s;
+}
+
+.login-button:hover {
+  transform: scale(0.95);
+  transition: all 0.15s;
 }
 
 .login-button:active {

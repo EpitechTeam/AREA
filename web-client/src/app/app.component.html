@@ -1,4 +1,4 @@
-<nav class="header-nav" *ngIf="isConnected">
+<nav class="header-nav" *ngIf="userService.isConnected()">
   <img routerLink="/pages/myWaves" src="../assets/img/logo.svg" alt="logo">
 
   <div id="nav-links">
@@ -9,7 +9,7 @@
   <div class="flex-box flex-box-centered" id="profile-box">
     <div id="profile-box-info" (click)="onProfileNavClicked()">
       <img src="https://api.adorable.io/avatars/50/abott@adorable.png" alt="avatar">
-      <span id="user-name">{{ user.firstname }} {{ user.lastname }}</span>
+      <span id="user-name">{{ userService.getUser().first_name }} {{ userService.getUser().last_name }}</span>
       <i class="fa fa-angle-down"></i>
     </div>
     <div id="profile-box-dropdown" *ngIf="profileNavShow">

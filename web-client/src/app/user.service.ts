@@ -1,45 +1,29 @@
 import { Injectable } from '@angular/core';
-// import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-
-export interface User {
-  _id: string;
-  token: string;
-  connected: boolean;
-
-  firstname: string;
-  lastname: string;
-  email: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private http: HttpClient) {
   }
 
-  _user: User = {
-    _id: '',
-    token: '',
-    connected: true,
-    firstname: 'David',
-    lastname: 'Zakrzewski',
-    email: 'david.zakrzewski@epitech.eu'
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
   };
 
-  // httpOptions = {
-  //   headers: new HttpHeaders({
-  //     'Content-Type': 'application/json'
-  //   })
-  // };
-
-  // baseUrl = '';
+  baseUrl = 'http://localhost:8080/';
 
   public isConnected() {
-    if (!this._user.connected) {
+    const user = JSON.parse(localStorage.getItem('appUser'));
+    if ((user != null) && user.token != null) {
+      return (true);
     }
-    return (this._user.connected);
+    return (false);
   }
 
   login(email, password) {
@@ -48,16 +32,25 @@ export class UserService {
       'email': email,
       'password': password
     };
-    this._user.connected = true;
-    // this.http.post(this.baseUrl, body, this.httpOptions)
-    //   .subscribe(response => { } );
+    return this.http.post(this.baseUrl + 'login', body, this.httpOptions);
+  }
 
-    this.router.navigate(['pages/myWaves']).then();
+  register(email, password) {
+
+    const body = {
+      'email': email,
+      'password': password
+    };
+    return this.http.post(this.baseUrl + 'register', body, this.httpOptions);
   }
 
   logout() {
-    this._user.connected = false;
+    localStorage.removeItem('appUser');
     this.router.navigate(['/pages/login']).then();
+  }
+
+  getUser() {
+    return JSON.parse(localStorage.getItem('appUser'));
   }
 
 }

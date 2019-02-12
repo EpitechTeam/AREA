@@ -10,14 +10,17 @@ import { UserService } from '../../user.service';
 export class LoginComponent implements OnInit {
 
   login = true;
+  bad = false;
   loading = false;
+  email = '';
+  password = '';
 
   constructor(private router: Router, private userService: UserService) {
   }
 
   ngOnInit() {
     if (this.userService.isConnected()) {
-      this.router.navigate(['pages/myWaves']);
+      this.router.navigate(['pages/myWaves']).then();
     }
   }
 
@@ -31,7 +34,41 @@ export class LoginComponent implements OnInit {
 
   loginProcedure() {
     this.loading = true;
-    this.userService.login('a', 'a');
+    this.userService.login(this.email, this.password)
+        .subscribe(response => {
+          let res;
+          // @ts-ignore
+          res = response;
+          if (res.type === false) {
+            this.loading = false;
+            this.bad = true;
+          } else {
+            this.loading = false;
+            localStorage.setItem('appUser', JSON.stringify(res.data));
+            this.router.navigate(['pages/myWaves']).then();
+          }
+        });
+  }
+
+  registerProcedure() {
+    this.loading = true;
+    this.userService.register(this.email, this.password)
+        .subscribe(response => {
+
+          this.login = true;
+
+          // let res;
+          // // @ts-ignore
+          // res = response;
+          // if (res.type === false) {
+          //   this.loading = false;
+          //   this.bad = true;
+          // } else {
+          //   this.loading = false;
+          //   localStorage.setItem('appUser', JSON.stringify(res.data));
+          //   this.router.navigate(['pages/myWaves']).then();
+          // }
+        });
   }
 
 }
