@@ -15,7 +15,7 @@ class Outlook {
 		await newOutlook.save()
 
 		try {
-			let user = await User.findOne({token : this.token}
+			let user = await User.findOne({token : this.token})
 		}
 		catch (err) {
 			console.log(err)
