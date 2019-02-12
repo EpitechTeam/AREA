@@ -3,6 +3,8 @@ let User	= require('./../../models/User')
 let config  = require('../../config/index')
 let serviceConfig = require('../../config/service')
 let FacebookSpec = require('./facebook.spec');
+let Service	= require('./../../models/Services')
+let Facebook	= require('./../../models/Facebook')
 
 let addFacebookConnection = async (req, res) => {
 	let newFacebook = new FacebookSpec.Facebook(req.token);
@@ -18,6 +20,13 @@ let getMe = async(req, res) => {
 
 	let me = await newFacebook.getMe()
 	res.json({me});
+}
+
+let getMyOption = async(req, res) => {
+	let user = await User.findOne({token : req.token});
+	let services = await Service.findOne({"_id" : user.services})
+	let my_facebook = await Facebook.findOne({"_id" : services.facebook})
+	res.json({data: my_facebook})
 }
 
 let extendToken = async (req, res) => {
@@ -97,5 +106,6 @@ module.exports = {
 	removeEventFromTwitter,
 	removeEventFromEmail,
 	removeEventFromCalendar,
-	isConnected
+	isConnected,
+	getMyOption
 }
