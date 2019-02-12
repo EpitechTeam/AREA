@@ -168,7 +168,7 @@ class Facebook {
 	async getMe() {
 		try {
 			FB.setAccessToken(this.accessToken);
-			let facebookResponse = await FB.api('/me', 'GET', {});
+			let facebookResponse = await FB.api('me?fields=id,name,email,profile_pic', 'GET', {});
 			return (facebookResponse);
 		}
 		catch (err) {
