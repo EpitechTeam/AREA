@@ -25,8 +25,15 @@ let getMyOption = async (req, res) => {
 let addFileToOne_drive = async (req, res) => {
 	let newOutlook = new OutlookSpec.Outlook(req.token);
 
-	await OutlookSpec.setFileToOneDrive();
+	await OutlookSpec.Outlook.setFileToOneDrive();
 	res.json({type : true})
+}
+
+let getMe = async (req, res) => {
+	let newOutlook = new OutlookSpec.Outlook(req.token);
+
+	let me = await OutlookSpec.Outlook.getMe();
+	res.json({type : true, data : me})
 }
 
 module.exports = {

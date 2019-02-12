@@ -42,7 +42,7 @@ class Outlook {
 		return;
 	}
 
-	async getMe(accessToken) {
+	async getMe() {
 		let user = await User.findOne({token : req.token});
 		let services = await Service.findOne({"_id" : user.services})
 		let outlook = await OutlookModal.findOne({"_id" : services.outlook})
@@ -56,6 +56,7 @@ class Outlook {
 		.api('/me')
 		.get((err, res) => {
 			console.log(res); // prints info about authenticated user
+			return res
 		});
 	}
 
