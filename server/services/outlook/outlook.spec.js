@@ -52,7 +52,7 @@ class Outlook {
 			await Service.updateOne({"_id" : user.services}, { $set : {outlook : newOutlook._id}})
 		}
 		else {
-			await OutlookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : accessToken}})
+			await OutlookModal.updateOne({"_id" : service.outlook}, { $set : {accessToken : accessToken}})
 		}
 		return;
 	}
