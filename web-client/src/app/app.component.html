@@ -8,7 +8,7 @@
 
   <div class="flex-box flex-box-centered" id="profile-box">
     <div id="profile-box-info" (click)="onProfileNavClicked()">
-      <img src="{{ pictureProfile }}" alt="avatar">
+      <img src="{{ userService.getUser().userImage }}" alt="avatar">
       <span id="user-name">{{ userService.getUser().first_name }} {{ userService.getUser().last_name }}</span>
       <i class="fa fa-angle-down"></i>
     </div>

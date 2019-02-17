@@ -23,13 +23,13 @@ export class ManageComponent implements OnInit {
 
   GetData() {
     this.Connectors.forEach((connector) => {
-      if (connector.IsConnected()) {
-        connector.GetData();
-      }
+      // if (connector.isConnected()) {
+        connector.getData();
+      // }
     });
   }
 
   FilterConnectors(filter: boolean) {
-    return this.Connectors.filter((connector) => connector.IsConnected() === filter);
+    return this.Connectors.filter((connector) => connector.isConnected() === filter);
   }
 }

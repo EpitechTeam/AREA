@@ -1,6 +1,7 @@
 .connectedServices {
     margin-top: 50px;
     width: 470px;
+    flex-shrink: 1;
 }
 
 .connectedService {
