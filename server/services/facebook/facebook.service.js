@@ -101,8 +101,8 @@ let logout = async (req, res) => {
 }
 
 let test = async (req, res) => {
-	console.log(req);
-	res.json({data : "test"});
+	console.log(req.query.hub.challenge);
+	res.json(req.query.hub.challenge);
 }
 
 module.exports = {
