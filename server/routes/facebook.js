@@ -32,7 +32,7 @@ router.get('/myOption', ensureAuthorized, facebookService.getMyOption)
 
 router.get('/logout', ensureAuthorized, facebookService.logout)
 
-router.post('/webhook', facebookService.webhook)
+router.get('/webhook', facebookService.webhook)
 /*isConntected*/
 
 module.exports = router
