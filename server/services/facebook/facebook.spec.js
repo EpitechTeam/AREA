@@ -40,13 +40,19 @@ class Facebook {
 
 	async setAccessTokenByUserId(id) {
 		//Find wich user have this id
-		let facebook_user = await FacebookModal.findOne({"user_id" : id});
-		this.accessToken = facebook_user.accessToken;
+		try {
+			let facebook_user = await FacebookModal.findOne({"user_id" : id});
+			this.accessToken = facebook_user.accessToken;
+		}
+		catch (err) {
+			console.log("no user found")
+		}
 		//set accessToken to graph api
 	}
 
 	async getInfoEvent(event_id) {
 		try {
+			console.log(this.accessToken);
 			FB.setAccessToken(this.accessToken);
 			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
 			return (facebookResponse);
