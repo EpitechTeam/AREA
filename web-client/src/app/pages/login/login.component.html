@@ -16,22 +16,28 @@
 
     <div class="flex-box column child-box" *ngIf="login === true">
       <span class="font-black s-22">Email</span>
-      <input type="text" placeholder="Email">
+      <input type="text" placeholder="Email" [(ngModel)]="email" name="email">
 
       <span class="font-black s-22" style="margin-top: 20px">Password</span>
-      <input type="password" placeholder="Password">
-
+      <input type="password" [(ngModel)]="password" placeholder="Password" name="password">
+      <span *ngIf="bad" class="font-light s-18" style="margin-top: 20px; color: #AF2A1D;">Bad Email or password</span>
       <button class="font-black s-24 login-button" (click)="loginProcedure()">Log in</button>
     </div>
 
     <div class="flex-box column child-box" *ngIf="login === false">
-      <span class="font-black s-22">Email</span>
-      <input type="text" placeholder="Email">
+      <span class="font-black s-22">First name</span>
+      <input type="text" placeholder="First name" [(ngModel)]="firstname" name="firstname">
 
-      <span class="font-black s-22" style="margin-top: 20px">Password</span>
-      <input type="password" placeholder="Password">
+      <span class="font-black s-22" style="margin-top: 20px">Last name</span>
+      <input type="text" placeholder="Last name" [(ngModel)]="lastname" name="lastname">
 
-      <button class="font-black s-24 login-button">Sign up</button>
+        <span class="font-black s-22" style="margin-top: 20px">Password</span>
+        <input type="text" placeholder="Email" [(ngModel)]="email" name="email">
+
+        <span class="font-black s-22" style="margin-top: 20px">Password</span>
+        <input type="password" placeholder="Password" [(ngModel)]="password" name="password">
+
+      <button class="font-black s-24 login-button" (click)="registerProcedure()">Sign up</button>
     </div>
 
   </div>

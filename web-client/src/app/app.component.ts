@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {User, UserService} from './user.service';
+import {UserService} from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,6 @@ import {User, UserService} from './user.service';
 export class AppComponent implements OnInit {
   constructor(private userService: UserService) { }
 
-  user = this.userService._user;
-
-  isConnected = this.userService.isConnected();
   profileNavShow = false;
 
   onProfileNavClicked() {
@@ -19,6 +16,7 @@ export class AppComponent implements OnInit {
   }
 
   onLogout() {
+    this.profileNavShow = false;
     this.userService.logout();
   }
 
