@@ -38,8 +38,16 @@ class Facebook {
 		return;
 	}
 
+	async setAccessTokenByUserId(id) {
+		//Find wich user have this id
+		let facebook_user = await FacebookModal.findOne({"user_id" : id});
+		this.accessToken = facebook_user.accessToken;
+		//set accessToken to graph api
+	}
+
 	async getInfoEvent(event_id) {
 		try {
+			FB.setAccessToken(this.accessToken);
 			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
 			return (facebookResponse);
 		}

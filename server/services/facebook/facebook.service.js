@@ -134,6 +134,7 @@ let webhook = async (req, res) => {
 	console.log(body.entry[0].changes);
 	if (body.entry[0].changes[0].field == 'events') {
 		let newFacebook = new FacebookSpec.Facebook("null");
+		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.getInfoEvent();
 	}
 	res.status(200).send('EVENT_RECEIVED');

@@ -7,7 +7,8 @@ var FacebookSchema   = mongoose.Schema({
 	transferPicture : Boolean,
 	eventToTwitter : Boolean,
 	eventToEmail : Boolean,
-	eventToCalendar : Boolean
+	eventToCalendar : Boolean,
+	user_id : String
 });
 
 var Facebook = module.exports = mongoose.model('Facebook', FacebookSchema);
