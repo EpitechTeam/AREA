@@ -131,7 +131,7 @@ let verifyWebhook = async (req, res) => {
 let webhook = async (req, res) => {
 	let body = req.body;
 
-	console.log(body.changes);
+	console.log(body.entry[0].changes);
 	res.status(200).send('EVENT_RECEIVED');
 }
 
