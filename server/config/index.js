@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 else if (process.env.NODE_ENV === 'production') {
 	config = {
-			PORT: 443,
+			PORT: 80,
 			SESSION_HASH: "uNZdUB77c4pLHZ9cw283jQnrKy36z78T",
 			JWT_HASH: "shhhhh",
 			REDIS_DB: 1
