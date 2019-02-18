@@ -1,18 +1,26 @@
 <div class="content">
-  <div class="flex-box main">
-    <div class="font-bold s-20">Connected services</div>
-
-    <div class="connectedServices">
-      <div class="connectedService">
-        <div class="cs-header s-18 font-bold facebook">
-          Facebook
+  <div class="flex-box main row space-between">
+    <div class="flex-box column">
+      <div class="font-bold s-20">Connected services</div>
+      <div class="connectedServices">
+        <div class="connectedService" *ngFor="let connector of FilterConnectors(true)">
+            <div class="cs-header s-18 font-bold {{ connector.class }}">
+              {{ connector.name }}
+            </div>
+            <div class="cs-body s-16 font-medium">
+              <div class="statusRow" *ngIf="connector.user.userImage">
+                <img src="{{ connector.user.userImage }}" alt="profile image">
+              </div>
+              <div class="statusRow"><span class="lightGreyStatus">Connected as </span><span class="capitalize">{{ connector.user.userName }}</span></div>
+              <div class="statusRow redStatus" (click)="connector.logout()"><span>Disconnect from </span><span>{{ connector.name }}</span></div>
+            </div>
         </div>
-        <div class="cs-body s-16 font-medium">
-          <div class="statusRow"><span class="lightGreyStatus">Connected as </span><span>David Zakrzewski</span></div>
-          <div class="statusRow"><span class="lightGreyStatus">URL: </span><span>https://plus.google.com/111231976387317710994</span></div>
-          <div class="statusRow"><span class="lightGreyStatus">Status: </span><span class="status">Active</span></div>
-          <div class="statusRow redStatus"><span>Disconnect from </span><span>Facebook</span></div>
-        </div>
+      </div>
+    </div>
+    <div class="flex-box column">
+      <div class="font-bold s-20">Connect to services</div>
+      <div class="connectedServices" *ngFor="let connector of FilterConnectors(false)">
+        <a href="#" (click)="connector.login()">Connect to {{ connector.name }}</a>
       </div>
     </div>
   </div>

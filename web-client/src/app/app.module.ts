@@ -3,6 +3,25 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import {HttpClientModule} from '@angular/common/http';
+
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  FacebookLoginProvider,
+} from 'angular-6-social-login-v2';
+
+// Configs
+export function getAuthServiceConfigs() {
+  const config = new AuthServiceConfig(
+      [
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider('608250742962709')
+        }
+      ]);
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -10,9 +29,16 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

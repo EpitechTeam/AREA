@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
+import { HttpClientModule} from '@angular/common/http';
 
 // Page Components
 import { MyWavesComponent } from './my-waves/my-waves.component';
@@ -10,16 +11,17 @@ import { ServicesComponent } from './my-waves/services/services.component';
 import { ManageComponent } from './manage/manage.component';
 
 @NgModule({
-  declarations: [
+    declarations: [
       MyWavesComponent,
       AddTriggerComponent,
       AddActionComponent,
       ServicesComponent,
       ManageComponent
-  ],
-  imports: [
+    ],
+    imports: [
       CommonModule,
-      PagesRoutingModule
-  ]
+      PagesRoutingModule,
+      HttpClientModule
+    ]
 })
 export class PagesModule { }
