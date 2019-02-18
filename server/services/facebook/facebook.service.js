@@ -100,6 +100,11 @@ let logout = async (req, res) => {
 	res.json({type : await newFacebook.logout()})
 }
 
+let test = async (req, res) => {
+	console.log(req);
+	res.json({data : "test"});
+}
+
 module.exports = {
 	addFacebookConnection,
 	extendToken,
@@ -114,5 +119,6 @@ module.exports = {
 	removeEventFromCalendar,
 	isConnected,
 	getMyOption,
-	logout
+	logout,
+	test
 }
