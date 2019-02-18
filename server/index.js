@@ -37,7 +37,7 @@ catch (err) {
 if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "dev-server") {
 	server = app.listen(port, () => {console.log( "Express server listening on port " + port)})
 } else {
-	server = app.listen(port, () => {console.log( "Express server listening on port " + process.env.PORT)})
+	server = app.listen(process.env.PORT, () => {console.log( "Express server listening on port " + process.env.PORT)})
 	// app.get("/", (req, res) => {
 	// 	res.redirect('https://' + req.headers.host + req.url)
 	// })
