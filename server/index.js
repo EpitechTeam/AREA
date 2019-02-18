@@ -37,25 +37,26 @@ catch (err) {
 if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "dev-server") {
 	server = app.listen(port, () => {console.log( "Express server listening on port " + port)})
 } else {
-	app.get("/", (req, res) => {
-		res.redirect('https://' + req.headers.host + req.url)
-	})
-
-	const privateKey 	= fs.readFileSync('/etc/letsencrypt/live/leo-lecherbonnier.fr/privkey.pem', 'utf8')
-	const certificate 	= fs.readFileSync('/etc/letsencrypt/live/leo-lecherbonnier.fr/cert.pem', 'utf8')
-	const ca 			= fs.readFileSync('/etc/letsencrypt/live/leo-lecherbonnier.fr/fullchain.pem', 'utf8')
-
-	const credentials = {
-		key: privateKey,
-		cert: certificate,
-		ca: ca
-	}
-
-	const server = https.createServer(credentials, app)
-
-	server.listen(port || 443, () => {
-		console.log('HTTPS Server running on port 443')
-	})
+	server = app.listen(port, () => {console.log( "Express server listening on port " + port)})
+	// app.get("/", (req, res) => {
+	// 	res.redirect('https://' + req.headers.host + req.url)
+	// })
+  //
+	// const privateKey 	= fs.readFileSync('/etc/letsencrypt/live/leo-lecherbonnier.fr/privkey.pem', 'utf8')
+	// const certificate 	= fs.readFileSync('/etc/letsencrypt/live/leo-lecherbonnier.fr/cert.pem', 'utf8')
+	// const ca 			= fs.readFileSync('/etc/letsencrypt/live/leo-lecherbonnier.fr/fullchain.pem', 'utf8')
+  //
+	// const credentials = {
+	// 	key: privateKey,
+	// 	cert: certificate,
+	// 	ca: ca
+	// }
+  //
+	// const server = https.createServer(credentials, app)
+  //
+	// server.listen(port || 443, () => {
+	// 	console.log('HTTPS Server running on port 443')
+	// })
 }
 
 app.use(compression())
