@@ -132,6 +132,7 @@ let webhook = async (req, res) => {
 	let body = req.body;
 
 	// Checks this is an event from a page subscription
+	console.log(body);
 	if (body.object === 'page') {
 
 		// Iterates over each entry - there may be multiple if batched
