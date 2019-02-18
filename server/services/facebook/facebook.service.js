@@ -100,7 +100,7 @@ let logout = async (req, res) => {
 	res.json({type : await newFacebook.logout()})
 }
 
-let test = async (req, res) => {
+let webhook = async (req, res) => {
 	// Your verify token. Should be a random string.
 	let VERIFY_TOKEN = "42"
 
@@ -140,5 +140,5 @@ module.exports = {
 	isConnected,
 	getMyOption,
 	logout,
-	test
+	webhook
 }
