@@ -2,11 +2,23 @@ let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
 let config  = require('../../config/index')
 let serviceConfig = require('../../config/service')
+let calendarSpec = require('./calendar.spec')
 
 let addCalendarConnection = async (req, res) => {
-	res.json({type : true, data : serviceConfig.facebook})
+	let newCalendar = new calendarSpec.Calendar(req.token);
+
+	await calendarSpec.setAccessToken(req.body.accessToken);
+	res.json({type : true, data : "test"})
+}
+
+let getMyOption = async (req, res) => {
+	let newCalendar = new calendarSpec.Calendar(req.token);
+
+	let option = await calendarSpec.Calendar.getMyOption();
+	res.json({data : option})
 }
 
 module.exports = {
-	addCalendarConnection
+	addCalendarConnection,
+	getMyOption
 }
