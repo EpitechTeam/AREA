@@ -38,6 +38,17 @@ class Facebook {
 		return;
 	}
 
+	async getInfoEvent(event_id) {
+		try {
+			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
+			return (facebookResponse);
+		}
+		catch (err) {
+			console.log(err);
+		}
+	}
+
+
 	async addEvent(to) {
 		let user = await User.findOne({token: this.token})
 		let services = await Service.findOne({"_id" : user.services})
