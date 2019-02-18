@@ -132,10 +132,11 @@ let webhook = async (req, res) => {
 	let body = req.body;
 
 	// Checks this is an event from a page subscription
-	console.log(body.entry[0].changed_fields);
-	if (body.entry[0].changed_fields[0] == 'events') {
-		console.log(body.entry[0]);
-	}
+	// console.log(body.entry[0].changed_fields);
+	// if (body.entry[0].changed_fields[0] == 'events') {
+	// 	console.log(body.entry[0]);
+	// }
+	console.log(body);
 	console.log(body.entry);
 	if (body.object === 'page') {
 
