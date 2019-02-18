@@ -136,6 +136,7 @@ let webhook = async (req, res) => {
 	if (body.entry[0].changed_fields[0] == 'events') {
 		console.log(body.entry[0]);
 	}
+	console.log(body);
 	if (body.object === 'page') {
 
 		// Iterates over each entry - there may be multiple if batched
