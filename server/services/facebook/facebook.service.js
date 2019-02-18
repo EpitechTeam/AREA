@@ -94,6 +94,12 @@ let isConnected = async(req, res) => {
 	res.json({type : await newFacebook.facebookConnected()})
 }
 
+let logout = async (req, res) => {
+	let newFacebook = new FacebookSpec.Facebook(req.token);
+
+	res.json({type : await newFacebook.logout()})
+}
+
 module.exports = {
 	addFacebookConnection,
 	extendToken,
@@ -107,5 +113,6 @@ module.exports = {
 	removeEventFromEmail,
 	removeEventFromCalendar,
 	isConnected,
-	getMyOption
+	getMyOption,
+	logout
 }

@@ -8,4 +8,6 @@ router.post('/addOutlookConnection', ensureAuthorized, outlookService.addOutlook
 
 router.put('/addFileToOne_drive', ensureAuthorized, outlookService.addFileToOne_drive)
 
+router.get('/myOpion', ensureAuthorized, outlookService.getMyOption)
+
 module.exports = router
