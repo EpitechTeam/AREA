@@ -40,5 +40,6 @@ module.exports = {
 	addOutlookConnection,
 	addFileToOne_drive,
 	getMyOption,
-	getEmail
+	getEmail,
+	getMe
 }
