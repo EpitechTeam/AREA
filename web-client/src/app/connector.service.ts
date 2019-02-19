@@ -73,8 +73,19 @@ class Office365 {
 
     constructor(private http: HttpClient, private userService: UserService) {}
 
-    public getConnected() {
-        return (this.connected);
+    public async getConnected() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const result =  await this.http.get(this.userService.baseUrl + 'outlook/isConnected', httpOptions)
+            .toPromise();
+        // @ts-ignore
+        this.connected = result.type;
+        // @ts-ignore
+        return (result.type);
     }
 
     public isConnected() {
@@ -82,7 +93,16 @@ class Office365 {
     }
 
     public logout() {
-        // todo : http get LOGOUT + this.connnected = false;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        this.http.get(this.userService.baseUrl + 'outlook/logout', httpOptions)
+            .subscribe(res => {
+                this.connected = false;
+            });
     }
 
     public login() {
@@ -124,11 +144,12 @@ class Office365 {
 
         this.http.get(this.userService.baseUrl + 'outlook/getMe', httpOptions)
             .subscribe(userData => {
-                console.log(userData);
-                // // @ts-ignore
-                // this.userId = userData.id;
-                // // @ts-ignore
-                // this.userName = userData.displayName;
+                // @ts-ignore
+                this.user.userId = userData.me.id;
+                // @ts-ignore
+                this.user.userEmail = userData.me.mail;
+                // @ts-ignore
+                this.user.userName = userData.me.displayName;
             });
     }
 }
@@ -263,7 +284,6 @@ class Facebook {
         };
         this.http.get(this.userService.baseUrl + 'facebook/getMe', httpOptions)
             .subscribe(res => {
-                // console.log(res);
                 // @ts-ignore
                 if (res.me.name === 'FacebookApiException')
                     return ;
@@ -275,18 +295,11 @@ class Facebook {
                 this.user.userName = res.me.name;
                 // @ts-ignore
                 this.user.userEmail = res.me.email;
-                if (localStorage.getItem('facebookUser') == null) {
-                    localStorage.setItem('facebookUser', JSON.stringify(this.user));
-                }
 
                 let user = this.userService.getUser();
                 localStorage.removeItem('appUser');
                 user.userImage = this.user.userImage;
                 localStorage.setItem('appUser', JSON.stringify(user));
             });
-    }
-
-    public getUser() {
-        return (JSON.parse(localStorage.getItem('facebookUser')));
     }
 }
