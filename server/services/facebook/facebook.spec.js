@@ -190,7 +190,7 @@ class Facebook {
 		console.log(newAccessToken);
 		if (!service.facebook) {
 			let newFacebook = new FacebookModal({
-				accessToken : newAccessToken,
+				accessToken : newAccessToken.access_token,
 				actionTag : false,
 				transferPicture : false,
 				eventToEmail : false,
@@ -202,7 +202,7 @@ class Facebook {
 			await Service.updateOne({"_id" : user.services}, { $set : {facebook : newFacebook._id}})
 		}
 		else {
-			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : newAccessToken}})
+			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : newAccessToken.access_token}})
 		}
 		return;
 	}
