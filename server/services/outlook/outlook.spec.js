@@ -83,7 +83,6 @@ class Outlook {
 			client
 			.api('/me')
 			.get((err, res) => {
-				console.log(res); // prints info about authenticated user
 				var me = res;
 				const mail = {
 					subject: subject,
@@ -101,8 +100,6 @@ class Outlook {
 				client
 				.api('/users/me/sendMail')
 				.post({message: mail}, (err, res) => {
-					console.log("Response");
-					console.log(res)
 				})
 			});
 

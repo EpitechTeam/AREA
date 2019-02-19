@@ -63,7 +63,6 @@ class Facebook {
 		try {
 			FB.setAccessToken(this.accessToken);
 			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
-			console.log(facebookResponse)
 			await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description, user_id)
 			return (facebookResponse);
 		}
@@ -181,8 +180,6 @@ class Facebook {
 				grant_type: 'fb_exchange_token',
 				fb_exchange_token: this.accessToken
 			});
-			console.log("Long lived token")
-			console.log(newAccessToken);
 			return (newAccessToken);
 		}
 		catch (err) {
