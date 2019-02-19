@@ -2,7 +2,7 @@ let User	= require('./../../models/User')
 let FacebookModal	= require('./../../models/Facebook')
 let Service	= require('./../../models/Services')
 var FB = require('fb');
-let outlookSpec = require('../outlook/outlook.spec')
+let OutlookSpec = require('../outlook/outlook.spec')
 
 class Facebook {
 	constructor(token) {
