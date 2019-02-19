@@ -5,7 +5,7 @@ const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 
 class Outlook {
 	constructor(token) {
-		create(token);
+		this.create(token);
 	}
 
 	async create(token) {
