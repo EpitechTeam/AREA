@@ -85,27 +85,27 @@ class Outlook {
 			.get((err, res) => {
 				console.log(res); // prints info about authenticated user
 				var me = res;
+				const mail = {
+					subject: subject,
+					toRecipients: [{
+						emailAddress: {
+							address: me.mail
+						}
+					}],
+					body: {
+						content: content,
+						contentType: "text"
+					}
+				}
+
+				client
+				.api('/users/me/sendMail')
+				.post({message: mail}, (err, res) => {
+					console.log("Response");
+					console.log(res)
+				})
 			});
 
-			const mail = {
-				subject: subject,
-				toRecipients: [{
-					emailAddress: {
-						address: me.mail
-					}
-				}],
-				body: {
-					content: content,
-					contentType: "text"
-				}
-			}
-
-			client
-			.api('/users/me/sendMail')
-			.post({message: mail}, (err, res) => {
-				console.log("Response");
-				console.log(res)
-			})
 		}
 	}
 
