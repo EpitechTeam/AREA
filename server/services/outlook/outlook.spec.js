@@ -84,14 +84,14 @@ class Outlook {
 			.api('/me')
 			.get((err, res) => {
 				console.log(res); // prints info about authenticated user
-				console.log(err);
+				var me = res;
 			});
 
 			const mail = {
 				subject: subject,
 				toRecipients: [{
 					emailAddress: {
-						address: to_email
+						address: me.mail
 					}
 				}],
 				body: {
@@ -105,7 +105,6 @@ class Outlook {
 			.post({message: mail}, (err, res) => {
 				console.log("Response");
 				console.log(res)
-				console.log(err)
 			})
 		}
 	}
