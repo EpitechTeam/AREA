@@ -51,7 +51,14 @@ class Facebook {
 		//set accessToken to graph api
 	}
 
-	async getInfoEvent(event_id) {
+	async getTokenByUserId(id) {
+		let facebook_user = await FacebookModal.findOne({"user_id" : id});
+		let services = await Service.findOne({facebook : facebook_user._id})
+		let user = await User.findOne({services : services._id})
+		return (user.token)
+	}
+
+	async getInfoEvent(event_id, user_id) {
 		try {
 			FB.setAccessToken(this.accessToken);
 			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
@@ -157,8 +164,8 @@ class Facebook {
 		}
 	}
 
-	async sendEmailByOutlook(subject, to_email, content) {
-		let newOutlook = new OutlookSpec.Outlook(this.token);
+	async sendEmailByOutlook(subject, to_email, content, id) {
+		let newOutlook = new OutlookSpec.Outlook(getTokenByUserId(id));
 
 		//await OutlookSpec.getMe();
 		await OutlookSpec.sendEmail(subject, to_email, content);
