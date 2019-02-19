@@ -333,3 +333,7 @@ body {
 .capitalize {
   text-transform: capitalize;
 }
+
+.epitech {
+    background-color: #0062ae;
+}

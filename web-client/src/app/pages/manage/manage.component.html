@@ -20,7 +20,9 @@
     <div class="flex-box column">
       <div class="font-bold s-20">Connect to services</div>
       <div class="connectedServices" *ngFor="let connector of FilterConnectors(false)">
-        <a href="#" (click)="connector.login()">Connect to {{ connector.name }}</a>
+          <div class="{{ connector.class }} connectorLoginLink" (click)="connector.login()">
+            <span class="link"><a href="#">Connect to {{ connector.name }}</a></span>
+          </div>
       </div>
     </div>
   </div>
