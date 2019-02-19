@@ -186,8 +186,8 @@ class Facebook {
 			grant_type: 'fb_exchange_token',
 			fb_exchange_token: long_lived_token
 		});
+		console.log(user_id);
 		if (!service.facebook) {
-			console.log(user_id);
 			let newFacebook = new FacebookModal({
 				accessToken : newAccessToken.access_token,
 				actionTag : false,
@@ -202,7 +202,7 @@ class Facebook {
 			await Service.updateOne({"_id" : user.services}, { $set : {facebook : newFacebook._id}})
 		}
 		else {
-			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : newAccessToken.access_token}})
+			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : newAccessToken.access_token, user_id : user_id}})
 		}
 		this.accessToken = newAccessToken.access_token;
 		return;
