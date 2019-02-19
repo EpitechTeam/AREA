@@ -8,7 +8,7 @@ class Outlook {
 		create(token);
 	}
 
-	async create() {
+	async create(token) {
 		this.token = token;
 		let user = await User.findOne({token : this.token});
 		var services = await Service.findOne({"_id" : user.services})

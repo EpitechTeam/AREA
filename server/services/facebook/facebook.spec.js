@@ -2,6 +2,7 @@ let User	= require('./../../models/User')
 let FacebookModal	= require('./../../models/Facebook')
 let Service	= require('./../../models/Services')
 var FB = require('fb');
+let outlookSpec = require('../outlook/outlook.spec')
 
 class Facebook {
 	constructor(token) {
@@ -153,6 +154,13 @@ class Facebook {
 		catch (err) {
 			console.log(err);
 		}
+	}
+
+	async sendEmailByOutlook(subject, to_email, content) {
+		let newOutlook = new OutlookSpec.Outlook(this.token);
+
+		//await OutlookSpec.getMe();
+		await OutlookSpec.sendEmail(subject, to_email, content);
 	}
 
 	async extendAccessToken() {
