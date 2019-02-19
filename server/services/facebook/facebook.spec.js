@@ -52,9 +52,9 @@ class Facebook {
 
 	async getInfoEvent(event_id) {
 		try {
-			console.log(this.accessToken);
 			FB.setAccessToken(this.accessToken);
 			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
+			console.log(facebookResponse)
 			return (facebookResponse);
 		}
 		catch (err) {
@@ -186,7 +186,6 @@ class Facebook {
 			grant_type: 'fb_exchange_token',
 			fb_exchange_token: long_lived_token
 		});
-		console.log(user_id);
 		if (!service.facebook) {
 			let newFacebook = new FacebookModal({
 				accessToken : newAccessToken.access_token,
