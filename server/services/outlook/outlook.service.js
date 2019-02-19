@@ -36,7 +36,7 @@ let getMe = async (req, res) => {
 	let newOutlook = new OutlookSpec.Outlook(req.token);
 
 	let me = await newOutlook.getMe();
-	res.json({type : true, data : me})
+	res.json({me})
 }
 
 module.exports = {

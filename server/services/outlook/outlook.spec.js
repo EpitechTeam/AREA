@@ -87,12 +87,8 @@ class Outlook {
 					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
 				}
 			});
-			client
-			.api('/me')
-			.get((err, res) => {
-				console.log(res); // prints info about authenticated user
-				return res
-			});
+			let user = await client.api('/me').get();
+			return user;
 		}
 	}
 
