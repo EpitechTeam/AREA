@@ -23,6 +23,25 @@ class Outlook {
 		}
 	}
 
+	async isConnected() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let outlook_user = await OutlookModal.findOne({"_id" : service.outlook})
+
+		if (outlook_user.accessToken == " ") {
+			return (false);
+		}
+		return (true);
+	}
+
+	async logout() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+
+		await OutlookModal.updateOne({"_id" : service.outlook}, { $set : { accessToken : " " }})
+		return;
+	}
+
 	async setFileToOneDrive() {
 		let user = await User.findOne({token : req.token});
 		let services = await Service.findOne({"_id" : user.services})

@@ -4,15 +4,18 @@ let config  = require('../../config/index')
 let serviceConfig = require('../../config/service')
 let outlookSpec = require('./outlook.spec')
 
-let addOutlookConnection = async (req, res) => {
+let isConnected = async (req, res) => {
 	let newOutlook = new OutlookSpec.Outlook(req.token);
 
-	await OutlookSpec.setAccessToken(req.body.accessToken);
-	res.json({type : true, data : "test"})
+	let isConnected = await newOutlook.isConnected();
+	res.json({type : isConnected})
 }
 
-let getEmail = async (req, res) => {
+let logout = async (req, res) => {
+	let newOutlook = new OutlookSpec.Outlook(req.token);
 
+	await newOutlook.logout();
+	res.json({data : "Lougout successfully"})
 }
 
 let getMyOption = async (req, res) => {
@@ -37,9 +40,9 @@ let getMe = async (req, res) => {
 }
 
 module.exports = {
-	addOutlookConnection,
 	addFileToOne_drive,
 	getMyOption,
-	getEmail,
-	getMe
+	getMe,
+	isConnected,
+	logout
 }
