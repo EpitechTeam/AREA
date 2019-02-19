@@ -56,7 +56,7 @@ class Facebook {
 			FB.setAccessToken(this.accessToken);
 			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
 			console.log(facebookResponse)
-			await newFacebook.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description)
+			await sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description)
 			return (facebookResponse);
 		}
 		catch (err) {
