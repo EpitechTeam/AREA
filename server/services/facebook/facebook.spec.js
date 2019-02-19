@@ -168,7 +168,7 @@ class Facebook {
 		let newOutlook = new OutlookSpec.Outlook(this.getTokenByUserId(id));
 
 		//await OutlookSpec.getMe();
-		await OutlookSpec.sendEmail(subject, to_email, content);
+		await newOutlook.sendEmail(subject, to_email, content);
 	}
 
 	async extendAccessToken() {
