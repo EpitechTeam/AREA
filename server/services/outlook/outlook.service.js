@@ -2,43 +2,47 @@ let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
 let config  = require('../../config/index')
 let serviceConfig = require('../../config/service')
-let outlookSpec = require('./outlook.spec')
+let OutlookSpec = require('./outlook.spec')
 
-let addOutlookConnection = async (req, res) => {
+let isConnected = async (req, res) => {
 	let newOutlook = new OutlookSpec.Outlook(req.token);
 
-	await OutlookSpec.setAccessToken(req.body.accessToken);
-	res.json({type : true, data : "test"})
+	let isConnected = await newOutlook.isConnected();
+	res.json({type : isConnected})
 }
 
-let getEmail = async (req, res) => {
+let logout = async (req, res) => {
+	let newOutlook = new OutlookSpec.Outlook(req.token);
 
+	await newOutlook.logout();
+	res.json({data : "Lougout successfully"})
 }
 
 let getMyOption = async (req, res) => {
 	let newOutlook = new OutlookSpec.Outlook(req.token);
 
-	let option = await OutlookSpec.Outllook.getMyOption();
+	let option = await newOutlook.getMyOption();
 	res.json({data : option})
 }
 
 let addFileToOne_drive = async (req, res) => {
 	let newOutlook = new OutlookSpec.Outlook(req.token);
 
-	await OutlookSpec.Outlook.setFileToOneDrive();
+	await newOutlook.setFileToOneDrive();
 	res.json({type : true})
 }
 
 let getMe = async (req, res) => {
 	let newOutlook = new OutlookSpec.Outlook(req.token);
 
-	let me = await OutlookSpec.Outlook.getMe();
-	res.json({type : true, data : me})
+	let me = await newOutlook.getMe();
+	res.json({me})
 }
 
 module.exports = {
-	addOutlookConnection,
 	addFileToOne_drive,
 	getMyOption,
-	getEmail
+	getMe,
+	isConnected,
+	logout
 }

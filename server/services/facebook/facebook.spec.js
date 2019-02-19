@@ -2,6 +2,7 @@ let User	= require('./../../models/User')
 let FacebookModal	= require('./../../models/Facebook')
 let Service	= require('./../../models/Services')
 var FB = require('fb');
+let OutlookSpec = require('../outlook/outlook.spec')
 
 class Facebook {
 	constructor(token) {
@@ -12,15 +13,16 @@ class Facebook {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
 
-		FacebookModal.updateOne({"_id" : service.facebook}, { $set : { accessToken : '' }})
+		await FacebookModal.updateOne({"_id" : service.facebook}, { $set : { accessToken : " " }})
 		return;
 	}
 
 	async facebookConnected() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
+		let facebook_user = await FacebookModal.findOne({"_id" : service.facebook})
 
-		if (service.facebook == undefined) {
+		if (facebook_user.accessToken == " ") {
 			return (false);
 		}
 		return (true);
@@ -37,6 +39,38 @@ class Facebook {
 
 		return;
 	}
+
+	async setAccessTokenByUserId(id) {
+		//Find wich user have this id
+		try {
+			let facebook_user = await FacebookModal.findOne({"user_id" : id});
+			this.accessToken = facebook_user.accessToken;
+		}
+		catch (err) {
+			console.log("no user found")
+		}
+		//set accessToken to graph api
+	}
+
+	async getTokenByUserId(id) {
+		let facebook_user = await FacebookModal.findOne({user_id : id});
+		let services = await Service.findOne({facebook : facebook_user._id})
+		let user = await User.findOne({services : services._id})
+		return (user.token)
+	}
+
+	async getInfoEvent(event_id, user_id) {
+		try {
+			FB.setAccessToken(this.accessToken);
+			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
+			await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description, user_id)
+			return (facebookResponse);
+		}
+		catch (err) {
+			console.log(err);
+		}
+	}
+
 
 	async addEvent(to) {
 		let user = await User.findOne({token: this.token})
@@ -130,16 +164,22 @@ class Facebook {
 		}
 	}
 
+	async sendEmailByOutlook(subject, to_email, content, id) {
+		let newOutlook = new OutlookSpec.Outlook(await this.getTokenByUserId(id));
+
+		//await OutlookSpec.getMe();
+		await newOutlook.sendEmail(subject, to_email, content);
+	}
+
 	async extendAccessToken() {
 		/*Extend expiry time of the access token*/
 		try {
 			let newAccessToken = await FB.api('oauth/access_token', {
 				client_id: '608250742962709',
-				client_secret: '',
+				client_secret: process.env.FB_APP_SECRET,
 				grant_type: 'fb_exchange_token',
 				fb_exchange_token: this.accessToken
 			});
-			console.log(newAccessToken);
 			return (newAccessToken);
 		}
 		catch (err) {
@@ -148,28 +188,36 @@ class Facebook {
 		}
 	}
 
-	async setAccessToken(long_lived_token) {
+	async setAccessToken(long_lived_token, user_id) {
 		var user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
 
 		//Create facebook object linked to service with accessToken
 		//If facebook already exist
+		let newAccessToken = await FB.api('oauth/access_token', {
+			client_id: '608250742962709',
+			client_secret: process.env.FB_APP_SECRET,
+			grant_type: 'fb_exchange_token',
+			fb_exchange_token: long_lived_token
+		});
 		if (!service.facebook) {
 			let newFacebook = new FacebookModal({
-				accessToken : long_lived_token,
+				accessToken : newAccessToken.access_token,
 				actionTag : false,
 				transferPicture : false,
 				eventToEmail : false,
 				eventToEmail : false,
-				eventToCalendar : false
+				eventToCalendar : false,
+				user_id : user_id
 			})
 
 			await newFacebook.save();
 			await Service.updateOne({"_id" : user.services}, { $set : {facebook : newFacebook._id}})
 		}
 		else {
-			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : long_lived_token}})
+			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : newAccessToken.access_token, user_id : user_id}})
 		}
+		this.accessToken = newAccessToken.access_token;
 		return;
 	}
 

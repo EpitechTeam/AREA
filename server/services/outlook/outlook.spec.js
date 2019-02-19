@@ -5,10 +5,10 @@ const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 
 class Outlook {
 	constructor(token) {
-		create(token);
+		this.create(token);
 	}
 
-	async create() {
+	async create(token) {
 		this.token = token;
 		let user = await User.findOne({token : this.token});
 		var services = await Service.findOne({"_id" : user.services})
@@ -21,6 +21,25 @@ class Outlook {
 				}
 			});
 		}
+	}
+
+	async isConnected() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let outlook_user = await OutlookModal.findOne({"_id" : service.outlook})
+
+		if (outlook_user.accessToken == " ") {
+			return (false);
+		}
+		return (true);
+	}
+
+	async logout() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+
+		await OutlookModal.updateOne({"_id" : service.outlook}, { $set : { accessToken : " " }})
+		return;
 	}
 
 	async setFileToOneDrive() {
@@ -58,33 +77,62 @@ class Outlook {
 	}
 
 	async getMe() {
-		this.client
-		.api('/me')
-		.get((err, res) => {
-			console.log(res); // prints info about authenticated user
-			return res
-		});
+		let user = await User.findOne({token : this.token});
+		var services = await Service.findOne({"_id" : user.services})
+
+		if (services.outlook) {
+			let outlook = await OutlookModal.findOne({"_id" : services.outlook})
+			var client = MicrosoftGraph.Client.init({
+				authProvider: (done) => {
+					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
+				}
+			});
+			let user = await client.api('/me').get();
+			return user;
+		}
 	}
 
 	async sendEmail(subject, to_email, content) {
-		const mail = {
-			subject: subject,
-			toRecipients: [{
-				emailAddress: {
-					address: to_email
+
+		let user = await User.findOne({token : this.token});
+		var services = await Service.findOne({"_id" : user.services})
+
+		if (services.outlook) {
+			let outlook = await OutlookModal.findOne({"_id" : services.outlook})
+			console.log(outlook.accessToken)
+			var client = MicrosoftGraph.Client.init({
+				authProvider: (done) => {
+					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
 				}
-			}],
-			body: {
-				content: content,
-				contentType: "text"
-			}
+			});
+
+			client
+			.api('/me')
+			.get((err, res) => {
+				var me = res;
+				const mail = {
+					subject: subject,
+					toRecipients: [{
+						emailAddress: {
+							address: me.mail
+						}
+					}],
+					body: {
+						content: content,
+						contentType: "text"
+					}
+				}
+
+				client
+				.api('/users/me/sendMail')
+				.post({message: mail}, (err, res) => {
+				})
+			});
+
 		}
-		this.client
-		.api('/users/me/sendMail')
-		.post({message: mail}, (err, res) => {
-			console.log(res)
-		})
 	}
+
+
 }
 
 module.exports = {

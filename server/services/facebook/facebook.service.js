@@ -9,7 +9,7 @@ let Facebook	= require('./../../models/Facebook')
 let addFacebookConnection = async (req, res) => {
 	let newFacebook = new FacebookSpec.Facebook(req.token);
 
-	await newFacebook.setAccessToken(req.body.accessToken);
+	await newFacebook.setAccessToken(req.body.accessToken, req.body.id);
 
 	res.json({type: true,	data: "end"	})
 }
@@ -100,6 +100,45 @@ let logout = async (req, res) => {
 	res.json({type : await newFacebook.logout()})
 }
 
+let verifyWebhook = async (req, res) => {
+	// Your verify token. Should be a random string.
+	let VERIFY_TOKEN = "42"
+
+	// Parse the query params
+	let mode = req.query['hub.mode'];
+	let token = req.query['hub.verify_token'];
+	let challenge = req.query['hub.challenge'];
+
+	if (!req.body) {
+		console.log(req.body)
+	}
+	// Checks if a token and mode is in the query string of the request
+	if (mode && token) {
+
+		// Checks the mode and token sent is correct
+		if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+
+			// Responds with the challenge token from the request
+			console.log('WEBHOOK_VERIFIED');
+			res.status(200).send(challenge);
+		} else {
+			// Responds with '403 Forbidden' if verify tokens do not match
+			res.sendStatus(403);
+		}
+	}
+}
+
+let webhook = async (req, res) => {
+	let body = req.body;
+
+	if (body.entry[0].changes[0].field == 'events') {
+		let newFacebook = new FacebookSpec.Facebook("null");
+		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+		await newFacebook.getInfoEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
+	}
+	res.status(200).send('EVENT_RECEIVED');
+}
+
 module.exports = {
 	addFacebookConnection,
 	extendToken,
@@ -114,5 +153,7 @@ module.exports = {
 	removeEventFromCalendar,
 	isConnected,
 	getMyOption,
-	logout
+	logout,
+	verifyWebhook,
+	webhook
 }
