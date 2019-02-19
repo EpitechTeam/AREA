@@ -174,7 +174,7 @@ class Facebook {
 		}
 	}
 
-	async setAccessToken(long_lived_token) {
+	async setAccessToken(long_lived_token, user_id) {
 		var user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
 
@@ -186,16 +186,16 @@ class Facebook {
 			grant_type: 'fb_exchange_token',
 			fb_exchange_token: long_lived_token
 		});
-		console.log("Long lived token")
-		console.log(newAccessToken);
 		if (!service.facebook) {
+			console.log(user_id);
 			let newFacebook = new FacebookModal({
 				accessToken : newAccessToken.access_token,
 				actionTag : false,
 				transferPicture : false,
 				eventToEmail : false,
 				eventToEmail : false,
-				eventToCalendar : false
+				eventToCalendar : false,
+				user_id : user_id
 			})
 
 			await newFacebook.save();

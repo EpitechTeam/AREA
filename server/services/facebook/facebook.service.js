@@ -9,7 +9,7 @@ let Facebook	= require('./../../models/Facebook')
 let addFacebookConnection = async (req, res) => {
 	let newFacebook = new FacebookSpec.Facebook(req.token);
 
-	await newFacebook.setAccessToken(req.body.accessToken);
+	await newFacebook.setAccessToken(req.body.accessToken, req.body.id);
 
 	res.json({type: true,	data: "end"	})
 }
