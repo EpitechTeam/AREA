@@ -204,6 +204,7 @@ class Facebook {
 		else {
 			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : newAccessToken.access_token}})
 		}
+		this.accessToken = newAccessToken.access_token;
 		return;
 	}
 
