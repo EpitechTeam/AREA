@@ -20,8 +20,9 @@ class Facebook {
 	async facebookConnected() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
+		let facebook_user = await FacebookModal.findOne({"_id" : service.facebook})
 
-		if (service.facebook == undefined) {
+		if (facebook_user.accessToken == '') {
 			return (false);
 		}
 		return (true);
