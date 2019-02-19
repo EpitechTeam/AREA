@@ -52,7 +52,7 @@ class Facebook {
 	}
 
 	async getTokenByUserId(id) {
-		let facebook_user = await FacebookModal.findOne({"user_id" : id});
+		let facebook_user = await FacebookModal.findOne({user_id : id});
 		console.log(facebook_user)
 		let services = await Service.findOne({facebook : facebook_user._id.$oid})
 		let user = await User.findOne({services : services._id})
@@ -64,7 +64,7 @@ class Facebook {
 			FB.setAccessToken(this.accessToken);
 			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
 			console.log(facebookResponse)
-			await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description)
+			await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description, user_id)
 			return (facebookResponse);
 		}
 		catch (err) {
