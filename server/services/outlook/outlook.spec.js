@@ -97,6 +97,7 @@ class Outlook {
 			.post({message: mail}, (err, res) => {
 				console.log("Response");
 				console.log(res)
+				console.log(err)
 			})
 		}
 	}
