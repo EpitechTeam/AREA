@@ -13,7 +13,7 @@ class Facebook {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
 
-		await FacebookModal.updateOne({"_id" : service.facebook}, { $set : { accessToken : '' }})
+		await FacebookModal.updateOne({"_id" : service.facebook}, { $set : { accessToken : " " }})
 		return;
 	}
 
@@ -22,7 +22,7 @@ class Facebook {
 		let service = await Service.findOne({"_id" : user.services})
 		let facebook_user = await FacebookModal.findOne({"_id" : service.facebook})
 
-		if (facebook_user.accessToken == '') {
+		if (facebook_user.accessToken == " ") {
 			return (false);
 		}
 		return (true);
