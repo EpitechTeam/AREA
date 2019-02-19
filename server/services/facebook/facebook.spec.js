@@ -53,11 +53,8 @@ class Facebook {
 
 	async getTokenByUserId(id) {
 		let facebook_user = await FacebookModal.findOne({user_id : id});
-		console.log(facebook_user)
 		let services = await Service.findOne({facebook : facebook_user._id})
-		console.log(services);
 		let user = await User.findOne({services : services._id})
-		console.log(user.token);
 		return (user.token)
 	}
 
