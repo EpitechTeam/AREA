@@ -79,6 +79,14 @@ class Outlook {
 					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
 				}
 			});
+
+			client
+			.api('/me')
+			.get((err, res) => {
+				console.log(res); // prints info about authenticated user
+				console.log(err);
+			});
+
 			const mail = {
 				subject: subject,
 				toRecipients: [{
