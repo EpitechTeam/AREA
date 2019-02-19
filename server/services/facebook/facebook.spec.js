@@ -160,10 +160,11 @@ class Facebook {
 		try {
 			let newAccessToken = await FB.api('oauth/access_token', {
 				client_id: '608250742962709',
-				client_secret: '',
+				client_secret: process.env.FB_APP_SECRET,
 				grant_type: 'fb_exchange_token',
 				fb_exchange_token: this.accessToken
 			});
+			console.log("Long lived token")
 			console.log(newAccessToken);
 			return (newAccessToken);
 		}
@@ -179,9 +180,17 @@ class Facebook {
 
 		//Create facebook object linked to service with accessToken
 		//If facebook already exist
+		let newAccessToken = await FB.api('oauth/access_token', {
+			client_id: '608250742962709',
+			client_secret: process.env.FB_APP_SECRET,
+			grant_type: 'fb_exchange_token',
+			fb_exchange_token: long_lived_token
+		});
+		console.log("Long lived token")
+		console.log(newAccessToken);
 		if (!service.facebook) {
 			let newFacebook = new FacebookModal({
-				accessToken : long_lived_token,
+				accessToken : newAccessToken,
 				actionTag : false,
 				transferPicture : false,
 				eventToEmail : false,
@@ -193,7 +202,7 @@ class Facebook {
 			await Service.updateOne({"_id" : user.services}, { $set : {facebook : newFacebook._id}})
 		}
 		else {
-			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : long_lived_token}})
+			await FacebookModal.updateOne({"_id" : service.facebook}, { $set : {accessToken : newAccessToken}})
 		}
 		return;
 	}
