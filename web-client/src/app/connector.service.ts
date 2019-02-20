@@ -3,263 +3,303 @@ import {UserAgentApplication} from 'msal';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {
-  AuthService,
-  FacebookLoginProvider,
-} from 'angular-6-social-login-v2';
+    AuthService,
+    FacebookLoginProvider,
+} from 'angularx-social-login';
 import {UserService} from './user.service';
 import {AppComponent} from './app.component';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ConnectorService {
-  constructor(private http: HttpClient,
-              private socialAuthService: AuthService,
-              private userService: UserService) { }
+    private office365 = new Office365(this.http, this.userService);
+    private epitech = new Epitech(this.http, this.userService);
+    private facebook = new Facebook(this.http, this.socialAuthService, this.userService);
+    Connectors = [
+        this.office365,
+        this.epitech,
+        this.facebook
+    ];
 
-  private office365 = new Office365(this.http);
-  private epitech = new Epitech(this.http);
-  private facebook = new Facebook(this.http, this.socialAuthService, this.userService);
+    constructor(private http: HttpClient,
+                private socialAuthService: AuthService,
+                private userService: UserService) { }
 
-  Connectors = [
-      this.office365,
-      this.epitech,
-      this.facebook
-  ];
-
-  getConnector(connector) {
-    switch (connector) {
-      case 'office365':
-        return this.office365;
-      case 'epitech':
-        return this.epitech;
-      case 'facebook':
-        return this.facebook;
+    getConnector(connector) {
+        switch (connector) {
+            case 'office365':
+                return this.office365;
+            case 'epitech':
+                return this.epitech;
+            case 'facebook':
+                return this.facebook;
+        }
     }
-  }
 }
 
 class Office365 {
-  constructor(private http: HttpClient) {}
+    name = 'Office 365';
+    class = 'office365';
+    user = {
+        userId: '',
+        userName: '',
+        userImage: '',
+        userEmail: ''
+    };
+    config = {
+        clientID: '6cf6d447-0635-4914-a848-4cb72e761e39',
+        authority: 'https://login.microsoftonline.com/common',
+        graphScopes: ['user.read', 'calendars.read',
+            'calendars.read.shared',
+            'calendars.readwrite',
+            'calendars.readwrite.shared',
+            'email',
+            'offline_access',
+            'openid',
+            'profile',
+            'mail.send',
+            'mail.send.shared']
+    };
+    msalObj =
+        new UserAgentApplication(
+            this.config.clientID,
+            this.config.authority,
+            null,
+            {storeAuthStateInCookie: false,
+                cacheLocation: 'localStorage'});
 
-  name = 'Office 365';
-  class = 'office365';
+    connected = false;
 
-  user = {
-    userId: '',
-    userName: '',
-    userImage: '',
-    userEmail: ''
-  };
+    constructor(private http: HttpClient, private userService: UserService) {}
 
-  config = {
-    clientID: '51f85228-564b-4196-90c9-5c6dc6e4d193',
-    authority: 'https://login.microsoftonline.com/common',
-    graphScopes: ['user.read'],
-    graphEndpoint: 'https://graph.microsoft.com/v1.0/me'
-  };
-
-  msalObj =
-      new UserAgentApplication(
-          this.config.clientID,
-          this.config.authority,
-          null,
-          {storeAuthStateInCookie: true,
-            cacheLocation: 'localStorage'});
-
-  public isConnected() {
-    if (localStorage.getItem('office365User') == null) {
-      return (false);
+    public async getConnected() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const result =  await this.http.get(this.userService.baseUrl + 'outlook/isConnected', httpOptions)
+            .toPromise();
+        // @ts-ignore
+        this.connected = result.type;
+        // @ts-ignore
+        return (result.type);
     }
-    return (true);
-  }
 
-  public logout() {
-    localStorage.removeItem('office365User');
-    this.msalObj.logout();
-    return (false);
-  }
+    public isConnected() {
+        return (this.connected);
+    }
 
-  public login() {
-    const self = this;
+    public logout() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        this.http.get(this.userService.baseUrl + 'outlook/logout', httpOptions)
+            .subscribe(res => {
+                this.connected = false;
+            });
+    }
 
-    this.msalObj.loginPopup(self.config.graphScopes)
-        .then(function (idToken) {
-          // Login Success
-          self.msalObj.acquireTokenSilent(self.config.graphScopes).then(function (accessToken) {
-            // AcquireTokenSilent Success
-            // localStorage.setItem('azureADtoken', accessToken);
-            // Todo API Connection
-            self.getData();
-          }, function (error) {
-          });
-        }, function (error) {
-          // login failure
-          console.log(error);
-        });
-    return (false);
-  }
+    public login() {
+        const self = this;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        this.msalObj.loginPopup(self.config.graphScopes)
+            .then(function (idToken) {
+                self.msalObj.acquireTokenPopup(self.config.graphScopes).then(function (accessToken) {
+                    const data  = {
+                        accessToken: accessToken
+                    };
+                    self.http.post(self.userService.baseUrl + 'office365', data, httpOptions)
+                        .subscribe(res => {
+                            self.connected = true;
+                            self.getData();
+                        });
+                }, function (error) {
+                    console.log(error);
+                });
+            }, function (error) {
+                // login failure
+                console.log(error);
+            });
+        return (false);
+    }
 
-  public getData() {
-    // const options = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'application/json',
-    //     'Authorization': 'Bearer ' + token,
-    //   })
-    // };
-    //
-    // this.http.get(this.config.graphEndpoint, options)
-    //     .subscribe(userData => {
-    //       // @ts-ignore
-    //       this.userId = userData.id;
-    //       // @ts-ignore
-    //       this.userName = userData.displayName;
-    //     });
-  }
+    public getData() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
 
-  public getUser() {
-    return ;
-  }
+        this.http.get(this.userService.baseUrl + 'outlook/getMe', httpOptions)
+            .subscribe(userData => {
+                // @ts-ignore
+                this.user.userId = userData.me.id;
+                // @ts-ignore
+                this.user.userEmail = userData.me.mail;
+                // @ts-ignore
+                this.user.userName = userData.me.displayName;
+            });
+    }
 }
 
 class Epitech {
-  constructor(private http: HttpClient) {}
-
-  name = 'Epitech';
-  class = 'epitech';
-
-  user = {};
-
-  config = {
-  };
-
-  public isConnected() {
-    if (localStorage.getItem('epitechToken') == null) {
-      return (false);
-    }
-    return (true);
-  }
-
-  public getToken() {
-    return (localStorage.getItem('epitechToken'));
-  }
-
-  public logout() {
-    localStorage.removeItem('epitechToken');
-  }
-
-  public login() {
-    const self = this;
-  }
-
-  public getData() {
-    const token = this.getToken();
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-      })
+    name = 'Epitech';
+    class = 'epitech';
+    user = {};
+    config = {
     };
 
-    return this.http.get('');
-  }
+    constructor(private http: HttpClient, private userService: UserService) {}
+
+    public getConnected() {
+    }
+
+    public isConnected() {
+        if (localStorage.getItem('epitechToken') == null) {
+            return (false);
+        }
+        return (true);
+    }
+
+    public logout() {
+        localStorage.removeItem('epitechToken');
+    }
+
+    public login() {
+        const self = this;
+    }
+
+    public getData() {
+        //   const token = this.getToken();
+        //   const options = {
+        //     headers: new HttpHeaders({
+        //       'Content-Type': 'application/json',
+        //       'Authorization': 'Bearer ' + token,
+        //     })
+        //   };
+        //
+        //   return this.http.get('');
+    }
 }
 
 class Facebook {
-  constructor(private http: HttpClient,
-              private socialAuthService: AuthService,
-              private  userService: UserService) {}
-
-  name = 'Facebook';
-  class = 'facebook';
-
-  config = {
-    graphEndpoint: 'https://graph.facebook.com/'
-  };
-
-  user = {
-    userId: '',
-    userName: '',
-    userImage: '',
-    userEmail: ''
-  };
-
-  public isConnected() {
-    if (localStorage.getItem('facebookUser') == null) {
-      return (false);
-    }
-    return (true);
-  }
-
-  public getToken() {
-    return (localStorage.getItem('facebookToken'));
-  }
-
-  public logout() {
-    let user = this.userService.getUser();
-    user.userImage = 'https://api.adorable.io/avatars/50/abott@adorable.png';
-    localStorage.removeItem('appUser');
-    localStorage.setItem('appUser', JSON.stringify(user));
-    localStorage.removeItem('facebookUser');
-  }
-
-  public login() {
-    let socialPlatformProvider;
-    const self = this;
-
-    socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-
-    this.socialAuthService.signIn(socialPlatformProvider).then(
-        (userData) => {
-          const data  = {
-            accessToken: userData.token
-          };
-          const httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json',
-              'Authorization': this.userService.getUser().token
-            })
-          };
-          this.http.post(this.userService.baseUrl + 'facebook/addFacebookConnection', data, httpOptions)
-              .subscribe();
-          this.getData();
-          localStorage.setItem('facebookToken', userData.token);
-        }
-    );
-
-    return (false);
-  }
-
-  public getData() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': this.userService.getUser().token
-      })
+    name = 'Facebook';
+    class = 'facebook';
+    user = {
+        userId: '',
+        userName: '',
+        userImage: '',
+        userEmail: ''
     };
+    connected = false;
 
-    this.http.get(this.userService.baseUrl + 'facebook/getMe', httpOptions)
-        .subscribe(res => {
-          // @ts-ignore
-          this.user.userImage = res.me.picture.data.url;
-          // @ts-ignore
-          this.user.userId = res.me.id;
-          // @ts-ignore
-          this.user.userName = res.me.name;
-          // @ts-ignore
-          this.user.userEmail = res.me.email;
-          if (localStorage.getItem('facebookUser') == null) {
-            localStorage.setItem('facebookUser', JSON.stringify(this.user));
-          }
+    constructor(private http: HttpClient,
+                private socialAuthService: AuthService,
+                private  userService: UserService) {}
 
-          let user = this.userService.getUser();
-          localStorage.removeItem('appUser');
-          user.userImage = this.user.userImage;
-          localStorage.setItem('appUser', JSON.stringify(user));
-        });
-  }
+    public async getConnected() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const result =  await this.http.get(this.userService.baseUrl + 'facebook/isConnected', httpOptions)
+            .toPromise();
+        // @ts-ignore
+        this.connected = result.type;
+        // @ts-ignore
+        return (result.type);
+    }
 
-  public getUser() {
-    return (JSON.parse(localStorage.getItem('facebookUser')));
-  }
+    public isConnected(): boolean {
+        return (this.connected);
+    }
+
+    public logout() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        this.http.get(this.userService.baseUrl + 'facebook/logout', httpOptions)
+            .subscribe(res => {
+                const user = this.userService.getUser();
+                user.userImage = 'https://api.adorable.io/avatars/50/abott@adorable.png';
+                localStorage.removeItem('appUser');
+                localStorage.setItem('appUser', JSON.stringify(user));
+                localStorage.removeItem('facebookUser');
+                this.connected = false;
+            });
+    }
+
+    public login() {
+        let socialPlatformProvider;
+        const self = this;
+
+        socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+
+        this.socialAuthService.signIn(socialPlatformProvider).then(
+            (userData) => {
+                const data  = {
+                    // @ts-ignore
+                    accessToken: userData.authToken,
+                    id: userData.id,
+                };
+                const httpOptions = {
+                    headers: new HttpHeaders({
+                        'Content-Type': 'application/json',
+                        'Authorization': this.userService.getUser().token
+                    })
+                };
+                this.http.post(this.userService.baseUrl + 'facebook/addFacebookConnection', data, httpOptions)
+                    .subscribe(res => {
+                        this.connected = true;
+                        this.getData();
+                    });
+            }
+        );
+        return (false);
+    }
+
+    public getData() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        this.http.get(this.userService.baseUrl + 'facebook/getMe', httpOptions)
+            .subscribe(res => {
+                // @ts-ignore
+                if (res.me.name === 'FacebookApiException')
+                    return ;
+                // @ts-ignore
+                this.user.userImage = res.me.picture.data.url;
+                // @ts-ignore
+                this.user.userId = res.me.id;
+                // @ts-ignore
+                this.user.userName = res.me.name;
+                // @ts-ignore
+                this.user.userEmail = res.me.email;
+
+                let user = this.userService.getUser();
+                localStorage.removeItem('appUser');
+                user.userImage = this.user.userImage;
+                localStorage.setItem('appUser', JSON.stringify(user));
+            });
+    }
 }

@@ -1,3 +1,7 @@
+.connectedServices + .connectedServices {
+    margin-top: 20px;
+}
+
 .connectedServices {
     margin-top: 50px;
     width: 470px;
@@ -69,4 +73,25 @@
     cursor: pointer;
     text-align: end;
     color: #AF2A1D;
+}
+
+.connectorLoginLink {
+    cursor: pointer;
+    width: 300px;
+    text-align: center;
+    height: 45px;
+    border-radius: 3px;
+    box-shadow: 0 0 6px hsla(0,0%,11%, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.connectorLoginLink:hover {
+    transform: scale(1.05);
+}
+
+.connectorLoginLink a {
+    color: white;
+    text-decoration: none;
 }
