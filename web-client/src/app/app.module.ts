@@ -15,7 +15,7 @@ import {
 export function getAuthServiceConfigs() {
 
     const fbLoginOptions = {
-        scope: 'email,user_likes,user_events,user_tagged_places,user_posts,user_photos',
+        scope: 'email,user_likes,user_events,user_tagged_places,user_posts,user_photosŒ',
         return_scopes: true,
         enable_profile_selector: true
     };
