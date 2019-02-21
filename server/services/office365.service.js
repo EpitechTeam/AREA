@@ -64,7 +64,9 @@ let office365Connection = async (req, res) => {
 let webhook = async (req, res) => {
 	console.log(req.body);
 	let body = req.body;
-	res.json({body})
+	let query = req.query;
+	console.log(decodeURI(query.validationToken))
+	res.status(200).send(decodeURI(query.validationToken);
 }
 
 module.exports = {
