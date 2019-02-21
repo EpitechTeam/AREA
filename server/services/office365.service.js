@@ -66,7 +66,7 @@ let webhook = async (req, res) => {
 	let body = req.body;
 	let query = req.query;
 	console.log(decodeURI(query.validationToken))
-	res.status(200).send(decodeURI(query.validationToken);
+	res.status(200).send(decodeURI(query.validationToken));
 }
 
 module.exports = {
