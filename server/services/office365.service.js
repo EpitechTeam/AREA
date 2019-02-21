@@ -99,6 +99,10 @@ let office365Connection = async (req, res) => {
 	})
 }
 
+let webhook = async (req, res) => {
+	console.log(req.body);
+}
+
 module.exports = {
 	office365Connection
 }
