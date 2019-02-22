@@ -23,7 +23,8 @@ let office365Connection = async (req, res) => {
 	if(!services.outlook) {
 		let newOutlook = new Outlook({
 			accessToken : req.body.accessToken,
-			fileToOneDrive : false
+			fileToOneDrive : false,
+			subscriptionId : ""
 		})
 		await newOutlook.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { outlook : newOutlook._id}})
