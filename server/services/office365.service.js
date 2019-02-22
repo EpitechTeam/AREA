@@ -81,15 +81,9 @@ let setOutlookSubscription = (token , date, id_outlook) => {
 	json: true };
 
 	request(options, function (error, response, body) {
-		console.log("function set Subscription")
 		if (error) throw new Error(error);
 		console.log(body.id)
-		Outlook.updateOne({"_id" : id_outlook}, { $set : { subscriptionId : body.id}}, function (error, outlook_user) {
-			console.log(outlook_user);
-			console.log(error);
-		})
-		//Save id of subscription
-		console.log(body);
+		Outlook.updateOne({"_id" : id_outlook}, { $set : { subscriptionId : body.id}}, function (error, outlook_user) {	})
 	});
 }
 
@@ -107,7 +101,12 @@ let webhook = async (req, res) => {
 	res.json({body})
 }
 
+let logout = async (req, res) => {
+	//Logout from any office365 services
+}
+
 module.exports = {
 	office365Connection,
-	webhook
+	webhook,
+	logout
 }
