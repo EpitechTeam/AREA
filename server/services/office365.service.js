@@ -56,7 +56,7 @@ let office365Connection = async (req, res) => {
 		await One_drive.updateOne({"_id" : services.one_drive}, { $set : { accessToken : req.body.accessToken}})
 	}
 
-	let date = new Date(Date.now() + 86400000).toISOString()
+	let date = new Date(Date.now() + 172800000).toISOString()
 	console.log(date)
 	setSubscription(req.body.accessToken, date)
 	services = await Service.findOne({"_id" : user.services})
@@ -81,6 +81,7 @@ let setSubscription = (token , date) => {
 	json: true };
 
 	request(options, function (error, response, body) {
+		console.log("function set Subscription")
 		if (error) throw new Error(error);
 
 		console.log(body);
@@ -88,6 +89,7 @@ let setSubscription = (token , date) => {
 }
 
 let webhook = async (req, res) => {
+	console.log("Function webhook")
 	let body = req.body;
 	let query = req.query;
 
