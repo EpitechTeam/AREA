@@ -6,6 +6,7 @@ let One_drive	= require('./../models/One-drive')
 let Service	= require('./../models/Services')
 let config  = require('../config/index')
 let serviceConfig = require('../config/service')
+let request			= require('request');
 
 //Save token  to calendar
 //Save to Outlook
@@ -55,14 +56,14 @@ let office365Connection = async (req, res) => {
 		await One_drive.updateOne({"_id" : services.one_drive}, { $set : { accessToken : req.body.accessToken}})
 	}
 
-	await setSubscription(req.body.accessToken, new Date(Date.now() + 86400000).toISOString())
+	setSubscription(req.body.accessToken, new Date(Date.now() + 86400000).toISOString())
 	services = await Service.findOne({"_id" : user.services})
 	res.json({
 		data : "accessToken saved"
 	})
 }
 
-let setSubscription = async (token , date) => {
+let setSubscription = (token , date) => {
 	var options = { method: 'POST',
 	url: 'https://graph.microsoft.com/v1.0/subscriptions',
 	headers:
