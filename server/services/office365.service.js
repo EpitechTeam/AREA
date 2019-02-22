@@ -84,7 +84,10 @@ let setOutlookSubscription = (token , date, id_outlook) => {
 		console.log("function set Subscription")
 		if (error) throw new Error(error);
 		console.log(body.id)
-		Outlook.updateOne({"_id" : id_outlook}, { $set : { subscriptionId : body.id}})
+		Outlook.updateOne({"_id" : id_outlook}, { $set : { subscriptionId : body.id}}, function (error, outlook_user) {
+			console.log(outlook_user);
+			console.log(error);
+		})
 		//Save id of subscription
 		console.log(body);
 	});
