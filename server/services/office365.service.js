@@ -56,7 +56,9 @@ let office365Connection = async (req, res) => {
 		await One_drive.updateOne({"_id" : services.one_drive}, { $set : { accessToken : req.body.accessToken}})
 	}
 
-	setSubscription(req.body.accessToken, new Date(Date.now() + 86400000).toISOString())
+	let date = new Date(Date.now() + 86400000).toISOString()
+	console.log(date)
+	setSubscription(req.body.accessToken, date)
 	services = await Service.findOne({"_id" : user.services})
 	res.json({
 		data : "accessToken saved"
@@ -74,7 +76,7 @@ let setSubscription = (token , date) => {
 	{ changeType: 'created,updated',
 	notificationUrl: 'https://area-epitech-2018.herokuapp.com/webhook',
 	resource: '/me/mailfolders(\'inbox\')/messages',
-	expirationDateTime: '2019-02-22T11:00:00.0000000Z',
+	expirationDateTime: date,
 	clientState: 'SecretClientState' },
 	json: true };
 
