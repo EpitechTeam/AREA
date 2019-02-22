@@ -55,6 +55,7 @@ let office365Connection = async (req, res) => {
 		await One_drive.updateOne({"_id" : services.one_drive}, { $set : { accessToken : req.body.accessToken}})
 	}
 
+	await setSubscription(req.body.accessToken, new Date(Date.now() + 86400000).toISOString())
 	services = await Service.findOne({"_id" : user.services})
 	res.json({
 		data : "accessToken saved"
