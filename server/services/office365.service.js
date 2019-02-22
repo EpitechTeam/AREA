@@ -61,12 +61,39 @@ let office365Connection = async (req, res) => {
 	})
 }
 
+let setSubscription = async (token , date) => {
+	var options = { method: 'POST',
+	url: 'https://graph.microsoft.com/v1.0/subscriptions',
+	headers:
+	{ 'cache-control': 'no-cache',
+	Authorization: 'Bearer ' + token,
+	'Content-Type': 'application/json' },
+	body:
+	{ changeType: 'created,updated',
+	notificationUrl: 'https://area-epitech-2018.herokuapp.com/webhook',
+	resource: '/me/mailfolders(\'inbox\')/messages',
+	expirationDateTime: '2019-02-22T11:00:00.0000000Z',
+	clientState: 'SecretClientState' },
+	json: true };
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+
+		console.log(body);
+	});
+}
+
 let webhook = async (req, res) => {
-	console.log(req.body);
 	let body = req.body;
 	let query = req.query;
-	console.log(decodeURI(query.validationToken))
-	res.status(200).send(decodeURI(query.validationToken));
+
+	if (query.validationToken) {
+		res.status(200).send(decodeURI(query.validationToken));
+		return;
+	}
+
+	console.log(body);
+	res.json({body})
 }
 
 module.exports = {
