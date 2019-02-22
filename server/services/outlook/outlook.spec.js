@@ -58,7 +58,7 @@ class Outlook {
 		let outlook_user = await OutlookModal.findOne({"_id" : service.outlook})
 
 		//Delete subscription
-		deleteSubscritpion(outlook_user.subscriptionId, outlook_user.accessToken)
+		this.deleteSubscritpion(outlook_user.subscriptionId, outlook_user.accessToken)
 		await OutlookModal.updateOne({"_id" : service.outlook}, { $set : { accessToken : " " }})
 		return;
 	}
