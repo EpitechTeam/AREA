@@ -57,15 +57,14 @@ let office365Connection = async (req, res) => {
 	}
 
 	let date = new Date(Date.now() + 172800000).toISOString()
-	console.log(date)
-	setSubscription(req.body.accessToken, date)
+	setOutlookSubscription(req.body.accessToken, date, services.outlook)
 	services = await Service.findOne({"_id" : user.services})
 	res.json({
 		data : "accessToken saved"
 	})
 }
 
-let setSubscription = (token , date) => {
+let setOutlookSubscription = (token , date, id_outlook) => {
 	var options = { method: 'POST',
 	url: 'https://graph.microsoft.com/v1.0/subscriptions',
 	headers:
@@ -83,7 +82,9 @@ let setSubscription = (token , date) => {
 	request(options, function (error, response, body) {
 		console.log("function set Subscription")
 		if (error) throw new Error(error);
-
+		console.log(body.id)
+		Outlook.updateOne({"_id" : id_outlook}, { $set : { subscriptionId : body.id}})
+		//Save id of subscription
 		console.log(body);
 	});
 }
