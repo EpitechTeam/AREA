@@ -1,10 +1,12 @@
-let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
-let config  = require('../../config/index')
-let serviceConfig = require('../../config/service')
+let IntraSpec = require('./intra.spec');
 
 let addIntraConnection = async (req, res) => {
-	res.json({type : true, data : serviceConfig.facebook})
+	let newIntra = new IntraSpec.Intra(req.token);
+
+	await newIntra.addIntraConnection(req.body.token);
+
+	res.json({type: true,	data: "end"	})
 }
 
 module.exports = {

@@ -4,6 +4,6 @@ let ensureAuthorized 	= require("./../middlewares/ensureAuthorized")
 
 let intraService = require('../services/intra/intra.service')
 
-router.post('/addIntraConnection', intraService.addIntraConnection)
+router.post('/addIntraConnection', ensureAuthorized, intraService.addIntraConnection)
 
 module.exports = router

@@ -88,6 +88,134 @@ let removeEventFromCalendar = async(req, res) => {
 	res.json({type : true, data : "done"})
 }
 
+let addPhotosToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { photosToEmail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removePhotosToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { photosToEmail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addStatusToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { statusToEmail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeStatusToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { statusToEmail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addFriendsToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { friendsToEmail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeFriendsToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { friendsToEmail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addWorkToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { workToEmail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeWorkToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { workToEmail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addLocationToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { locationToEmail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeLocationToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { locationToEmail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addHometownToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { hometownToEmail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeHometownToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { hometownToEmail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addEducationToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { educationToEmail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeEducationToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { educationToEmail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addReligionToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { religionToEmail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeReligionToEmail = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { religionToEmail : false}})
+	res.json({type : true, data : "done"})
+}
+
 let isConnected = async(req, res) => {
 	let newFacebook = new FacebookSpec.Facebook(req.token);
 
@@ -131,11 +259,47 @@ let verifyWebhook = async (req, res) => {
 let webhook = async (req, res) => {
 	let body = req.body;
 
+	var newFacebook = new FacebookSpec.Facebook("null");
+	await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+
+	console.log(body.entry[0])
 	if (body.entry[0].changes[0].field == 'events') {
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
-		await newFacebook.getInfoEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
+		console.log("events")
+		await newFacebook.handleEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
 	}
+
+	if (body.entry[0].changes[0].field == 'photos') {
+		await newFacebook.handlePhotos(body.entry[0].changes[0].value.object_id, body.entry[0].id);
+	}
+
+	if (body.entry[0].changes[0].field == 'status') {
+		await newFacebook.handleStatus(body.entry[0].changes[0].id, body.entry[0].id);
+	}
+
+	if (body.entry[0].changes[0].field == 'friends') {
+		await newFacebook.handleFriend(body.entry[0].changes[0].verb, body.entry[0].id);
+	}
+
+	if (body.entry[0].changes[0].field == 'work') {
+		await newFacebook.handleWork(body.entry[0].id);
+	}
+
+	if (body.entry[0].changes[0].field == 'location') {
+		await newFacebook.handleLocation(body.entry[0].id);
+	}
+
+	if (body.entry[0].changes[0].field == 'hometown') {
+		await newFacebook.handleHomeTown(body.entry[0].id);
+	}
+
+	if (body.entry[0].changes[0].field == 'education') {
+		await newFacebook.handleEducation(body.entry[0].id);
+	}
+
+	if (body.entry[0].changes[0].field == 'religion') {
+		await newFacebook.handleReligion(body.entry[0].id);
+	}
+
 	res.status(200).send('EVENT_RECEIVED');
 }
 
@@ -148,9 +312,27 @@ module.exports = {
 	addEventToTwitter,
 	addEventToCalendar,
 	addEventToEmail,
+	addPhotosToEmail,
+	addStatusToEmail,
+	addFriendsToEmail,
+	addWorkToEmail,
+	addLocationToEmail,
+	addHometownToEmail,
+	addEducationToEmail,
+	addReligionToEmail,
 	removeEventFromTwitter,
 	removeEventFromEmail,
 	removeEventFromCalendar,
+	removePhotosToEmail,
+	removeWorkToEmail,
+	removeStatusToEmail,
+	removePhotosToEmail,
+	removeFriendsToEmail,
+	removeLocationToEmail,
+	removeHometownToEmail,
+	removeLocationToEmail,
+	removeReligionToEmail,
+	removeEducationToEmail,
 	isConnected,
 	getMyOption,
 	logout,

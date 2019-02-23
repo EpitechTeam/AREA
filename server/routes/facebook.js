@@ -20,11 +20,43 @@ router.put('/addEventToEmail', ensureAuthorized, facebookService.addEventToEmail
 
 router.put('/addEventToCalendar', ensureAuthorized, facebookService.addEventToCalendar)
 
-router.put('/removeEventFromEmail', ensureAuthorized, facebookService.removeEventFromEmail)
+router.put('/addPhotosToEmail', ensureAuthorized, facebookService.addPhotosToEmail)
 
-router.put('/removeEventFromTwitter', ensureAuthorized, facebookService.removeEventFromTwitter)
+router.put('/addStatusToEmail', ensureAuthorized, facebookService.addStatusToEmail)
 
-router.put('/removeEventFromCalendar', ensureAuthorized, facebookService.removeEventFromCalendar)
+router.put('/addFriendsToEmail', ensureAuthorized, facebookService.addFriendsToEmail)
+
+router.put('/addWorkToEmail', ensureAuthorized, facebookService.addWorkToEmail)
+
+router.put('/addLocationToEmail', ensureAuthorized, facebookService.addLocationToEmail)
+
+router.put('/addHometownToEmail', ensureAuthorized, facebookService.addHometownToEmail)
+
+router.put('/addEducationToEmail', ensureAuthorized, facebookService.addEducationToEmail)
+
+router.put('/addReligionToEmail', ensureAuthorized, facebookService.addReligionToEmail)
+
+router.put('/removeReligionToEmail', ensureAuthorized, facebookService.removeReligionToEmail)
+
+router.put('/removeEducationToEmail', ensureAuthorized, facebookService.removeEducationToEmail)
+
+router.put('/removeHometownToEmail', ensureAuthorized, facebookService.removeHometownToEmail)
+
+router.put('/removeLocationToEmail', ensureAuthorized, facebookService.removeLocationToEmail)
+
+router.put('/removeWorkToEmail', ensureAuthorized, facebookService.removeWorkToEmail)
+
+router.put('/removeFriendsToEmail', ensureAuthorized, facebookService.removeFriendsToEmail)
+
+router.put('/removePhotosToEmail', ensureAuthorized, facebookService.removePhotosToEmail)
+
+router.put('/removeStatusToEmail', ensureAuthorized, facebookService.removePhotosToEmail)
+
+router.put('/removeEventToEmail', ensureAuthorized, facebookService.removeEventFromEmail)
+
+router.put('/removeEventToTwitter', ensureAuthorized, facebookService.removeEventFromTwitter)
+
+router.put('/removeEventToCalendar', ensureAuthorized, facebookService.removeEventFromCalendar)
 
 router.get('/isConnected', ensureAuthorized, facebookService.isConnected)
 

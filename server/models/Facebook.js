@@ -3,11 +3,17 @@ var Schema       = mongoose.Schema;
 
 var FacebookSchema   = mongoose.Schema({
 	accessToken : String, /*Long lived token*/
-	actionTag : Boolean,
-	transferPicture : Boolean,
 	eventToTwitter : Boolean,
 	eventToEmail : Boolean,
 	eventToCalendar : Boolean,
+	photosToEmail : Boolean,
+	statusToEmail : Boolean,
+	friendsToEmail : Boolean,
+	workToEmail : Boolean,
+	locationToEmail : Boolean,
+	hometownToEmail : Boolean,
+	educationToEmail : Boolean,
+	religionToEmail : Boolean,
 	user_id : String
 });
 
