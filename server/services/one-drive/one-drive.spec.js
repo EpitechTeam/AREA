@@ -1,7 +1,9 @@
 let fs = require('fs');
-const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 let One_driveModal	= require('./../../models/One-drive')
 let request			= require('request');
+let Service	= require('./../../models/Services')
+let User	= require('./../../models/User')
+const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 
 class One_drive {
 	constructor(token) {
