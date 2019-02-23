@@ -152,7 +152,7 @@ let webhook = async (req, res) => {
 	if (body.entry[0].changes[0].field == 'friends' && body.entry[0].changes[0].verb == 'add') {
 		console.log(body.entry[0]);
 	}
-	if (body.entry[0].changes[0].field == 'field') {
+	if (body.entry[0].changes[0].field == 'feed') {
 		console.log(body.entry[0]);
 	}
 	if (body.entry[0].changes[0].field == 'work') {
