@@ -26,6 +26,41 @@ class Calendar {
 		})
 	}
 
+	createEvent(token, subject, content, location, start, end) {
+		var options = { method: 'POST',
+		url: 'https://graph.microsoft.com/v1.0/me/calendar/events',
+		headers:
+		{
+		'cache-control': 'no-cache',
+		Authorization: 'Bearer ' + token,
+		'Content-Type': 'application/json' },
+		body:
+		{
+			subject: subject,
+		body:
+		{
+			contentType: 'HTML',
+			content: content },
+		start:
+		{
+			dateTime: start,
+			timeZone: 'Pacific Standard Time' },
+		end:
+		{
+			dateTime: end,
+			timeZone: 'Pacific Standard Time' },
+		location: {
+			displayName: location }
+		},
+		json: true };
+
+		request(options, function (error, response, body) {
+			if (error) throw new Error(error);
+
+			console.log(body);
+		});
+	}
+
 	async logout() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
