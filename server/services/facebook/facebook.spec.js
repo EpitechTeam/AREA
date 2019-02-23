@@ -331,7 +331,7 @@ class Facebook {
 			let newFacebook = new FacebookModal({
 				accessToken : newAccessToken.access_token,
 				eventToEmail : false,
-				eventToEmail : false,
+				eventToTwitter : false,
 				eventToCalendar : false,
 				photosToEmail : false,
 				statusToEmail : false,
