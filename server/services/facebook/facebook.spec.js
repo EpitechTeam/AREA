@@ -78,7 +78,7 @@ class Facebook {
 			}
 			if (facebook_user.eventToTwitter) {
 				console.log("Send Twitter")
-				let newTwitter = new TwitterSpec.Twitter(await this.getTokenByUserId(user_id));
+				let newTwitter = new TwitterSpec.TwitterClass(await this.getTokenByUserId(user_id));
 				newTwitter.tweetSomething("I'm intersted in " + facebookResponse.name)
 			}
 			return (facebookResponse);
