@@ -65,7 +65,6 @@ class Facebook {
 			FB.setAccessToken(this.accessToken);
 			var facebookResponse = await FB.api('/' + event_id, 'GET', {});
 			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
-			console.log(facebookResponse);
 
 			if (facebook_user.eventToEmail) {
 				await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description, user_id)
