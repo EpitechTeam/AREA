@@ -131,11 +131,15 @@ let verifyWebhook = async (req, res) => {
 let webhook = async (req, res) => {
 	let body = req.body;
 
-	console.log(body.entry[0].changes[0].field)
 	if (body.entry[0].changes[0].field == 'events') {
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
+	}
+	if (body.entry[0].changes[0].field == 'likes') {
+		let newFacebook = new FacebookSpec.Facebook("null");
+		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+		await newFacebook.handleLikes(body.entry[0].changes[0].value.event_id, body.entry[0].id);
 	}
 	res.status(200).send('EVENT_RECEIVED');
 }

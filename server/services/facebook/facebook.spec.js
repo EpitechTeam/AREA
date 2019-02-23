@@ -83,6 +83,19 @@ class Facebook {
 		}
 	}
 
+	async handleLikes(likes_id, user_id) {
+		try {
+			FB.setAccessToken(this.accessToken);
+			var facebookResponse = await FB.api('/' + event_id, 'GET', {});
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
+
+			console.log(facebookResponse)
+		}
+		catch (err) {
+			console.log(err);
+		}
+	}
+
 
 	async addEvent(to) {
 		let user = await User.findOne({token: this.token})
