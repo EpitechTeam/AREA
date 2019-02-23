@@ -26,13 +26,17 @@ class Calendar {
 		})
 	}
 
-	createEvent(token, subject, content, location, start, end) {
+	async createEvent(subject, content, location, start, end) {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let calendar_user = await CalendarModal.findOne({"_id" : service.calendar})
+
 		var options = { method: 'POST',
 		url: 'https://graph.microsoft.com/v1.0/me/calendar/events',
 		headers:
 		{
 		'cache-control': 'no-cache',
-		Authorization: 'Bearer ' + token,
+		Authorization: 'Bearer ' + calendar_user.accessToken,
 		'Content-Type': 'application/json' },
 		body:
 		{

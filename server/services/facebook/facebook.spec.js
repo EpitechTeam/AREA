@@ -63,11 +63,20 @@ class Facebook {
 	async handleEvent(event_id, user_id) {
 		try {
 			FB.setAccessToken(this.accessToken);
-			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
-			// let newCalendar = new CalendarSpec.Calendar(req.token);
-			// newCalendar.createEvent(token, facebookResponse.name, facebookResponse.description, )
+			var facebookResponse = await FB.api('/' + event_id, 'GET', {});
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
 			console.log(facebookResponse);
-			await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description, user_id)
+
+			if (facebook_user.eventToEmail) {
+				await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description, user_id)
+			}
+			if (facebook_user.eventToCalendar) {
+				let newCalendar = new CalendarSpec.Calendar(await this.getTokenByUserId(user_id));
+				newCalendar.createEvent(facebookResponse.name, facebookResponse.description, facebookResponse.place.name, facebookResponse.start_time, facebookResponse.end_time)
+			}
+			if (facebook_user.eventToTwitter) {
+
+			}
 			return (facebookResponse);
 		}
 		catch (err) {
