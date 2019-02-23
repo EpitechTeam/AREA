@@ -135,7 +135,7 @@ let setCalendarSubscription = (token , date, id_calendar) => {
 // }
 
 let webhook = async (req, res) => {
-	console.log("Function webhook")
+	console.log("Function office365 webhook")
 	let body = req.body;
 	let query = req.query;
 
@@ -143,8 +143,6 @@ let webhook = async (req, res) => {
 		res.status(200).send(decodeURI(query.validationToken));
 		return;
 	}
-
-	console.log(body);
 	res.json({body})
 }
 

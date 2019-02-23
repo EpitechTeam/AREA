@@ -158,6 +158,9 @@ let webhook = async (req, res) => {
 
 	if (body.entry[0].changes[0].field == 'work') {
 		console.log(body.entry[0]);
+		let newFacebook = new FacebookSpec.Facebook("null");
+		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+		await newFacebook.handleWork(body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'location') {
@@ -176,19 +179,18 @@ let webhook = async (req, res) => {
 
 	if (body.entry[0].changes[0].field == 'education') {
 		console.log(body.entry[0]);
+		let newFacebook = new FacebookSpec.Facebook("null");
+		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+		await newFacebook.handleEducation(body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'religion') {
 		console.log(body.entry[0]);
-	}
-
-	if (body.entry[0].changes[0].field == 'website') {
-		console.log(body.entry[0]);
-		console.log(body.entry[0].changes[0]);
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
-		await newFacebook.handleWebsite(body.entry[0].changes[0].value, body.entry[0].id);
+		await newFacebook.handleReligion(body.entry[0].id);
 	}
+
 	res.status(200).send('EVENT_RECEIVED');
 }
 

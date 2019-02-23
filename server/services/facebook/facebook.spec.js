@@ -100,18 +100,36 @@ class Facebook {
 		}
 	}
 
-	async handleHomeTown(user_id) {
+	async handleWork(user_id) {
 		try {
-			await this.sendEmailByOutlook("Chagement de ville d'origine sur votre facebook", "Vous avez récement changer votre ville d'origine", user_id)
+			await this.sendEmailByOutlook("Votre section professionel a changé sur votre facebook", "Vous avez récement mis à jour vos expériences professionelles", user_id)
 		}
 		catch (err) {
 			console.log(err)
 		}
 	}
 
-	async handleWebsite(website, user_id) {
+	async handleEducation(user_id) {
 		try {
-			await this.sendEmailByOutlook("Ajout site internet sur votre facebook", "Vous avez récement changer votre site web " + website, user_id)
+			await this.sendEmailByOutlook("Votre section education a changé sur votre facebook", "Vous avez récement mis à jour votre scolarité", user_id)
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
+	async handleReligion(user_id) {
+		try {
+			await this.sendEmailByOutlook("Votre section croyance a changé sur votre facebook", "Vous avez récement mis à jour vos croyance", user_id)
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
+	async handleHomeTown(user_id) {
+		try {
+			await this.sendEmailByOutlook("Chagement de ville d'origine sur votre facebook", "Vous avez récement changer votre ville d'origine", user_id)
 		}
 		catch (err) {
 			console.log(err)
