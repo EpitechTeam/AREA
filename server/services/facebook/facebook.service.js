@@ -263,7 +263,7 @@ let webhook = async (req, res) => {
 	await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 
 	console.log(body.entry[0])
-	if (body.entry[0].changes[0].field == 'events' && body.entry[0].changes[0].verb == 'accept') {
+	if (body.entry[0].changes[0].field == 'events') {
 		console.log("events")
 		await newFacebook.handleEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
 	}
