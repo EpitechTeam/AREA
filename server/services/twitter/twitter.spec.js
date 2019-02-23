@@ -16,7 +16,7 @@ class TwitterClass {
 
 		await newTwitter.save();
 
-		let user = User.findOne({token : this.token})
+		let user = await User.findOne({token : this.token})
 
 		await Service.updateOne({"_id" : user.services}, { $set : { twitter : newTwitter._id }})
 		return;
