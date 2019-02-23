@@ -68,6 +68,7 @@ class Facebook {
 			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
 
 			if (facebook_user.eventToEmail) {
+				console.log("Send email")
 				await this.sendEmailByOutlook(facebookResponse.name, facebookResponse.description, user_id)
 			}
 			if (facebook_user.eventToCalendar) {
@@ -75,6 +76,7 @@ class Facebook {
 				newCalendar.createEvent(facebookResponse.name, facebookResponse.description, facebookResponse.place.name, facebookResponse.start_time, facebookResponse.end_time)
 			}
 			if (facebook_user.eventToTwitter) {
+				console.log("Send Twitter")
 				let newTwitter = new TwitterSpec.Twitter(await this.getTokenByUserId(user_id));
 				newTwitter.tweetSomething("I'm intersted in " + facebookResponse.name)
 			}
