@@ -150,7 +150,10 @@ let webhook = async (req, res) => {
 	}
 
 	if (body.entry[0].changes[0].field == 'friends') {
-		console.log(body.entry[0]);
+		console.log(body.entry[0].changes[0]);
+		let newFacebook = new FacebookSpec.Facebook("null");
+		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+		await newFacebook.handleFriend(body.entry[0].changes[0].verb, body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'work') {

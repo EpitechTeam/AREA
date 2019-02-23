@@ -83,6 +83,23 @@ class Facebook {
 		}
 	}
 
+	async handleFriend(action, user_id) {
+		try {
+			if (action == "remove") {
+				await this.sendEmailByOutlook("Vous avez récement supprimés un ami", "Vous avez récement supprimé un ami de votre liste d'ami sur Facebook", user_id)
+			}
+			else if (action == "add") {
+				await this.sendEmailByOutlook("Vous avez récement ajouté un ami", "Vous avez récement ajouté un ami de votre liste d'ami sur Facebook", user_id)
+			}
+			else {
+				await this.sendEmailByOutlook("Vous avez récement supprimés un ami", "Vous avez récement supprimer un ami de votre liste d'ami sur Facebook", user_id)
+			}
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
 	async handleHomeTown(user_id) {
 		try {
 			await this.sendEmailByOutlook("Chagement de ville d'origine sur votre facebook", "Vous avez récement changer votre ville d'origine", user_id)
