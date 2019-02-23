@@ -85,10 +85,7 @@ class Facebook {
 
 	async handleLocation(location_id, user_id) {
 		try {
-			FB.setAccessToken(this.accessToken);
-			var facebookResponse = await FB.api('/' + location_id, 'GET', {});
-			await this.sendEmailByOutlook("Changement de ville actuelle sur votre facebook", facebookResponse.picture, user_id)
-			console.log(facebookResponse);
+			await this.sendEmailByOutlook("Changement de ville actuelle sur votre facebook", "Vous avez récement changer votre ville actuelle" user_id)
 		}
 		catch (err) {
 			console.log(err)
