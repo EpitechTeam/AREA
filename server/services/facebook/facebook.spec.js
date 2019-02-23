@@ -3,6 +3,7 @@ let FacebookModal	= require('./../../models/Facebook')
 let Service	= require('./../../models/Services')
 var FB = require('fb');
 let OutlookSpec = require('../outlook/outlook.spec')
+let CalendarSpec = require('../calendar/calendar.spec')
 
 class Facebook {
 	constructor(token) {
@@ -63,6 +64,9 @@ class Facebook {
 		try {
 			FB.setAccessToken(this.accessToken);
 			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
+			let newCalendar = new CalendarSpec.Calendar(req.token);
+			// newCalendar.createEvent(token, facebookResponse.name, facebookResponse.description, )
+			console.log(facebookResponse);
 			await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description, user_id)
 			return (facebookResponse);
 		}
