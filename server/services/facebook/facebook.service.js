@@ -138,8 +138,6 @@ let webhook = async (req, res) => {
 	}
 
 	if (body.entry[0].changes[0].field == 'photos') {
-		console.log(body.entry[0]);
-		console.log(body.entry[0].changes[0]);
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handlePhotos(body.entry[0].changes[0].value.object_id, body.entry[0].id);

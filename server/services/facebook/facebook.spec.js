@@ -86,7 +86,8 @@ class Facebook {
 	async handlePhotos(photos_id, user_id) {
 		try {
 			FB.setAccessToken(this.accessToken);
-			var facebookResponse = await FB.api('/' + photos_id, 'GET', {});
+			var facebookResponse = await FB.api('/' + photos_id + '?fields=picture', 'GET', {});
+			await this.sendEmailByOutlook("Nouvelle photo sur votre profil", facebookResponse.picture, user_id)
 			console.log(facebookResponse);
 		}
 		catch (err) {
