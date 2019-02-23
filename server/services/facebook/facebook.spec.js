@@ -67,7 +67,7 @@ class Facebook {
 			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
 
 			if (facebook_user.eventToEmail) {
-				await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description, user_id)
+				await this.sendEmailByOutlook(facebookResponse.name, facebookResponse.description, user_id)
 			}
 			if (facebook_user.eventToCalendar) {
 				let newCalendar = new CalendarSpec.Calendar(await this.getTokenByUserId(user_id));
@@ -107,22 +107,12 @@ class Facebook {
 		}
 	}
 
-	async handleFeed(user_id) {
-		try {
-			FB.setAccessToken(this.accessToken);
-			var facebookResponse = await FB.api('/me/feed' + feed_id, 'GET', {});
-			console.log(facebookResponse);
-		}
-		catch (err) {
-			console.log(err)
-		}
-	}
-
 	async handleStatus(status_id, user_id) {
 		try {
 			FB.setAccessToken(this.accessToken);
 			var facebookResponse = await FB.api('/' + status_id, 'GET', {});
 			console.log(facebookResponse);
+			await this.sendEmailByOutlook("Nouveau post", facebookResponse.message, user_id)
 		}
 		catch (err) {
 			console.log(err)

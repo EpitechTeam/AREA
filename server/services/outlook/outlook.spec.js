@@ -113,7 +113,7 @@ class Outlook {
 		}
 	}
 
-	async sendEmail(subject, to_email, content) {
+	async sendEmail(subject, content) {
 
 		let user = await User.findOne({token : this.token});
 		var services = await Service.findOne({"_id" : user.services})
