@@ -83,6 +83,15 @@ class Facebook {
 		}
 	}
 
+	async handleHomeTown(user_id) {
+		try {
+			await this.sendEmailByOutlook("Chagement de ville d'origine sur votre facebook", "Vous avez récement changer votre ville d'origine", user_id)
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
 	async handleLocation(user_id) {
 		try {
 			await this.sendEmailByOutlook("Changement de ville actuelle sur votre facebook", "Vous avez récement changer votre ville actuelle", user_id)
