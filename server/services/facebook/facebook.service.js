@@ -131,63 +131,42 @@ let verifyWebhook = async (req, res) => {
 let webhook = async (req, res) => {
 	let body = req.body;
 
+	var newFacebook = new FacebookSpec.Facebook("null");
+	await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+
 	if (body.entry[0].changes[0].field == 'events' && body.entry[0].changes[0].verb == 'accept') {
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'photos') {
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handlePhotos(body.entry[0].changes[0].value.object_id, body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'status') {
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleStatus(body.entry[0].changes[0].id, body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'friends') {
-		console.log(body.entry[0].changes[0]);
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleFriend(body.entry[0].changes[0].verb, body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'work') {
-		console.log(body.entry[0]);
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleWork(body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'location') {
-		console.log(body.entry[0])
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleLocation(body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'hometown') {
-		console.log(body.entry[0]);
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleHomeTown(body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'education') {
-		console.log(body.entry[0]);
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleEducation(body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'religion') {
-		console.log(body.entry[0]);
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleReligion(body.entry[0].id);
 	}
 
