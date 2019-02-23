@@ -3,16 +3,10 @@
     <div class="flex-box row flex-box-centered">
 
       <div class="flex-box column">
-        <input type="text" placeholder="Search" class="search">
+        <input type="text" placeholder="Search" class="search" name="search" [(ngModel)]="searchText">
 
         <div class="flex-box services column">
-          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
-          <button class="twitter" (click)="OnServiceClicked('twitter')">Twitter</button>
-          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
-          <button class="twitter" (click)="OnServiceClicked('twitter')">Twitter</button>
-          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
-          <button class="twitter" (click)="OnServiceClicked('twitter')">Twitter</button>
-          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
+          <button *ngFor="let service of filterText(Services)" class="{{ service.class }}" (click)="OnServiceClicked(service.class)">{{ service.name }}</button>
         </div>
       </div>
 

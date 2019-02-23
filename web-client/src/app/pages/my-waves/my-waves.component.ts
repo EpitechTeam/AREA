@@ -15,6 +15,6 @@ export class MyWavesComponent implements OnInit {
   }
 
   onAddCard() {
-    this.router.navigate(['pages/myWaves/addTrigger']).then();
+    this.router.navigate(['pages/myWaves/addWave']).then();
   }
 }
