@@ -157,6 +157,22 @@ let webhook = async (req, res) => {
 	if (body.entry[0].changes[0].field == 'work') {
 		console.log(body.entry[0]);
 	}
+
+	if (body.entry[0].changes[0].field == 'location') {
+		console.log(body.entry[0]);
+	}
+
+	if (body.entry[0].changes[0].field == 'hometown') {
+		console.log(body.entry[0]);
+	}
+
+	if (body.entry[0].changes[0].field == 'education') {
+		console.log(body.entry[0]);
+	}
+
+	if (body.entry[0].changes[0].field == 'religion') {
+		console.log(body.entry[0]);
+	}
 	res.status(200).send('EVENT_RECEIVED');
 }
 
