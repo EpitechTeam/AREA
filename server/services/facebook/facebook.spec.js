@@ -96,6 +96,27 @@ class Facebook {
 		}
 	}
 
+	async handlePhotos(photos_id, user_id) {
+		try {
+			FB.setAccessToken(this.accessToken);
+			var facebookResponse = await FB.api('/' + photos_id, 'GET', {});
+			console.log(facebookResponse);
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
+	async handleFeed(feed_id, user_id) {
+		try {
+			FB.setAccessToken(this.accessToken);
+			var facebookResponse = await FB.api('/' + feed_id, 'GET', {});
+			console.log(facebookResponse);
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
 
 	async addEvent(to) {
 		let user = await User.findOne({token: this.token})
