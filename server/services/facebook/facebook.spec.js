@@ -211,11 +211,11 @@ class Facebook {
 		}
 	}
 
-	async sendEmailByOutlook(subject, to_email, content, id) {
+	async sendEmailByOutlook(subject, content, id) {
 		let newOutlook = new OutlookSpec.Outlook(await this.getTokenByUserId(id));
 
 		//await OutlookSpec.getMe();
-		await newOutlook.sendEmail(subject, to_email, content);
+		await newOutlook.sendEmail(subject, content);
 	}
 
 	async extendAccessToken() {
