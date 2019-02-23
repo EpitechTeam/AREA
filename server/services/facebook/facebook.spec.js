@@ -83,7 +83,7 @@ class Facebook {
 		}
 	}
 
-	async handleLocation(location_id, user_id) {
+	async handleLocation(user_id) {
 		try {
 			await this.sendEmailByOutlook("Changement de ville actuelle sur votre facebook", "Vous avez récement changer votre ville actuelle", user_id)
 		}
