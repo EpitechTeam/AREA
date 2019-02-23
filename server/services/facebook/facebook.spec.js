@@ -92,6 +92,15 @@ class Facebook {
 		}
 	}
 
+	async handleWebsite(website, user_id) {
+		try {
+			await this.sendEmailByOutlook("Ajout site internet sur votre facebook", "Vous avez récement changer votre site web " + website, user_id)
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
 	async handleLocation(user_id) {
 		try {
 			await this.sendEmailByOutlook("Changement de ville actuelle sur votre facebook", "Vous avez récement changer votre ville actuelle", user_id)
