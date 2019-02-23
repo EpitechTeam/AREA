@@ -67,6 +67,7 @@ class Facebook {
 			var facebookResponse = await FB.api('/' + event_id, 'GET', {});
 			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
 
+			console.log(facebook_user);
 			if (facebook_user.eventToEmail) {
 				console.log("Send email")
 				await this.sendEmailByOutlook(facebookResponse.name, facebookResponse.description, user_id)
