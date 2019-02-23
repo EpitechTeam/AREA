@@ -131,7 +131,7 @@ let verifyWebhook = async (req, res) => {
 let webhook = async (req, res) => {
 	let body = req.body;
 
-	if (body.entry[0].changes[0].field == 'events' && && body.entry[0].changes[0].verb == 'accept') {
+	if (body.entry[0].changes[0].field == 'events' && body.entry[0].changes[0].verb == 'accept') {
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
