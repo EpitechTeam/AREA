@@ -30,7 +30,7 @@ class One_drive {
 	async logout() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
-		let one_drive_user = await OutlookModal.findOne({"_id" : service.outlook})
+		let one_drive_user = await One_driveModal.findOne({"_id" : service.outlook})
 
 		//Delete subscription
 		this.deleteSubscritpion(one_drive_user.subscriptionId, one_drive_user.accessToken)
