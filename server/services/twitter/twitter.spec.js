@@ -18,7 +18,6 @@ class TwitterClass {
 
 		let user = await User.findOne({token : this.token})
 
-		console.log(user);
 		await Service.updateOne({"_id" : user.services}, { $set : { twitter : newTwitter._id }})
 		return;
 	}
@@ -28,7 +27,6 @@ class TwitterClass {
 		let service = await Service.findOne({"_id" : user.services})
 		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
 
-		console.log(twitter_user);
 		this.client = new Twitter({
 			consumer_key: process.env.TWITTER_CONSUMER_KEY,
 		  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -39,8 +37,6 @@ class TwitterClass {
 
 		this.client.post('statuses/update', {status: tweet},  function(error, tweet, response) {
 			if(error) throw error;
-			console.log(tweet);  // Tweet body.
-			console.log(response);  // Raw response object.
 		});
 	}
 }

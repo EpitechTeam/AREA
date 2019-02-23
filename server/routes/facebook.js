@@ -52,11 +52,11 @@ router.put('/removePhotosToEmail', ensureAuthorized, facebookService.removePhoto
 
 router.put('/removeStatusToEmail', ensureAuthorized, facebookService.removePhotosToEmail)
 
-router.put('/removeEventFromEmail', ensureAuthorized, facebookService.removeEventFromEmail)
+router.put('/removeEventToEmail', ensureAuthorized, facebookService.removeEventFromEmail)
 
-router.put('/removeEventFromTwitter', ensureAuthorized, facebookService.removeEventFromTwitter)
+router.put('/removeEventToTwitter', ensureAuthorized, facebookService.removeEventFromTwitter)
 
-router.put('/removeEventFromCalendar', ensureAuthorized, facebookService.removeEventFromCalendar)
+router.put('/removeEventToCalendar', ensureAuthorized, facebookService.removeEventFromCalendar)
 
 router.get('/isConnected', ensureAuthorized, facebookService.isConnected)
 
