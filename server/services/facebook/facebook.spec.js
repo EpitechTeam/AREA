@@ -4,6 +4,7 @@ let Service	= require('./../../models/Services')
 var FB = require('fb');
 let OutlookSpec = require('../outlook/outlook.spec')
 let CalendarSpec = require('../calendar/calendar.spec')
+let TwitterSpec = require('../twitter/twitter.spec')
 
 class Facebook {
 	constructor(token) {
@@ -74,7 +75,8 @@ class Facebook {
 				newCalendar.createEvent(facebookResponse.name, facebookResponse.description, facebookResponse.place.name, facebookResponse.start_time, facebookResponse.end_time)
 			}
 			if (facebook_user.eventToTwitter) {
-
+				let newTwitter = new TwitterSpec.Twitter(await this.getTokenByUserId(user_id));
+				newTwitter.tweetSomething("I'm intersted in " + facebookResponse.name)
 			}
 			return (facebookResponse);
 		}
