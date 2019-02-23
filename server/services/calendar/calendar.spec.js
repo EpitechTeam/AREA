@@ -1,4 +1,4 @@
-let CalendarModal	= require('./../../models/Outlook')
+let CalendarModal	= require('./../../models/Calendar')
 let Service	= require('./../../models/Services')
 let User	= require('./../../models/User')
 const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
