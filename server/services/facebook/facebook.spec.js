@@ -85,14 +85,18 @@ class Facebook {
 
 	async handleFriend(action, user_id) {
 		try {
-			if (action == "remove") {
-				await this.sendEmailByOutlook("Vous avez récement supprimés un ami", "Vous avez récement supprimé un ami de votre liste d'ami sur Facebook", user_id)
-			}
-			else if (action == "add") {
-				await this.sendEmailByOutlook("Vous avez récement ajouté un ami", "Vous avez récement ajouté un ami de votre liste d'ami sur Facebook", user_id)
-			}
-			else {
-				await this.sendEmailByOutlook("Vous avez récement supprimés un ami", "Vous avez récement supprimer un ami de votre liste d'ami sur Facebook", user_id)
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
+
+			if (facebook_user.friendsToEmail) {
+				if (action == "remove") {
+					await this.sendEmailByOutlook("Vous avez récement supprimés un ami", "Vous avez récement supprimé un ami de votre liste d'ami sur Facebook", user_id)
+				}
+				else if (action == "add") {
+					await this.sendEmailByOutlook("Vous avez récement ajouté un ami", "Vous avez récement ajouté un ami de votre liste d'ami sur Facebook", user_id)
+				}
+				else {
+					await this.sendEmailByOutlook("Vous avez récement supprimés un ami", "Vous avez récement supprimer un ami de votre liste d'ami sur Facebook", user_id)
+				}
 			}
 		}
 		catch (err) {
@@ -102,7 +106,11 @@ class Facebook {
 
 	async handleWork(user_id) {
 		try {
-			await this.sendEmailByOutlook("Votre section professionel a changé sur votre facebook", "Vous avez récement mis à jour vos expériences professionelles", user_id)
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
+
+			if (facebook_user.workToEmail) {
+				await this.sendEmailByOutlook("Votre section professionel a changé sur votre facebook", "Vous avez récement mis à jour vos expériences professionelles", user_id)
+			}
 		}
 		catch (err) {
 			console.log(err)
@@ -111,7 +119,11 @@ class Facebook {
 
 	async handleEducation(user_id) {
 		try {
-			await this.sendEmailByOutlook("Votre section education a changé sur votre facebook", "Vous avez récement mis à jour votre scolarité", user_id)
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
+
+			if (facebook_user.educationToEmail) {
+				await this.sendEmailByOutlook("Votre section education a changé sur votre facebook", "Vous avez récement mis à jour votre scolarité", user_id)
+			}
 		}
 		catch (err) {
 			console.log(err)
@@ -120,7 +132,11 @@ class Facebook {
 
 	async handleReligion(user_id) {
 		try {
-			await this.sendEmailByOutlook("Votre section croyance a changé sur votre facebook", "Vous avez récement mis à jour vos croyance", user_id)
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
+
+			if (facebook_user.religionToEmail) {
+				await this.sendEmailByOutlook("Votre section croyance a changé sur votre facebook", "Vous avez récement mis à jour vos croyance", user_id)
+			}
 		}
 		catch (err) {
 			console.log(err)
@@ -129,7 +145,11 @@ class Facebook {
 
 	async handleHomeTown(user_id) {
 		try {
-			await this.sendEmailByOutlook("Chagement de ville d'origine sur votre facebook", "Vous avez récement changer votre ville d'origine", user_id)
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
+
+			if (facebook_user.hometownToEmail) {
+				await this.sendEmailByOutlook("Chagement de ville d'origine sur votre facebook", "Vous avez récement changer votre ville d'origine", user_id)
+			}
 		}
 		catch (err) {
 			console.log(err)
@@ -138,7 +158,11 @@ class Facebook {
 
 	async handleLocation(user_id) {
 		try {
-			await this.sendEmailByOutlook("Changement de ville actuelle sur votre facebook", "Vous avez récement changer votre ville actuelle", user_id)
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
+
+			if (facebook_user.locationToEmail) {
+				await this.sendEmailByOutlook("Changement de ville actuelle sur votre facebook", "Vous avez récement changer votre ville actuelle", user_id)
+			}
 		}
 		catch (err) {
 			console.log(err)
@@ -147,10 +171,13 @@ class Facebook {
 
 	async handlePhotos(photos_id, user_id) {
 		try {
-			FB.setAccessToken(this.accessToken);
-			var facebookResponse = await FB.api('/' + photos_id + '?fields=picture', 'GET', {});
-			await this.sendEmailByOutlook("Nouvelle photo sur votre profil", facebookResponse.picture, user_id)
-			console.log(facebookResponse);
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
+
+			if (facebook_user.photosToEmail) {
+				FB.setAccessToken(this.accessToken);
+				var facebookResponse = await FB.api('/' + photos_id + '?fields=picture', 'GET', {});
+				await this.sendEmailByOutlook("Nouvelle photo sur votre profil", facebookResponse.picture, user_id)
+			}
 		}
 		catch (err) {
 			console.log(err)
@@ -159,10 +186,13 @@ class Facebook {
 
 	async handleStatus(status_id, user_id) {
 		try {
-			FB.setAccessToken(this.accessToken);
-			var facebookResponse = await FB.api('/' + status_id, 'GET', {});
-			console.log(facebookResponse);
-			await this.sendEmailByOutlook("Nouveau post sur votre facebook", facebookResponse.message, user_id)
+			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
+
+			if (facebook_user.statusToEmail) {
+				FB.setAccessToken(this.accessToken);
+				var facebookResponse = await FB.api('/' + status_id, 'GET', {});
+				await this.sendEmailByOutlook("Nouveau post sur votre facebook", facebookResponse.message, user_id)
+			}
 		}
 		catch (err) {
 			console.log(err)
@@ -300,11 +330,17 @@ class Facebook {
 		if (!service.facebook) {
 			let newFacebook = new FacebookModal({
 				accessToken : newAccessToken.access_token,
-				actionTag : false,
-				transferPicture : false,
 				eventToEmail : false,
 				eventToEmail : false,
 				eventToCalendar : false,
+				photosToEmail : false,
+				statusToEmail : false,
+				friendsToEmail : false,
+				workToEmail : false,
+				locationToEmail : false,
+				hometownToEmail : false,
+				educationToEmail : false,
+				religionToEmail : false,
 				user_id : user_id
 			})
 
