@@ -96,6 +96,22 @@ let addPhotosToEmail = async(req, res) => {
 	res.json({type : true, data : "done"})
 }
 
+let addPhotosToTwitter = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { photosToTwitter : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removePhotosToTwitter = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { photosToTwitter : false}})
+	res.json({type : true, data : "done"})
+}
+
 let removePhotosToEmail = async(req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
@@ -117,6 +133,22 @@ let removeStatusToEmail = async(req, res) => {
 	let services = await Service.findOne({"_id" : user.services})
 
 	await Facebook.updateOne({"_id" : services.facebook}, { $set : { statusToEmail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addStatusToTwitter = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { statusToTwitter : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeStatusToTwitter = async(req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Facebook.updateOne({"_id" : services.facebook}, { $set : { statusToTwitter : false}})
 	res.json({type : true, data : "done"})
 }
 
@@ -313,6 +345,8 @@ module.exports = {
 	addEventToCalendar,
 	addEventToEmail,
 	addPhotosToEmail,
+	addPhotosToTwitter,
+	addStatusToTwitter,
 	addStatusToEmail,
 	addFriendsToEmail,
 	addWorkToEmail,
@@ -333,6 +367,8 @@ module.exports = {
 	removeLocationToEmail,
 	removeReligionToEmail,
 	removeEducationToEmail,
+	removePhotosToTwitter,
+	removeStatusToTwitter,
 	isConnected,
 	getMyOption,
 	logout,

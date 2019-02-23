@@ -178,10 +178,16 @@ class Facebook {
 		try {
 			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
 
+			FB.setAccessToken(this.accessToken);
+			var facebookResponse = await FB.api('/' + photos_id + '?fields=picture', 'GET', {});
+
 			if (facebook_user.photosToEmail) {
-				FB.setAccessToken(this.accessToken);
-				var facebookResponse = await FB.api('/' + photos_id + '?fields=picture', 'GET', {});
 				await this.sendEmailByOutlook("Nouvelle photo sur votre profil", facebookResponse.picture, user_id)
+			}
+
+			if (facebook_user.photosToTwitter) {
+				let newTwitter = new TwitterSpec.TwitterClass(await this.getTokenByUserId(user_id));
+				newTwitter.tweetSomething("Nouvelle photo sur votre profil" + facebookResponse.picture)
 			}
 		}
 		catch (err) {
@@ -193,10 +199,16 @@ class Facebook {
 		try {
 			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
 
+			FB.setAccessToken(this.accessToken);
+			var facebookResponse = await FB.api('/' + status_id, 'GET', {});
+
 			if (facebook_user.statusToEmail) {
-				FB.setAccessToken(this.accessToken);
-				var facebookResponse = await FB.api('/' + status_id, 'GET', {});
 				await this.sendEmailByOutlook("Nouveau post sur votre facebook", facebookResponse.message, user_id)
+			}
+
+			if (facebook_user.statusToTwitter) {
+				let newTwitter = new TwitterSpec.TwitterClass(await this.getTokenByUserId(user_id));
+				newTwitter.tweetSomething(facebookResponse.message)
 			}
 		}
 		catch (err) {
@@ -339,7 +351,9 @@ class Facebook {
 				eventToTwitter : false,
 				eventToCalendar : false,
 				photosToEmail : false,
+				photosToTwitter : false,
 				statusToEmail : false,
+				statusToTwitter : false,
 				friendsToEmail : false,
 				workToEmail : false,
 				locationToEmail : false,
