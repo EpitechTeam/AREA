@@ -161,7 +161,7 @@ let webhook = async (req, res) => {
 		console.log(body.entry[0]);
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
-		console.log(body.entry[0].changes[0]);
+		console.log(body.entry[0].changes[0].value);
 		// await newFacebook.handleLocation(body.entry[0].changes[0].id, body.entry[0].id);
 	}
 
