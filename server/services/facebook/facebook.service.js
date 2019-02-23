@@ -89,7 +89,7 @@ let removeEventFromCalendar = async(req, res) => {
 }
 
 let addPhotosToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { photosToEmail : true}})
@@ -97,7 +97,7 @@ let addPhotosToEmail = async(req, res) => {
 }
 
 let removePhotosToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { photosToEmail : false}})
@@ -105,7 +105,7 @@ let removePhotosToEmail = async(req, res) => {
 }
 
 let addStatusToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { statusToEmail : true}})
@@ -113,7 +113,7 @@ let addStatusToEmail = async(req, res) => {
 }
 
 let removeStatusToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { statusToEmail : false}})
@@ -121,7 +121,7 @@ let removeStatusToEmail = async(req, res) => {
 }
 
 let addFriendsToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { friendsToEmail : true}})
@@ -129,7 +129,7 @@ let addFriendsToEmail = async(req, res) => {
 }
 
 let removeFriendsToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { friendsToEmail : false}})
@@ -137,7 +137,7 @@ let removeFriendsToEmail = async(req, res) => {
 }
 
 let addWorkToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { workToEmail : true}})
@@ -145,7 +145,7 @@ let addWorkToEmail = async(req, res) => {
 }
 
 let removeWorkToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { workToEmail : false}})
@@ -153,7 +153,7 @@ let removeWorkToEmail = async(req, res) => {
 }
 
 let addLocationToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { locationToEmail : true}})
@@ -161,7 +161,7 @@ let addLocationToEmail = async(req, res) => {
 }
 
 let removeLocationToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { locationToEmail : false}})
@@ -169,7 +169,7 @@ let removeLocationToEmail = async(req, res) => {
 }
 
 let addHometownToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { hometownToEmail : true}})
@@ -177,7 +177,7 @@ let addHometownToEmail = async(req, res) => {
 }
 
 let removeHometownToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { hometownToEmail : false}})
@@ -185,7 +185,7 @@ let removeHometownToEmail = async(req, res) => {
 }
 
 let addEducationToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { educationToEmail : true}})
@@ -193,7 +193,7 @@ let addEducationToEmail = async(req, res) => {
 }
 
 let removeEducationToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { educationToEmail : false}})
@@ -201,7 +201,7 @@ let removeEducationToEmail = async(req, res) => {
 }
 
 let addReligionToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { religionToEmail : true}})
@@ -209,7 +209,7 @@ let addReligionToEmail = async(req, res) => {
 }
 
 let removeReligionToEmail = async(req, res) => {
-	let user = await User.findOne({token: this.token})
+	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
 	Facebook.updateOne({"_id" : services.facebook}, { $set : { religionToEmail : false}})
