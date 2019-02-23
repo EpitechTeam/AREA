@@ -5,10 +5,10 @@ var ServiceSchema   = mongoose.Schema({
 	facebook : String,
 	meteo : String,
 	twitter : String,
+	intra : String,
 
 	/*Office 365*/
 	outlook : String,
-	intra : String,
 	calendar : String,
 	one_drive : String
 });
