@@ -35,7 +35,8 @@ let office365Connection = async (req, res) => {
 	}
 	if (!services.calendar) {
 		let newCalendar = new Calendar({
-			accessToken : req.body.accessToken
+			accessToken : req.body.accessToken,
+			subscriptionId : ""
 		})
 		await newCalendar.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { calendar : newCalendar._id}})
@@ -47,7 +48,8 @@ let office365Connection = async (req, res) => {
 	if (!services.one_drive) {
 		let newOne_drive = new One_drive({
 			accessToken : req.body.accessToken,
-			fileToOneDrive : false
+			fileToOneDrive : false,
+			subscriptionId : ""
 		})
 		await newOne_drive.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { one_drive : newOne_drive._id}})
@@ -58,8 +60,10 @@ let office365Connection = async (req, res) => {
 	}
 
 	let date = new Date(Date.now() + 172800000).toISOString()
-	setOutlookSubscription(req.body.accessToken, date, services.outlook)
 	services = await Service.findOne({"_id" : user.services})
+	setOutlookSubscription(req.body.accessToken, date, services.outlook)
+	setCalendarSubscription(req.body.accessToken, date, services.calendar)
+	setOne_driveSubscription(req.body.accessToken, date, services.one_drive)
 	res.json({
 		data : "accessToken saved"
 	})
@@ -75,15 +79,56 @@ let setOutlookSubscription = (token , date, id_outlook) => {
 	body:
 	{ changeType: 'created,updated',
 	notificationUrl: 'https://area-epitech-2018.herokuapp.com/webhook',
-	resource: '/me/mailfolders(\'inbox\')/messages',
+	resource: '/me/messages',
 	expirationDateTime: date,
 	clientState: 'SecretClientState' },
 	json: true };
 
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
-		console.log(body.id)
 		Outlook.updateOne({"_id" : id_outlook}, { $set : { subscriptionId : body.id}}, function (error, outlook_user) {	})
+	});
+}
+
+let setCalendarSubscription = (token , date, id_calendar) => {
+	var options = { method: 'POST',
+	url: 'https://graph.microsoft.com/v1.0/subscriptions',
+	headers:
+	{ 'cache-control': 'no-cache',
+	Authorization: 'Bearer ' + token,
+	'Content-Type': 'application/json' },
+	body:
+	{ changeType: 'created,updated',
+	notificationUrl: 'https://area-epitech-2018.herokuapp.com/webhook',
+	resource: '/me/events',
+	expirationDateTime: date,
+	clientState: 'SecretClientState' },
+	json: true };
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+		Calendar.updateOne({"_id" : id_calendar}, { $set : { subscriptionId : body.id}}, function (error, calendar_user) {	})
+	});
+}
+
+let setOne_driveSubscription = (token , date, id_one_drive) => {
+	var options = { method: 'POST',
+	url: 'https://graph.microsoft.com/v1.0/subscriptions',
+	headers:
+	{ 'cache-control': 'no-cache',
+	Authorization: 'Bearer ' + token,
+	'Content-Type': 'application/json' },
+	body:
+	{ changeType: 'created,updated',
+	notificationUrl: 'https://area-epitech-2018.herokuapp.com/webhook',
+	resource: '/drive/root',
+	expirationDateTime: date,
+	clientState: 'SecretClientState' },
+	json: true };
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+		One_drive.updateOne({"_id" : id_one_drive}, { $set : { subscriptionId : body.id}}, function (error, one_drive_user) {	})
 	});
 }
 
@@ -102,6 +147,7 @@ let webhook = async (req, res) => {
 }
 
 let logout = async (req, res) => {
+
 	//Logout from any office365 services
 }
 
