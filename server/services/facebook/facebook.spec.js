@@ -107,10 +107,10 @@ class Facebook {
 		}
 	}
 
-	async handleFeed(feed_id, user_id) {
+	async handleFeed(user_id) {
 		try {
 			FB.setAccessToken(this.accessToken);
-			var facebookResponse = await FB.api('/' + feed_id, 'GET', {});
+			var facebookResponse = await FB.api('/me/feed' + feed_id, 'GET', {});
 			console.log(facebookResponse);
 		}
 		catch (err) {
