@@ -119,7 +119,7 @@ let setOne_driveSubscription = (token , date, id_one_drive) => {
 	Authorization: 'Bearer ' + token,
 	'Content-Type': 'application/json' },
 	body:
-	{ changeType: 'created,updated',
+	{ changeType: 'updated',
 	notificationUrl: 'https://area-epitech-2018.herokuapp.com/webhook',
 	resource: '/drive/root',
 	expirationDateTime: date,
