@@ -131,16 +131,32 @@ let verifyWebhook = async (req, res) => {
 let webhook = async (req, res) => {
 	let body = req.body;
 
-	if (body.entry[0].changes[0].field == 'events') {
+	if (body.entry[0].changes[0].field == 'events' && && body.entry[0].changes[0].verb == 'accept') {
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
 	}
 	if (body.entry[0].changes[0].field == 'likes' && body.entry[0].changes[0].verb != 'remove') {
-		let newFacebook = new FacebookSpec.Facebook("null");
-		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
-		console.log(body.entry[0].changes[0])
-		await newFacebook.handleLikes(body.entry[0].changes[0].value.page, body.entry[0].id);
+		//need page permission
+		// let newFacebook = new FacebookSpec.Facebook("null");
+		// await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+		// console.log(body.entry[0].changes[0])
+		// await newFacebook.handleLikes(body.entry[0].changes[0].value.page, body.entry[0].id);
+	}
+	if (body.entry[0].changes[0].field == 'photos' && body.entry[0].changes[0].verb == 'add') {
+		console.log(body.entry[0]);
+	}
+	if (body.entry[0].changes[0].field == 'status') {
+		console.log(body.entry[0]);
+	}
+	if (body.entry[0].changes[0].field == 'friends' && body.entry[0].changes[0].verb == 'add') {
+		console.log(body.entry[0]);
+	}
+	if (body.entry[0].changes[0].field == 'field') {
+		console.log(body.entry[0]);
+	}
+	if (body.entry[0].changes[0].field == 'work') {
+		console.log(body.entry[0]);
 	}
 	res.status(200).send('EVENT_RECEIVED');
 }
