@@ -6,22 +6,6 @@ const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 class Calendar {
 	constructor(token) {
 		this.token = token
-		this.create();
-	}
-
-	async create() {
-		this.token = token;
-		let user = await User.findOne({token : this.token});
-		var services = await Service.findOne({"_id" : user.services})
-
-		if (services.outlook) {
-			let outlook = await OutlookModal.findOne({"_id" : services.outlook})
-			this.client = MicrosoftGraph.Client.init({
-				authProvider: (done) => {
-					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
-				}
-			});
-		}
 	}
 
 	deleteSubscritpion(id, accessToken) {
