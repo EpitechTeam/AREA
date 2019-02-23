@@ -6,7 +6,7 @@ const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 class Calendar {
 	constructor(token) {
 		this.token = token
-		create();
+		this.create();
 	}
 
 	async create() {
