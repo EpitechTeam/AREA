@@ -83,6 +83,18 @@ class Facebook {
 		}
 	}
 
+	async handleLocation(location_id, user_id) {
+		try {
+			FB.setAccessToken(this.accessToken);
+			var facebookResponse = await FB.api('/' + location_id, 'GET', {});
+			await this.sendEmailByOutlook("Changement de ville actuelle sur votre facebook", facebookResponse.picture, user_id)
+			console.log(facebookResponse);
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
 	async handlePhotos(photos_id, user_id) {
 		try {
 			FB.setAccessToken(this.accessToken);

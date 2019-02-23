@@ -144,7 +144,6 @@ let webhook = async (req, res) => {
 	}
 
 	if (body.entry[0].changes[0].field == 'status') {
-		console.log(body.entry[0]);
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleStatus(body.entry[0].changes[0].id, body.entry[0].id);
@@ -160,6 +159,10 @@ let webhook = async (req, res) => {
 
 	if (body.entry[0].changes[0].field == 'location') {
 		console.log(body.entry[0]);
+		let newFacebook = new FacebookSpec.Facebook("null");
+		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+		console.log(body.entry[0].changes[0]);
+		// await newFacebook.handleLocation(body.entry[0].changes[0].id, body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'hometown') {
