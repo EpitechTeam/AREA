@@ -60,11 +60,11 @@ class Facebook {
 		return (user.token)
 	}
 
-	async getInfoEvent(event_id, user_id) {
+	async handleEvent(event_id, user_id) {
 		try {
 			FB.setAccessToken(this.accessToken);
 			let facebookResponse = await FB.api('/' + event_id, 'GET', {});
-			let newCalendar = new CalendarSpec.Calendar(req.token);
+			// let newCalendar = new CalendarSpec.Calendar(req.token);
 			// newCalendar.createEvent(token, facebookResponse.name, facebookResponse.description, )
 			console.log(facebookResponse);
 			await this.sendEmailByOutlook(facebookResponse.name, "leo.lecherbonnier@epitech.eu", facebookResponse.description, user_id)
