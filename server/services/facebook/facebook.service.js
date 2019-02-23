@@ -139,6 +139,7 @@ let webhook = async (req, res) => {
 	if (body.entry[0].changes[0].field == 'likes') {
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
+		console.log(body.entry[0].changes)
 		await newFacebook.handleLikes(body.entry[0].changes[0].value.event_id, body.entry[0].id);
 	}
 	res.status(200).send('EVENT_RECEIVED');
