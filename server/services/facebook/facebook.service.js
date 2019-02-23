@@ -149,7 +149,7 @@ let webhook = async (req, res) => {
 		await newFacebook.handleStatus(body.entry[0].changes[0].id, body.entry[0].id);
 	}
 
-	if (body.entry[0].changes[0].field == 'friends' && body.entry[0].changes[0].verb == 'add') {
+	if (body.entry[0].changes[0].field == 'friends') {
 		console.log(body.entry[0]);
 	}
 
