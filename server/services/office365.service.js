@@ -63,7 +63,7 @@ let office365Connection = async (req, res) => {
 	services = await Service.findOne({"_id" : user.services})
 	setOutlookSubscription(req.body.accessToken, date, services.outlook)
 	setCalendarSubscription(req.body.accessToken, date, services.calendar)
-	setOne_driveSubscription(req.body.accessToken, date, services.one_drive)
+	// setOne_driveSubscription(req.body.accessToken, date, services.one_drive)
 	res.json({
 		data : "accessToken saved"
 	})
@@ -111,28 +111,28 @@ let setCalendarSubscription = (token , date, id_calendar) => {
 	});
 }
 
-let setOne_driveSubscription = (token , date, id_one_drive) => {
-	var options = { method: 'POST',
-	url: 'https://graph.microsoft.com/v1.0/subscriptions',
-	headers:
-	{ 'cache-control': 'no-cache',
-	Authorization: 'Bearer ' + token,
-	'Content-Type': 'application/json' },
-	body:
-	{ changeType: 'updated',
-	notificationUrl: 'https://area-epitech-2018.herokuapp.com/webhook',
-	resource: '/drive/root',
-	expirationDateTime: date,
-	clientState: 'SecretClientState' },
-	json: true };
-
-	request(options, function (error, response, body) {
-		if (error) throw new Error(error);
-		console.log(error);
-		console.log(body);
-		One_drive.updateOne({"_id" : id_one_drive}, { $set : { subscriptionId : body.id}}, function (error, one_drive_user) {	})
-	});
-}
+// let setOne_driveSubscription = (token , date, id_one_drive) => {
+// 	var options = { method: 'POST',
+// 	url: 'https://graph.microsoft.com/v1.0/subscriptions',
+// 	headers:
+// 	{ 'cache-control': 'no-cache',
+// 	Authorization: 'Bearer ' + token,
+// 	'Content-Type': 'application/json' },
+// 	body:
+// 	{ changeType: 'updated',
+// 	notificationUrl: 'https://area-epitech-2018.herokuapp.com/webhook',
+// 	resource: '/drive/root',
+// 	expirationDateTime: date,
+// 	clientState: 'SecretClientState' },
+// 	json: true };
+//
+// 	request(options, function (error, response, body) {
+// 		if (error) throw new Error(error);
+// 		console.log(error);
+// 		console.log(body);
+// 		One_drive.updateOne({"_id" : id_one_drive}, { $set : { subscriptionId : body.id}}, function (error, one_drive_user) {	})
+// 	});
+// }
 
 let webhook = async (req, res) => {
 	console.log("Function webhook")

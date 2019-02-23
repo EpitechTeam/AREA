@@ -33,8 +33,8 @@ class One_drive {
 		let one_drive_user = await One_driveModal.findOne({"_id" : service.outlook})
 
 		//Delete subscription
-		this.deleteSubscritpion(one_drive_user.subscriptionId, one_drive_user.accessToken)
-		await One_driveModal.updateOne({"_id" : service.one_drive}, { $set : { accessToken : " " , subscriptionId : " "}})
+		//this.deleteSubscritpion(one_drive_user.subscriptionId, one_drive_user.accessToken)
+		await One_driveModal.updateOne({"_id" : service.one_drive}, { $set : { accessToken : " "}})
 		return;
 	}
 
