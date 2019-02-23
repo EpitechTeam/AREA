@@ -27,7 +27,7 @@ let port = config.PORT
 
 // Connect to DB
 try {
-	mongoose.connect("mongodb://" + "fluorz:lecherbonnier1@ds127321.mlab.com:27321/area" , { useNewUrlParser: true })
+	mongoose.connect("mongodb://" + "fluorz:lecherbonnier1@ds127321.mlab.com:49065/area" , { useNewUrlParser: true })
 }
 catch (err) {
 	console.log("Erreur of connection")
