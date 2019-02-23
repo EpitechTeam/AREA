@@ -118,6 +118,17 @@ class Facebook {
 		}
 	}
 
+	async handleStatus(status_id, user_id) {
+		try {
+			FB.setAccessToken(this.accessToken);
+			var facebookResponse = await FB.api('/' + status_id, 'GET', {});
+			console.log(facebookResponse);
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
 	async addEvent(to) {
 		let user = await User.findOne({token: this.token})
 		let services = await Service.findOne({"_id" : user.services})
