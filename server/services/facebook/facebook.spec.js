@@ -83,19 +83,6 @@ class Facebook {
 		}
 	}
 
-	async handleLikes(likes_id, user_id) {
-		try {
-			FB.setAccessToken(this.accessToken);
-			var facebookResponse = await FB.api('/' + likes_id, 'GET', {});
-			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
-
-			console.log(facebookResponse)
-		}
-		catch (err) {
-			console.log(err);
-		}
-	}
-
 	async handlePhotos(photos_id, user_id) {
 		try {
 			FB.setAccessToken(this.accessToken);
@@ -112,7 +99,7 @@ class Facebook {
 			FB.setAccessToken(this.accessToken);
 			var facebookResponse = await FB.api('/' + status_id, 'GET', {});
 			console.log(facebookResponse);
-			await this.sendEmailByOutlook("Nouveau post", facebookResponse.message, user_id)
+			await this.sendEmailByOutlook("Nouveau post sur votre facebook", facebookResponse.message, user_id)
 		}
 		catch (err) {
 			console.log(err)

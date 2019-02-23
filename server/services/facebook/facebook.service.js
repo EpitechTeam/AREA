@@ -136,19 +136,12 @@ let webhook = async (req, res) => {
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
 	}
-	if (body.entry[0].changes[0].field == 'likes' && body.entry[0].changes[0].verb != 'remove') {
-		//need page permission
-		// let newFacebook = new FacebookSpec.Facebook("null");
-		// await newFacebook.setAccessTokenByUserId(body.entry[0].id);
-		// console.log(body.entry[0].changes[0])
-		// await newFacebook.handleLikes(body.entry[0].changes[0].value.page, body.entry[0].id);
-	}
 
 	if (body.entry[0].changes[0].field == 'photos' && body.entry[0].changes[0].value.verb == 'add') {
 		console.log(body.entry[0]);
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
-		await newFacebook.handlePhotos(body.entry[0].changes[0].value.event_id, body.entry[0].id);
+		//await newFacebook.handlePhotos(body.entry[0].changes[0].value.event_id, body.entry[0].id);
 	}
 
 	if (body.entry[0].changes[0].field == 'status') {
