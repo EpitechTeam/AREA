@@ -128,6 +128,8 @@ let setOne_driveSubscription = (token , date, id_one_drive) => {
 
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
+		console.log(error);
+		console.log(body);
 		One_drive.updateOne({"_id" : id_one_drive}, { $set : { subscriptionId : body.id}}, function (error, one_drive_user) {	})
 	});
 }
