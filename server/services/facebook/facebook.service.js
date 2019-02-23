@@ -143,7 +143,7 @@ let webhook = async (req, res) => {
 		// console.log(body.entry[0].changes[0])
 		// await newFacebook.handleLikes(body.entry[0].changes[0].value.page, body.entry[0].id);
 	}
-	if (body.entry[0].changes[0].field == 'photos') {
+	if (body.entry[0].changes[0].field == 'photos' && body.entry[0].changes[0].value.verb == 'add') {
 		console.log(body.entry[0]);
 	}
 	if (body.entry[0].changes[0].field == 'status') {
