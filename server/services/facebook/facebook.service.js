@@ -136,11 +136,11 @@ let webhook = async (req, res) => {
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
 		await newFacebook.handleEvent(body.entry[0].changes[0].value.event_id, body.entry[0].id);
 	}
-	if (body.entry[0].changes[0].field == 'likes') {
+	if (body.entry[0].changes[0].field == 'likes' && body.entry[0].changes[0].verb != 'remove') {
 		let newFacebook = new FacebookSpec.Facebook("null");
 		await newFacebook.setAccessTokenByUserId(body.entry[0].id);
-		console.log(body.entry[0].changes)
-		await newFacebook.handleLikes(body.entry[0].changes[0].value.event_id, body.entry[0].id);
+		console.log(body.entry[0].changes[0])
+		await newFacebook.handleLikes(body.entry[0].changes[0].value.page, body.entry[0].id);
 	}
 	res.status(200).send('EVENT_RECEIVED');
 }
