@@ -5,7 +5,7 @@ let serviceConfig = require('../../config/service')
 let TwitterSpec = require('./twitter.spec');
 
 let addTwitterConnection = async (req, res) => {
-	let newTwitter = new TwitterSpec.Twitter(req.token);
+	let newTwitter = new TwitterSpec.TwitterClass(req.token);
 
 	await newTwitter.addTwitterConnection(req.body.token, req.body.token_secret);
 

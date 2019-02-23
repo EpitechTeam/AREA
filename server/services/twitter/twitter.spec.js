@@ -3,7 +3,7 @@ var TwitterModal = require('./../../models/Twitter')
 var Service = require('./../../models/Services')
 var User	= require('./../../models/User')
 
-class Twitter {
+class TwitterClass {
 	constructor(token) {
 		this.token = token;
 	}
