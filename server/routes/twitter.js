@@ -4,6 +4,6 @@ let ensureAuthorized 	= require("./../middlewares/ensureAuthorized")
 
 let twitterService = require('../services/twitter/twitter.service')
 
-router.post('/addTwitterConnection', twitterService.addTwitterConnection)
+router.post('/addTwitterConnection', ensureAuthorized, twitterService.addTwitterConnection)
 
 module.exports = router
