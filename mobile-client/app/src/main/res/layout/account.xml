@@ -91,6 +91,26 @@
                 android:text="Sign out"
                 android:textColor="#d44638"
                 android:textSize="18sp" />
+            <Button
+                android:id="@+id/callGraph"
+                android:onClick="launchGraph"
+                android:text="Microsoft Graph Sign in"
+                android:textColor="#FFFFFF"
+                android:background="#00a1f1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp"
+                android:textAllCaps="false" />
+            <Button
+                android:text="Microsoft Sign Out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp"
+                android:textColor="#FFFFFF"
+                android:background="#00a1f1"
+                android:textAllCaps="false"
+                android:id="@+id/clearCache"
+                android:visibility="invisible" />
 
         </RelativeLayout>
 

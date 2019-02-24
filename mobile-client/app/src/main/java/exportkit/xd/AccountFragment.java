@@ -17,46 +17,35 @@
 
     package exportkit.xd;
 
-    import android.app.Fragment;
-    import android.app.FragmentTransaction;
+    import android.app.Activity;
     import android.content.Intent;
     import android.os.Build;
     import android.os.Bundle;
-
-
     import android.support.annotation.RequiresApi;
-    import android.util.Log;
     import android.view.LayoutInflater;
     import android.view.View;
     import android.view.ViewGroup;
     import android.widget.Button;
 
     import com.facebook.CallbackManager;
-    import com.facebook.FacebookCallback;
-    import com.facebook.FacebookException;
-    import com.facebook.FacebookSdk;
     import com.facebook.login.LoginResult;
     import com.facebook.login.widget.LoginButton;
     import com.google.android.gms.auth.api.signin.GoogleSignIn;
     import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-    import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-    import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
     import com.google.android.gms.common.SignInButton;
-    import com.google.android.gms.common.api.ApiException;
-    import com.google.android.gms.tasks.Task;
 
-    import static com.facebook.share.internal.DeviceShareDialogFragment.TAG;
+    import java.io.IOException;
 
     public class AccountFragment extends android.app.Fragment {
 
-        private ServiceManager serviceManager;
         private LoginButton loginButton;
         private LoginResult loginResult;
         private CallbackManager callbackManager;
         View view;
 
 
-        private void googleAlreadyAuth(){
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        private void googleAlreadyAuth() {
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this.getContext());
             if (account != null) {
                 SignInButton signInButton = view.findViewById(R.id.google_sign_in);
@@ -65,6 +54,7 @@
                 signOutButton.setVisibility(View.VISIBLE);
             }
         }
+
 
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
@@ -79,14 +69,13 @@
             googleAlreadyAuth();
         }
 
+        ServiceManager serviceManager = new ServiceManager();
+
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             view = inflater.inflate(R.layout.account, container, false);
-
-            Bundle bundle = getArguments();
-            ServiceManager serviceManager = (ServiceManager) bundle.getSerializable("ServiceManager");
 
             callbackManager = CallbackManager.Factory.create();
             serviceManager.getFacebookService().init(this, view, callbackManager);

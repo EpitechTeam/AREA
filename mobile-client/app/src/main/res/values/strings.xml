@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">AreaOnDroid</string>
     <string name="facebook_app_id">281974525768884</string> <string name="fb_login_protocol_scheme">fb281974525768884</string>
+    <string name="welcome_text">Welcome, </string>
+    <string name="call_graph">Call Microsoft Graph </string>
+    <string name="loading">Getting data from Graph...</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

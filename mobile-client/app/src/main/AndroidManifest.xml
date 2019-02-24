@@ -3,6 +3,7 @@
     package="exportkit.xd">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -41,6 +42,7 @@
         </activity>
 
         <activity android:name="exportkit.xd.register_activity"></activity>
+        <activity android:name="exportkit.xd.MicrosoftGraphService"></activity>
         <activity android:name="exportkit.xd.bottom_navigation_activity"></activity>
         <activity android:name="exportkit.xd.my_waves___add_activity"></activity>
         <activity android:name="exportkit.xd.my_waves___add___action_activity"></activity>
