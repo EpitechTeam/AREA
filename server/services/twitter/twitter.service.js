@@ -44,8 +44,22 @@ let twitterRequestToken = async (req, res) => {
 	});
 }
 
+let isConnected = async(req, res) => {
+	let newTwitter = new TwitterSpec.TwitterClass(req.token);
+
+	res.json({type : await newTwitter.isConnected()})
+}
+
+let logout = async(req, res) => {
+	let newTwitter = new TwitterSpec.TwitterClass(req.token);
+
+	res.json({type : await newTwitter.logout()})
+}
+
 module.exports = {
 	addTwitterConnection,
 	twitterRequestToken,
-	giveConsumerKey
+	giveConsumerKey,
+	logout,
+	isConnected
 }

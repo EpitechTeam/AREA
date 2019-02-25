@@ -10,4 +10,8 @@ router.get('/twitterRequestToken', ensureAuthorized, twitterService.twitterReque
 
 router.get('/getConsumerKey', ensureAuthorized, twitterService.giveConsumerKey)
 
+router.get('/logout', ensureAuthorized, twitterService.logout)
+
+router.get('/isConnected', ensureAuthorized, twitterService.isConnected)
+
 module.exports = router

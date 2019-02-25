@@ -11,6 +11,29 @@ class TwitterClass {
 		this.token = token;
 	}
 
+	async logout() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+
+		await TwitterModal.updateOne({"_id" : service.twitter}, { $set : {token : " ", token_secret : " "}})
+		return (true);
+	}
+
+	async isConnected() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
+
+		if (twitter_user) {
+			if (twitter_user.token != " ") {
+				return (true)
+			}
+		}
+		else {
+			return (false)
+		}
+	}
+
 	async addTwitterConnection(token, token_secret) {
 		let newTwitter = new TwitterModal({
 			token : token,
