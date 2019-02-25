@@ -138,23 +138,27 @@ class Outlook {
 			.api('/me')
 			.get((err, res) => {
 				var me = res;
-				const mail = {
-					subject: subject,
-					toRecipients: [{
-						emailAddress: {
-							address: me.mail
+				console.log(me);
+				console.log(err);
+				if (me.mail != null && me.mail != undefined) {
+					const mail = {
+						subject: subject,
+						toRecipients: [{
+							emailAddress: {
+								address: me.mail
+							}
+						}],
+						body: {
+							content: content,
+							contentType: "text"
 						}
-					}],
-					body: {
-						content: content,
-						contentType: "text"
 					}
-				}
 
-				client
-				.api('/users/me/sendMail')
-				.post({message: mail}, (err, res) => {
-				})
+					client
+					.api('/users/me/sendMail')
+					.post({message: mail}, (err, res) => {
+					})
+				}
 			});
 
 		}
