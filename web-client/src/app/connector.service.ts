@@ -16,10 +16,14 @@ export class ConnectorService {
     private office365 = new Office365(this.http, this.userService);
     private epitech = new Epitech(this.http, this.userService);
     private facebook = new Facebook(this.http, this.socialAuthService, this.userService);
+    private twitter = new Twitter(this.http, this.userService);
+
+
     Connectors = [
         this.office365,
         this.epitech,
-        this.facebook
+        this.facebook,
+        this.twitter
     ];
 
     constructor(private http: HttpClient,
@@ -34,7 +38,113 @@ export class ConnectorService {
                 return this.epitech;
             case 'facebook':
                 return this.facebook;
+            case 'twitter':
+                return this.twitter;
         }
+    }
+}
+
+class Twitter {
+    name = 'Twitter';
+    class = 'twitter';
+    user = {
+        userId: '',
+        userName: '',
+        userImage: '',
+        userEmail: ''
+    };
+    config = {
+        consumerKey: 'RQkG7YzJZ1EceRaftPR6PKs5m',
+        consumerSecret: 'TIDaz9zIlQ237VYfbrGqyUayADWtId9ge9CqPIuqCb6BX5kDMO',
+        endpoint: 'https://api.twitter.com/oauth/'
+    };
+
+    connected = false;
+
+    constructor(private http: HttpClient, private userService: UserService) {}
+
+    public async getConnected() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        // const result =  await this.http.get(this.userService.baseUrl + 'outlook/isConnected', httpOptions)
+        //     .toPromise();
+        // // @ts-ignore
+        // this.connected = result.type;
+        // // @ts-ignore
+        // return (result.type);
+    }
+
+    public isConnected() {
+        return (this.connected);
+    }
+
+    public logout() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        this.http.get(this.userService.baseUrl + 'outlook/logout', httpOptions)
+            .subscribe(res => {
+                this.connected = false;
+            });
+    }
+
+    public async login() {
+        const self = this;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
+        window.location.href = self.config.endpoint + 'authorize?oauth_token=jwyG4gAAAAAA9WRVAAABaSQTc7I';
+        return (false);
+    }
+
+    public async processLogin(token, verifier) {
+        // access_token
+        const self = this;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }),
+            responseType: 'text'
+        };
+        const data  = {
+            oauth_consumer_key : self.config.consumerKey,
+            oauth_token : token,
+            oauth_verifier : verifier
+        };
+        const url = '?oauth_consumer_key=' + data.oauth_consumer_key + '&oauth_token=' + data.oauth_token + '&oauth_verifier=' + data.oauth_verifier;
+        let res = await this.http.get(self.config.endpoint + 'access_token' + url, httpOptions).toPromise();
+        // const query = new URLSearchParams('oauth_token=2827255306-UYFm2qCRmtGnOyJudPDrtN408k6EuoW3067QvFc&oauth_token_secret=HNlDcRxbkwDplOFYpCXqtVsJrTimlgRGeu31JcDj0jokM&user_id=2827255306&screen_name=0c4f3dc398384d9');
+        // console.log(query.get('oauth_token'));
+        // console.log(query.get('oauth_token_secret'));
+        // console.log(query.toString());
+    }
+
+    public getData() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+
+        this.http.get(this.userService.baseUrl + 'outlook/getMe', httpOptions)
+            .subscribe(userData => {
+                // @ts-ignore
+                this.user.userId = userData.me.id;
+                // @ts-ignore
+                this.user.userEmail = userData.me.mail;
+                // @ts-ignore
+                this.user.userName = userData.me.displayName;
+            });
     }
 }
 

@@ -19,9 +19,21 @@ export class ManageComponent implements OnInit {
 
     Connectors = this.connector.Connectors;
 
+    TwitterOauth_token = '';
+    TwitterOauth_verifier = '';
+
 
     async ngOnInit() {
         await this.GetData();
+
+        // Only to check Twitter's login
+        this.route.queryParams.subscribe(async params => {
+            if (params.oauth_token && params.oauth_verifier) {
+                this.connector.getConnector('twitter').processLogin(params.oauth_token, params.oauth_verifier);
+                // this.TwitterOauth_token = params.oauth_token;
+                // this.TwitterOauth_verifier = params.oauth_verifier;
+            }
+        });
     }
 
     async GetData() {

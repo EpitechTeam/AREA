@@ -21,7 +21,7 @@
       <div class="font-bold s-20">Connect to services</div>
       <div class="connectedServices" *ngFor="let connector of FilterConnectors(false)">
           <div class="{{ connector.class }} connectorLoginLink" (click)="connector.login()">
-            <span class="link"><a href="#">Connect to {{ connector.name }}</a></span>
+            <span class="link"><a>Connect to {{ connector.name }}</a></span>
           </div>
       </div>
     </div>
