@@ -69,7 +69,6 @@ class TwitterClass {
 			access_token_secret: twitter_user.token_secret
 		});
 
-
 		this.client.get('account/verify_credentials', function(error, response) {
 			if(error) throw error;
 			console.log(response);

@@ -15,6 +15,13 @@ let addTwitterConnection = async (req, res) => {
 	res.json({type: true,	data: "end"	})
 }
 
+let tweetSomething = async(req, res) => {
+	let newTwitter = new TwitterSpec.TwitterClass(req.token);
+
+	await newTwitter.tweetSomething(req.body.tweet);
+	res.json("done");
+}
+
 let giveConsumerKey = async(req, res) => {
 	res.json({consumer_key : process.env.TWITTER_CONSUMER_KEY})
 }
@@ -93,5 +100,6 @@ module.exports = {
 	logout,
 	isConnected,
 	accessTokenGenerate,
-	getMe
+	getMe,
+	tweetSomething
 }
