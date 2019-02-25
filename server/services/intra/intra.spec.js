@@ -7,6 +7,29 @@ class Intra {
 		this.token = token;
 	}
 
+	async logout() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+
+		await IntraModal.updateOne({"_id" : service.intra}, { $set : {accessToken : " "}})
+		return (true);
+	}
+
+	async isConnected() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let intra_user = await IntraModal.findOne({"_id" : service.intra})
+
+		if (intra_user) {
+			if (intra_user.accessToken != " ") {
+				return (true)
+			}
+		}
+		else {
+			return (false)
+		}
+	}
+
 	async addIntraConnection(token) {
 		let newIntra = new IntraModal({
 			accessToken : token
