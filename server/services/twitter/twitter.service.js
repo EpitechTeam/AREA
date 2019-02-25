@@ -45,7 +45,7 @@ let getMe = async(req, res) => {
 		if(error) throw error;
 		console.log(response.id_str);
 		console.log(service.twitter)
-		TwitterModal.updateOne({"_id" : service.twitter}, { $set : {user_id : response.id_str}})
+		console.log(TwitterModal.updateOne({"_id" : service.twitter}, { $set : {user_id : response.id_str}}))
 		res.json({data : response})
 	});
 }
