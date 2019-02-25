@@ -40,18 +40,15 @@ class TwitterClass {
 			data: null
 		};
 
-		// request({
-		// 	url: request_data.url,
-		// 	method: request_data.method,
-		// 	form: request_data.data,
-		// 	headers: oauth.toHeader(oauth.authorize(request_data))
-		// }, function(error, response, body) {
-		// 	console.log(body);
-		// 	return body
-		// });
-		let body = await request({url: request_data.url,	method: request_data.method, form: request_data.data,	headers: oauth.toHeader(oauth.authorize(request_data))});
-		console.log(body);
-		return (body);
+		request({
+			url: request_data.url,
+			method: request_data.method,
+			form: request_data.data,
+			headers: oauth.toHeader(oauth.authorize(request_data))
+		}, function(error, response, body) {
+			console.log(body);
+			return body
+		});
 	}
 
 	async tweetSomething(tweet) {
