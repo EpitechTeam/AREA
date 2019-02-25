@@ -69,40 +69,41 @@ class TwitterClass {
 			token_secret: twitter_user.token_secret
 		}
 
-		//if (twitter_user)
-		// direct message request body
-		var dm_params = {
-			"event": {
-				"type": "message_create",
-				"message_create": {
-					"target": {
-						"recipient_id": "4534871"
-					},
-					"message_data": {
-						"text": "What color bird is your fav?",
-						"quick_reply": {
-							"type": "options",
+		if (twitter_user.user_id) {
+			// direct message request body
+			var dm_params = {
+				"event": {
+					"type": "message_create",
+					"message_create": {
+						"target": {
+							"recipient_id": twitter_user.user_id
+						},
+						"message_data": {
+							"text": "What color bird is your fav?",
+							"quick_reply": {
+								"type": "options",
+							}
 						}
 					}
 				}
 			}
-		}
 
-		// request options
-		var request_options = {
-			url: 'https://api.twitter.com/1.1/direct_messages/events/new.json',
-			oauth: twitter_oauth,
-			json: true,
-			headers: {
-				'content-type': 'application/json'
-			},
-			body: dm_params
-		}
+			// request options
+			var request_options = {
+				url: 'https://api.twitter.com/1.1/direct_messages/events/new.json',
+				oauth: twitter_oauth,
+				json: true,
+				headers: {
+					'content-type': 'application/json'
+				},
+				body: dm_params
+			}
 
-		// POST request to send Direct Message
-		request.post(request_options, function (error, response, body) {
-			console.log(body)
-		})
+			// POST request to send Direct Message
+			request.post(request_options, function (error, response, body) {
+				console.log(body)
+			})
+		}
 	}
 
 	async getMe() {
