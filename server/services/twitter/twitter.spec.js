@@ -35,16 +35,21 @@ class TwitterClass {
 	}
 
 	async addTwitterConnection(token, token_secret) {
-		let newTwitter = new TwitterModal({
-			token : token,
-			token_secret : token_secret
-		})
+		var user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
 
-		await newTwitter.save();
+		if (!service.twitter) {
+			let newTwitter = new TwitterModal({
+				token : token,
+				token_secret : token_secret
+			})
 
-		let user = await User.findOne({token : this.token})
-
-		await Service.updateOne({"_id" : user.services}, { $set : { twitter : newTwitter._id }})
+			await newTwitter.save();
+			await Service.updateOne({"_id" : user.services}, { $set : { twitter : newTwitter._id }})
+		}
+		else {
+			await TwitterModal.updateOne({"_id" : service.twitter}, { $set : { twitter : newTwitter._id }})
+		}
 		return;
 	}
 
