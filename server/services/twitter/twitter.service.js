@@ -6,6 +6,7 @@ let TwitterSpec = require('./twitter.spec');
 const crypto = require('crypto');
 const OAuth = require('oauth-1.0a');
 let request			= require('request');
+var Twitter = require('twitter');
 
 let addTwitterConnection = async (req, res) => {
 	let newTwitter = new TwitterSpec.TwitterClass(req.token);
@@ -27,9 +28,23 @@ let giveConsumerKey = async(req, res) => {
 }
 
 let getMe = async(req, res) => {
-	let newTwitter = new TwitterSpec.TwitterClass(req.token);
+	let user = await User.findOne({token : req.token})
+	let service = await Service.findOne({"_id" : user.services})
+	let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
 
-	res.json({me : await newTwitter.getMe()})
+	console.log(twitter_user)
+	var client = new Twitter({
+		consumer_key: process.env.TWITTER_CONSUMER_KEY,
+		consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+		access_token_key: twitter_user.token,
+		access_token_secret: twitter_user.token_secret
+	});
+
+	client.get('account/verify_credentials', function(error, response) {
+		if(error) throw error;
+		console.log(response);
+		res.json({data : response})
+	});
 }
 
 let twitterRequestToken = async (req, res) => {
