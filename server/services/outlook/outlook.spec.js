@@ -29,8 +29,10 @@ class Outlook {
 		let service = await Service.findOne({"_id" : user.services})
 		let outlook_user = await OutlookModal.findOne({"_id" : service.outlook})
 
-		if (outlook_user.accessToken == " ") {
-			return (false);
+		if (outlook_user.accessToken) {
+			if (outlook_user.accessToken == " ") {
+				return (false);
+			}
 		}
 		return (true);
 	}
