@@ -229,6 +229,15 @@ body {
     background-position-x: 15px;
 }
 
+.epitech {
+    background-color: #00579C;
+    background-image: url("assets/img/intra-logo.svg");
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position-y: center;
+    background-position-x: 15px;
+}
+
 .office365 {
     background-color: #094AB2;
     background-image: url("assets/img/onedrive-logo.svg");

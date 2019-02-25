@@ -34,7 +34,7 @@ export class ManageComponent implements OnInit {
         for (const connector of this.Connectors) {
             await connector.getConnected();
             if (connector.isConnected() === true) {
-                connector.getData();
+                await connector.getData();
             }
         }
 
@@ -51,6 +51,6 @@ export class ManageComponent implements OnInit {
 
     OnConnectEpitechModal() {
         // @ts-ignore
-        this.connector.getConnector('epitech').processLogin();
+        this.connector.getConnector('epitech').processLogin(this.intraToken);
     }
 }

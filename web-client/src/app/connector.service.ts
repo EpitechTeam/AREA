@@ -130,11 +130,15 @@ class Twitter {
             oauth_token: token,
             oauth_verifier: verifier
         };
+        this.router.navigate([], {
+            queryParams: {}
+        }).then();
         await this.http.post(this.userService.baseUrl + 'twitter/accessTokenGenerate', data, httpOptions).toPromise();
         this.connected = true;
+        await this.getData();
     }
 
-    public getData() {
+    public async getData() {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -142,15 +146,13 @@ class Twitter {
             })
         };
 
-        this.http.get(this.userService.baseUrl + 'outlook/getMe', httpOptions)
-            .subscribe(userData => {
-                // @ts-ignore
-                this.user.userId = userData.me.id;
-                // @ts-ignore
-                this.user.userEmail = userData.me.mail;
-                // @ts-ignore
-                this.user.userName = userData.me.displayName;
-            });
+        const userData = await this.http.get(this.userService.baseUrl + 'twitter/getMe', httpOptions).toPromise();
+        // @ts-ignore
+        this.user.userId = userData.data.id;
+        // @ts-ignore
+        this.user.userName = userData.data.name;
+        // @ts-ignore
+        this.user.userImage = userData.data.profile_image_url;
     }
 }
 
@@ -276,46 +278,88 @@ class Office365 {
 class Epitech {
     name = 'Epitech';
     class = 'epitech';
-    user = {};
+    user = {
+        userId: '',
+        userName: '',
+        userImage: '',
+        userEmail: ''
+    };
     config = {};
     showModal = false;
+
+    connected = false;
 
     constructor(private http: HttpClient, private userService: UserService) {
     }
 
-    public getConnected() {
+    public async getConnected() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const result = await this.http.get(this.userService.baseUrl + 'intra/isConnected', httpOptions)
+            .toPromise();
+        // @ts-ignore
+        this.connected = result.type;
+        // @ts-ignore
+        return (result.type);
     }
 
     public isConnected() {
-        if (localStorage.getItem('epitechToken') == null) {
-            return (false);
-        }
-        return (true);
+        return (this.connected);
     }
 
     public logout() {
-        localStorage.removeItem('epitechToken');
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        this.http.get(this.userService.baseUrl + 'intra/logout', httpOptions)
+            .subscribe(res => {
+                this.connected = false;
+            });
     }
 
-    public login(viewRef) {
+    public login() {
         const self = this;
         self.showModal = true;
     }
 
-    public processLogin() {
+    public async processLogin(token) {
         this.showModal = false;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const data = {
+            token: token
+        };
+        const res = await this.http.post(this.userService.baseUrl + 'intra/addIntraConnection', data, httpOptions).toPromise();
+        console.log(res);
+        this.connected = true;
     }
 
-    public getData() {
-        //   const token = this.getToken();
-        //   const options = {
-        //     headers: new HttpHeaders({
-        //       'Content-Type': 'application/json',
-        //       'Authorization': 'Bearer ' + token,
-        //     })
-        //   };
-        //
-        //   return this.http.get('');
+    public async getData() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const res = await this.http.get(this.userService.baseUrl + 'intra/getMe', httpOptions).toPromise();
+        // @ts-ignore
+        this.user.userEmail = res.me.login;
+        // @ts-ignore
+        this.user.userImage = 'https://intra.epitech.eu' + res.me.picture;
+        // @ts-ignore
+        this.user.userName = res.me.title;
+        console.log(res);
     }
 }
 
