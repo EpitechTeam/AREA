@@ -37,6 +37,7 @@ class Intra {
 		var user = await User.findOne({token : this.token})
 		var service = await Service.findOne({"_id" : user.services})
 
+		console.log(service);
 		if (!service.intra) {
 			let newIntra = new IntraModal({
 				accessToken : token
