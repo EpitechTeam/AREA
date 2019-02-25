@@ -57,7 +57,24 @@ class TwitterClass {
 	}
 
 	async getMe() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
 
+		console.log(twitter_user)
+		this.client = new Twitter({
+			consumer_key: process.env.TWITTER_CONSUMER_KEY,
+		  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+			access_token_key: twitter_user.token,
+			access_token_secret: twitter_user.token_secret
+		});
+
+
+		this.client.get('account/verify_credentials', function(error, response) {
+			if(error) throw error;
+			console.log(response);
+			return (response);
+		});
 	}
 
 	async tweetSomething(tweet) {
