@@ -130,9 +130,6 @@ class Twitter {
             oauth_token: token,
             oauth_verifier: verifier
         };
-        this.router.navigate([], {
-            queryParams: {}
-        }).then();
         await this.http.post(this.userService.baseUrl + 'twitter/accessTokenGenerate', data, httpOptions).toPromise();
         this.connected = true;
         await this.getData();
@@ -153,6 +150,9 @@ class Twitter {
         this.user.userName = userData.data.name;
         // @ts-ignore
         this.user.userImage = userData.data.profile_image_url;
+        this.router.navigate([], {
+            queryParams: {}
+        }).then();
     }
 }
 
