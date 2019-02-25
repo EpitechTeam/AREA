@@ -15,6 +15,10 @@ let addTwitterConnection = async (req, res) => {
 	res.json({type: true,	data: "end"	})
 }
 
+let giveConsumerKey = async(req, res) => {
+	res.json({consumer_key : process.env.TWITTER_CONSUMER_KEY})
+}
+
 let twitterRequestToken = async (req, res) => {
 	const oauth = OAuth({
 		consumer: { key: process.env.TWITTER_CONSUMER_KEY, secret: process.env.TWITTER_CONSUMER_SECRET},
@@ -36,12 +40,12 @@ let twitterRequestToken = async (req, res) => {
 		form: request_data.data,
 		headers: oauth.toHeader(oauth.authorize(request_data))
 	}, function(error, response, body) {
-		console.log(body);
 		res.json({data : body})
 	});
 }
 
 module.exports = {
 	addTwitterConnection,
-	twitterRequestToken
+	twitterRequestToken,
+	giveConsumerKey
 }

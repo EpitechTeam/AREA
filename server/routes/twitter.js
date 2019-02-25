@@ -8,4 +8,6 @@ router.post('/addTwitterConnection', ensureAuthorized, twitterService.addTwitter
 
 router.get('/twitterRequestToken', ensureAuthorized, twitterService.twitterRequestToken)
 
+router.get('/getConsumerKey', ensureAuthorized, twitterService.giveConsumerKey)
+
 module.exports = router
