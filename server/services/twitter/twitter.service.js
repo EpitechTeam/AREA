@@ -15,8 +15,7 @@ let addTwitterConnection = async (req, res) => {
 let twitterRequestToken = async (req, res) => {
 	let newTwitter = new TwitterSpec.TwitterClass(req.token);
 
-	let token = await newTwitter.getToken();
-	res.json({type: true,	data: "end", token : token})
+	res.json({type: true,	data: "end", token : await newTwitter.getToken()})
 }
 
 module.exports = {
