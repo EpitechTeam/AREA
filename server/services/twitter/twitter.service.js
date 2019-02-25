@@ -38,6 +38,7 @@ let getMe = async(req, res) => {
 	var service = await Service.findOne({"_id" : user.services})
 	let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
 
+	console.log(twitter_user);
 	var client = new Twitter({
 		consumer_key: process.env.TWITTER_CONSUMER_KEY,
 		consumer_secret: process.env.TWITTER_CONSUMER_SECRET,

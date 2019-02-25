@@ -20,7 +20,6 @@ class Intra {
 		let service = await Service.findOne({"_id" : user.services})
 		let intra_user = await IntraModal.findOne({"_id" : service.intra})
 
-		console.log(intra_user);
 		if (intra_user) {
 			if (intra_user.accessToken != null && intra_user.accessToken != " ") {
 				return (true)
