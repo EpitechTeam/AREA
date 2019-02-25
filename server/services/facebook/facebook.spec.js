@@ -360,6 +360,98 @@ class Facebook {
 				hometownToEmail : false,
 				educationToEmail : false,
 				religionToEmail : false,
+
+				eventToTwitterInfo : {
+					id : 1,
+					type : "facebook",
+					title : "Event publish to your Twitter",
+					description : "Tweet the name of the event",
+					class : "card-facebook"
+				},
+				eventToEmailInfo : {
+					id : 2,
+					type : 'facebook',
+					title : 'Event send by mail',
+					description : 'Send info about the event to your office365 mail',
+					class : 'card-facebook'
+				},
+				eventToCalendarInfo : {
+					id : 3,
+					type : 'facebook',
+					title : 'Event set in your calendar',
+					description : 'Set the event to your office365 calendar',
+					class : 'card-facebook'
+				},
+				photosToEmailInfo : {
+					id : 4,
+					type : 'facebook',
+					title : 'Send you a notification by mail',
+					description : 'Send a notification about yout photos to your office365 mail',
+					class : 'card-facebook'
+				},
+				photosToTwitterInfo : {
+					id : 5,
+					type : 'facebook',
+					title : 'Tweet your new profil picture',
+					description : 'Tweet yout new profil picture',
+					class : 'card-facebook'
+				},
+				statusToEmailInfo : {
+					id : 6,
+					type : 'facebook',
+					title : 'Send your post by mail',
+					description : 'Send a notification about your new post to your office365 mail',
+					class : 'card-facebook'
+				},
+				statusToTwitterInfo : {
+					id : 7,
+					type : 'facebook',
+					title : 'Tweet your new post',
+					description : 'Tweet your new post',
+					class : 'card-facebook'
+				},
+				friendsToEmailInfo : {
+					id : 8,
+					type : 'facebook',
+					title : 'Notification about friends',
+					description : 'Receive a notification about your new friends',
+					class : 'card-facebook'
+				},
+				workToEmailInfo : {
+					id : 9,
+					type : 'facebook',
+					title : 'Notification about work',
+					description : 'Receive a notification when your work section on your profil changed',
+					class : 'card-facebook'
+				},
+				locationToEmailInfo : {
+					id : 10,
+					type : 'facebook',
+					title : 'Notification about location',
+					description : 'Receive a notification when your location section on your profil changed',
+					class : 'card-facebook'
+				},
+				hometownToEmailInfo : {
+					id : 11,
+					type : 'facebook',
+					title : 'Notification about hometown',
+					description : 'Receive a notification when your hometown section on your profil changed',
+					class : 'card-facebook'
+				},
+				educationToEmailInfo : {
+					id : 12,
+					type : 'facebook',
+					title : 'Notification about education',
+					description : 'Receive a notification when your education section on your profil changed',
+					class : 'card-facebook'
+				},
+				religionToEmailInfo : {
+					id : 13,
+					type : 'facebook',
+					title : 'Notification about religion',
+					description : 'Receive a notification when your religion section on your profil changed',
+					class : 'card-facebook'
+				},
 				user_id : user_id
 			})
 
