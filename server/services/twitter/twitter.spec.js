@@ -48,9 +48,13 @@ class TwitterClass {
 			await Service.updateOne({"_id" : user.services}, { $set : { twitter : newTwitter._id }})
 		}
 		else {
-			await TwitterModal.updateOne({"_id" : service.twitter}, { $set : { twitter : newTwitter._id }})
+			await TwitterModal.updateOne({"_id" : service.twitter}, { $set : { token : token, token_secret : token_secret}})
 		}
 		return;
+	}
+
+	async getMe() {
+		
 	}
 
 	async tweetSomething(tweet) {

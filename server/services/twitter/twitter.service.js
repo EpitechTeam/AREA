@@ -19,6 +19,12 @@ let giveConsumerKey = async(req, res) => {
 	res.json({consumer_key : process.env.TWITTER_CONSUMER_KEY})
 }
 
+let getMe = async(req, res) => {
+	let newTwitter = new TwitterSpec.TwitterClass(req.token);
+
+	res.json({me : await newTwitter.getMe()})
+}
+
 let twitterRequestToken = async (req, res) => {
 	const oauth = OAuth({
 		consumer: { key: process.env.TWITTER_CONSUMER_KEY, secret: process.env.TWITTER_CONSUMER_SECRET},
@@ -61,7 +67,6 @@ let accessTokenGenerate = async(req, res) => {
 
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
-		console.log(body);
 		let newTwitter = new TwitterSpec.TwitterClass(req.token);
 		let element = new URLSearchParams(body);
 		newTwitter.addTwitterConnection(element.get('oauth_token'), element.get('oauth_token_secret'));
@@ -87,5 +92,6 @@ module.exports = {
 	giveConsumerKey,
 	logout,
 	isConnected,
-	accessTokenGenerate
+	accessTokenGenerate,
+	getMe
 }
