@@ -8,6 +8,7 @@ const crypto = require('crypto');
 const OAuth = require('oauth-1.0a');
 let request			= require('request');
 var Twitter = require('twitter');
+var TwitterModal = require('./../../models/Twitter')
 
 let addTwitterConnection = async (req, res) => {
 	let newTwitter = new TwitterSpec.TwitterClass(req.token);
