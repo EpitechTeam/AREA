@@ -48,19 +48,22 @@ let accessTokenGenerate = async(req, res) => {
 	let oauth = req.body.oauth_token;
 	let oauth_verifier = req.body.oauth_verifier
 
-	let options = {
-		url : 'https://api.twitter.com/oauth/access_token',
-		method : 'POST',
-		body : {
-			oauth_consumer_key : process.env.TWITTER_CONSUMER_KEY,
-			oauth_token : oauth,
-			oauth_verifier : oauth_verifier
-		}
-	}
-	request(options, function(error, body) {
+	var options = { method: 'POST',
+	url: 'https://api.twitter.com/oauth/access_token',
+	headers:
+	{ 'cache-control': 'no-cache',
+	'Content-Type': 'application/x-www-form-urlencoded' },
+	form:
+	{ oauth_consumer_key: process.env.TWITTER_CONSUMER_KEY,
+	oauth_token: oauth,
+	oauth_verifier: oauth_verifier,
+	undefined: undefined } };
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
 		console.log(body);
 		res.json({data : body})
-	})
+	});
 }
 
 let isConnected = async(req, res) => {
