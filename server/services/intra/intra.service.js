@@ -1,5 +1,8 @@
 let User	= require('./../../models/User')
 let IntraSpec = require('./intra.spec');
+let Service	= require('./../../models/Services')
+let Intra	= require('./../../models/intra')
+let request			= require('request');
 
 let addIntraConnection = async (req, res) => {
 	let newIntra = new IntraSpec.Intra(req.token);
@@ -7,6 +10,24 @@ let addIntraConnection = async (req, res) => {
 	await newIntra.addIntraConnection(req.body.token);
 
 	res.json({type: true,	data: "end"	})
+}
+
+let getMe = async (req, res) => {
+	var user = await User.findOne({token : req.token})
+	let service = await Service.findOne({"_id" : user.services})
+	let intra_user = await Intra.findOne({"_id" : service.intra})
+
+	var options = { method: 'GET',
+	url: 'https://intra.epitech.eu/' +  intra_user.accessToken + '/user/',
+	qs: { format: 'json' },
+	headers:
+	{ 'cache-control': 'no-cache' } };
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+		let newBody = JSON.parse(body)
+		res.json({me : newBody})
+	});
 }
 
 let logout = async(req, res) => {
@@ -24,5 +45,6 @@ let isConnected = async(req, res) => {
 module.exports = {
 	addIntraConnection,
 	isConnected,
-	logout
+	logout,
+	getMe
 }
