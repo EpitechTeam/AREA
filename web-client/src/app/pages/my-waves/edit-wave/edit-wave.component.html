@@ -1,0 +1,14 @@
+<div class="content flex-box">
+    <div class="center">
+        <div class="flex-box column service-card {{Card.class}} edit-card">
+            <span class="service-card-action font-bold s-22">{{ Card.title }}</span>
+            <span class="service-card-action-description font-bold s-20">{{ Card.description }}</span>
+            <div class="enable-card center">
+                <label class="switch">
+                    <input type="checkbox" [checked]="cardEnabled" (change)="onEnable()">
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
