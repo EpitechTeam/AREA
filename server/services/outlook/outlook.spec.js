@@ -103,15 +103,20 @@ class Outlook {
 		let user = await User.findOne({token : this.token});
 		var services = await Service.findOne({"_id" : user.services})
 
-		if (services.outlook) {
-			let outlook = await OutlookModal.findOne({"_id" : services.outlook})
-			var client = MicrosoftGraph.Client.init({
-				authProvider: (done) => {
-					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
-				}
-			});
-			let user = await client.api('/me').get();
-			return user;
+		try {
+			if (services.outlook) {
+				let outlook = await OutlookModal.findOne({"_id" : services.outlook})
+				var client = MicrosoftGraph.Client.init({
+					authProvider: (done) => {
+						done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
+					}
+				});
+				let user = await client.api('/me').get();
+				return user;
+			}
+		}
+		catch (err) {
+			console.log(err)
 		}
 	}
 
