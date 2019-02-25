@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="35.095" height="32.903" viewBox="0 0 35.095 32.903">
+  <g id="outlook" transform="translate(0 -15.989)">
+    <g id="Group_13" data-name="Group 13" transform="translate(0 15.989)">
+      <g id="Group_12" data-name="Group 12">
+        <path id="Path_12" data-name="Path 12" d="M34,22.571H19.741V17.088a1.094,1.094,0,0,0-.4-.844,1.078,1.078,0,0,0-.9-.233L.895,19.3A1.094,1.094,0,0,0,0,20.378V44.506a1.1,1.1,0,0,0,.895,1.077l17.547,3.29a1.032,1.032,0,0,0,.2.02,1.1,1.1,0,0,0,1.1-1.1V42.312H34a1.1,1.1,0,0,0,1.1-1.1V23.668A1.1,1.1,0,0,0,34,22.571ZM9.87,40.119c-3.023,0-5.484-2.952-5.484-6.58s2.461-6.58,5.484-6.58,5.484,2.952,5.484,6.58S12.893,40.119,9.87,40.119Zm9.87-15.354H30.8L24.064,30l-4.323-2.748ZM32.9,40.119H19.741V29.856l3.8,2.415a1.1,1.1,0,0,0,1.263-.059l8.1-6.3Z" transform="translate(0 -15.989)" fill="#fff"/>
+      </g>
+    </g>
+    <g id="Group_15" data-name="Group 15" transform="translate(6.58 29.151)">
+      <g id="Group_14" data-name="Group 14">
+        <ellipse id="Ellipse_2" data-name="Ellipse 2" cx="3.29" cy="4.387" rx="3.29" ry="4.387" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>
