@@ -25,7 +25,7 @@ class TwitterClass {
 		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
 
 		if (twitter_user) {
-			if (twitter_user.token != null) {
+			if (twitter_user.token != null && twitter_user.token != " ") {
 				return (true)
 			}
 			else {
