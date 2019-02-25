@@ -3,16 +3,10 @@
     <div class="flex-box row flex-box-centered">
 
       <div class="flex-box column">
-        <input type="text" placeholder="Search" class="search">
+        <input type="text" placeholder="Search" class="search" name="search" [(ngModel)]="searchText">
 
         <div class="flex-box services column">
-          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
-          <button class="twitter" (click)="OnServiceClicked('twitter')">Twitter</button>
-          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
-          <button class="twitter" (click)="OnServiceClicked('twitter')">Twitter</button>
-          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
-          <button class="twitter" (click)="OnServiceClicked('twitter')">Twitter</button>
-          <button class="facebook" (click)="OnServiceClicked('facebook')">Facebook</button>
+          <button *ngFor="let service of filterText(Services)" class="{{ service.class }}" (click)="OnServiceClicked(service.class)">{{ service.name }}</button>
         </div>
       </div>
 
@@ -26,7 +20,7 @@
       </div>
 
       <div class="box-view flex-box flex-wrap service-cards flex-box-centered">
-        <div class="flex-box column service-card {{card.class}}" *ngFor="let card of cards" (click)="OnNextStep(card)" >
+        <div class="flex-box column service-card {{card.class}}" *ngFor="let card of cards" (click)="onEnable(card)" >
           <span class="service-card-action font-bold s-22">{{ card.title }}</span>
           <span class="service-card-action-description font-bold s-20">{{ card.description }}</span>
         </div>

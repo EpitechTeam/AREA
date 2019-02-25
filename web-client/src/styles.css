@@ -10,7 +10,7 @@ html, body {
 }
 
 body {
-    color: hsl(0,0%,11%);
+    color: hsl(0, 0%, 11%);
     padding: 0;
     margin: 0;
 }
@@ -73,6 +73,7 @@ body {
 .column {
     flex-direction: column;
 }
+
 /* End Flex */
 
 /* Font */
@@ -115,6 +116,7 @@ body {
 .s-26 {
     font-size: 26px;
 }
+
 /* End Font */
 
 /* Boxing */
@@ -124,10 +126,11 @@ body {
 
 .main {
     max-width: 1200px;
+    min-width: 1140px;
     min-height: 400px;
     margin: auto;
     background-color: white;
-    box-shadow: 0 0 6px hsla(0,0%,11%, 0.16);
+    box-shadow: 0 0 6px hsla(0, 0%, 11%, 0.16);
     border-radius: 3px;
     flex-direction: column;
     padding: 20px;
@@ -148,7 +151,7 @@ body {
 
 /* Styling */
 .next {
-    color: hsla(0,0%,11%,0.3);
+    color: hsla(0, 0%, 11%, 0.3);
 }
 
 /* Panels */
@@ -179,15 +182,16 @@ body {
     padding: 10px 50px;
     border-radius: 5px;
     outline: none;
-    border: 1px solid hsla(0,0%,11%,0.5);
+    border: 1px solid hsla(0, 0%, 11%, 0.5);
     font-size: 16px;
-    color: hsla(0,0%,11%,0.5);
+    color: hsla(0, 0%, 11%, 0.5);
     font-family: Roboto-Bold, sans-serif;
     margin: auto;
 }
+
 .search::placeholder {
     font-size: 16px;
-    color: hsla(0,0%,11%,0.5);
+    color: hsla(0, 0%, 11%, 0.5);
     font-family: Roboto-Bold, sans-serif;
 }
 
@@ -205,7 +209,7 @@ body {
     display: block;
     border: none;
     border-radius: 5px;
-    box-shadow: 0 0 6px hsla(0,0%,11%,0.16);
+    box-shadow: 0 0 6px hsla(0, 0%, 11%, 0.16);
     font-family: Roboto-Bold, sans-serif;
     font-size: 18px;
     margin-bottom: 20px;
@@ -213,12 +217,21 @@ body {
 }
 
 .services button:hover {
-    transform:scale(1.08, 1.08);
+    transform: scale(1.08, 1.08);
 }
 
 .facebook {
     background-color: #3B5998;
     background-image: url("assets/img/facebook-logo.svg");
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position-y: center;
+    background-position-x: 15px;
+}
+
+.epitech {
+    background-color: #00579C;
+    background-image: url("assets/img/intra-logo.svg");
     background-repeat: no-repeat;
     background-size: 25px;
     background-position-y: center;
@@ -234,6 +247,14 @@ body {
     background-position-x: 15px;
 }
 
+.outlook {
+    background-color: #0078d7;
+    background-image: url("assets/img/outlook-logo.svg");
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position-y: center;
+    background-position-x: 15px;
+}
 
 .twitter {
     background-color: #55ACEE;
@@ -244,11 +265,29 @@ body {
     background-position-x: 15px;
 }
 
+.oneDrive {
+    background-color: #094AB2;
+    background-image: url("assets/img/onedrive-logo.svg");
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position-y: center;
+    background-position-x: 15px;
+}
+
+.calendar {
+    background-color: #0078d7;
+    background-image: url("assets/img/calendar-logo.svg");
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position-y: center;
+    background-position-x: 15px;
+}
+
 .separator {
     height: 300px;
     margin-left: 25px;
     width: 2px;
-    background-color: hsla(0,0%,11%,0.1);
+    background-color: hsla(0, 0%, 11%, 0.1);
 }
 
 .service-cards {
@@ -257,15 +296,15 @@ body {
     margin-top: 50px;
     overflow-y: scroll;
     height: 500px;
-    box-shadow: 0 0 10px hsla(0,0%,11%,0.05) inset;
-    min-width: 700px;
+    box-shadow: 0 0 10px hsla(0, 0%, 11%, 0.05) inset;
+    min-width: 850px;
     border-radius: 5px;
 }
 
 .service-card {
     margin-bottom: 50px;
     flex: 0 1 250px;
-    box-shadow: 0 0 6px hsla(0,0%,11%,0.16);
+    box-shadow: 0 0 6px hsla(0, 0%, 11%, 0.16);
     border-radius: 5px;
     display: flex;
     cursor: pointer;
@@ -273,16 +312,18 @@ body {
     justify-content: flex-start;
     color: white;
     margin-right: 20px;
+    width: 100px;
+    height: 300px;
 }
 
 .service-card:hover {
-    transform:scale(1.03, 1.03);
+    transform: scale(1.03, 1.03);
 }
 
-.service-card::after {
-    content: "";
-    flex: auto;
-}
+/*.service-card::after {*/
+/*content: "";*/
+/*flex: auto;*/
+/*}*/
 
 .service-card.card-facebook {
     background-color: #3B5998;
@@ -305,6 +346,24 @@ body {
 .service-card.card-oneDrive {
     background-color: #094AB2;
     background-image: url("assets/img/onedrive-logo.svg");
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-position-y: 20px;
+    background-position-x: 20px;
+}
+
+.service-card.card-outlook {
+    background-color: #0078d7;
+    background-image: url("assets/img/outlook-logo.svg");
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-position-y: 20px;
+    background-position-x: 20px;
+}
+
+.service-card.card-calendar {
+    background-color: #0078d7;
+    background-image: url("assets/img/calendar-logo.svg");
     background-repeat: no-repeat;
     background-size: 50px;
     background-position-y: 20px;

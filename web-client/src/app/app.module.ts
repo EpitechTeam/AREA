@@ -1,8 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import {AppComponent} from './app.component';
+import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 
 import {
@@ -10,6 +10,7 @@ import {
     AuthServiceConfig,
     FacebookLoginProvider,
 } from 'angularx-social-login';
+import {FormsModule} from '@angular/forms';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -35,6 +36,7 @@ export function getAuthServiceConfigs() {
     ],
     imports: [
         BrowserModule,
+        FormsModule,
         AppRoutingModule,
         HttpClientModule,
         SocialLoginModule
@@ -47,4 +49,5 @@ export function getAuthServiceConfigs() {
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
