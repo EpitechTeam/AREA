@@ -8,6 +8,8 @@ router.post('/addTwitterConnection', ensureAuthorized, twitterService.addTwitter
 
 router.get('/twitterRequestToken', ensureAuthorized, twitterService.twitterRequestToken)
 
+router.post('/accessTokenGenerate', ensureAuthorized, twitterService.accessTokenGenerate)
+
 router.get('/getConsumerKey', ensureAuthorized, twitterService.giveConsumerKey)
 
 router.get('/logout', ensureAuthorized, twitterService.logout)
