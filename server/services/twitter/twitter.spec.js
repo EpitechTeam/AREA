@@ -28,6 +28,9 @@ class TwitterClass {
 			if (twitter_user.token != null) {
 				return (true)
 			}
+			else {
+				return (false)
+			}
 		}
 		else {
 			return (false)
