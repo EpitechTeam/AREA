@@ -49,7 +49,7 @@ let getMe = async(req, res) => {
 		if(error) throw error;
 		console.log(response.id_str);
 		console.log(service.twitter)
-		setId(service.twitter, reponse.id_str)
+		setId(service.twitter, response.id_str)
 		res.json({data : response})
 	});
 }
