@@ -4,6 +4,7 @@ var Service = require('./../../models/Services')
 var User	= require('./../../models/User')
 const crypto = require('crypto');
 const OAuth = require('oauth-1.0a');
+let request			= require('request');
 
 class TwitterClass {
 	constructor(token) {
