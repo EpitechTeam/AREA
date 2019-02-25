@@ -34,15 +34,20 @@ class Intra {
 	}
 
 	async addIntraConnection(token) {
-		let newIntra = new IntraModal({
-			accessToken : token
-		})
+		var user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
 
-		await newIntra.save();
+		if (!service.intra) {
+			let newIntra = new IntraModal({
+				accessToken : token
+			})
 
-		let user = await User.findOne({token : this.token})
-
-		await Service.updateOne({"_id" : user.services}, { $set : { intra : newIntra._id }})
+			await newIntra.save();
+			await Service.updateOne({"_id" : user.services}, { $set : { intra : newIntra._id }})
+		}
+		else {
+			await IntraModal.updateOne({"_id" : service.intra}, {$set : {accessToken : token}})
+		}
 		return;
 	}
 }
