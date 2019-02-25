@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Card, CardService} from '../CardService/card.service';
 import {Router} from '@angular/router';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {UserService} from '../../../user.service';
 
 @Component({
     selector: 'app-services',
@@ -29,32 +31,35 @@ export class ServicesComponent implements OnInit {
     }];
 
     constructor(private cardService: CardService,
-                private router: Router) {
+                private router: Router,
+                private http: HttpClient,
+                private userService: UserService) {
     }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.selectedService = this.defaultService;
-        this.LoadCards(this.selectedService);
+        await this.LoadCards(this.selectedService);
     }
 
-    private OnServiceClicked(serviceType) {
-        this.LoadCards(serviceType);
+    private async OnServiceClicked(serviceType) {
+        await this.LoadCards(serviceType);
     }
 
-    private LoadCards(serviceType) {
-        const cards = this.cardService.getCards(serviceType);
-        if (cards) {
-            cards.subscribe((items) => {
-                this.cards = items.filter(card => card.enabled === false);
-            });
-        } else {
-            this.cards = null;
-        }
+    private async LoadCards(serviceType) {
+        this.cards = await this.cardService.getDisabledCardsFromType(serviceType);
     }
 
-    private OnNextStep(card) {
-        // Todo: check if connected and redirect
-        // this.router.navigate(['pages/myWaves/addAction']).then();
+    private async onEnable(card) {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const url = this.userService.baseUrl + card.type + '/' + card.enableEndpoint;
+
+        await this.http.put(url, null, httpOptions).toPromise();
+        this.cards.splice(this.cards.indexOf(card), 1);
     }
 
     private filterText(services) {

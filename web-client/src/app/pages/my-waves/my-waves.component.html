@@ -1,10 +1,14 @@
 <div class="content flex-box">
-  <div class="flex-box flex-wrap center card-list-box scroll row">
-    <div class="card" *ngFor="let card of cards">
-    </div>
-    <div class="card" (click)="onAddCard()">
-      <div class="image add-icon"></div>
-    </div>
+  <div class="flex-box flex-wrap center card-list-box scroll row main">
+      <div class="box-view flex-box flex-wrap service-cards flex-box-centered" style="margin-top: 0">
+          <div class="flex-box column service-card card" (click)="onAddCard()">
+              <div class="image add-icon"></div>
+          </div>
+          <div class="flex-box column service-card {{card.class}}" *ngFor="let card of cards" (click)="onEditCard(card)">
+              <span class="service-card-action font-bold s-22">{{ card.title }}</span>
+              <span class="service-card-action-description font-bold s-20">{{ card.description }}</span>
+          </div>
+      </div>
   </div>
 
 </div>

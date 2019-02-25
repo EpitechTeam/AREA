@@ -9,13 +9,15 @@ import {ServicesComponent} from './my-waves/services/services.component';
 import {ManageComponent} from './manage/manage.component';
 import {AddWaveComponent} from './my-waves/add-wave/add-wave.component';
 import {FormsModule} from '@angular/forms';
+import { EditWaveComponent } from './my-waves/edit-wave/edit-wave.component';
 
 @NgModule({
     declarations: [
         MyWavesComponent,
         ServicesComponent,
         ManageComponent,
-        AddWaveComponent
+        AddWaveComponent,
+        EditWaveComponent
     ],
     imports: [
         CommonModule,
