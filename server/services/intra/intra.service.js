@@ -14,20 +14,25 @@ let addIntraConnection = async (req, res) => {
 
 let getMe = async (req, res) => {
 	var user = await User.findOne({token : req.token})
-	let service = await Service.findOne({"_id" : user.services})
-	let intra_user = await Intra.findOne({"_id" : service.intra})
+	var service = await Service.findOne({"_id" : user.services})
+	var intra_user = await Intra.findOne({"_id" : service.intra})
 
-	var options = { method: 'GET',
-	url: 'https://intra.epitech.eu/' +  intra_user.accessToken + '/user/',
-	qs: { format: 'json' },
-	headers:
-	{ 'cache-control': 'no-cache' } };
+	try {
+		var options = { method: 'GET',
+		url: 'https://intra.epitech.eu/' +  intra_user.accessToken + '/user/',
+		qs: { format: 'json' },
+		headers:
+		{ 'cache-control': 'no-cache' } };
 
-	request(options, function (error, response, body) {
-		if (error) throw new Error(error);
-		let newBody = JSON.parse(body)
-		res.json({me : newBody})
-	});
+		request(options, function (error, response, body) {
+			if (error) throw new Error(error);
+			let newBody = JSON.parse(body)
+			res.json({me : newBody})
+		});
+	}
+	catch (err) {
+		console.log(err)
+	}
 }
 
 let logout = async(req, res) => {
