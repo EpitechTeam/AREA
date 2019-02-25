@@ -21,8 +21,11 @@ class Intra {
 		let intra_user = await IntraModal.findOne({"_id" : service.intra})
 
 		if (intra_user) {
-			if (intra_user.accessToken != " ") {
+			if (intra_user.accessToken != null && intra_user.accessToken != " ") {
 				return (true)
+			}
+			else {
+				return (false)
 			}
 		}
 		else {

@@ -22,5 +22,7 @@ let isConnected = async(req, res) => {
 }
 
 module.exports = {
-	addIntraConnection
+	addIntraConnection,
+	isConnected,
+	logout
 }
