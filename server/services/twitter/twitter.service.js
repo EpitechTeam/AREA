@@ -44,6 +44,7 @@ let getMe = async(req, res) => {
 	client.get('account/verify_credentials', function(error, response) {
 		if(error) throw error;
 		console.log(response.id_str);
+		console.log(service.twitter)
 		TwitterModal.updateOne({"_id" : service.twitter}, { $set : {user_id : response.id_str}})
 		res.json({data : response})
 	});
