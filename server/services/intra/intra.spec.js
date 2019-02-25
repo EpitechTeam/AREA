@@ -39,6 +39,8 @@ class Intra {
 
 		console.log(service);
 		if (!service.intra) {
+			console.log("here");
+			console.log("wtf")
 			let newIntra = new IntraModal({
 				accessToken : token
 			})
