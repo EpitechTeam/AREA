@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {ConnectorService} from '../../connector.service';
-import {forEach} from '@angular/router/src/utils/collection';
-import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-manage',
@@ -14,14 +12,11 @@ export class ManageComponent implements OnInit {
 
     constructor(private http: HttpClient,
                 private route: ActivatedRoute,
-                private connector: ConnectorService) {
+                private connector: ConnectorService,
+                private viewRef: ViewContainerRef) {
     }
 
     Connectors = this.connector.Connectors;
-
-    TwitterOauth_token = '';
-    TwitterOauth_verifier = '';
-
 
     async ngOnInit() {
         await this.GetData();
@@ -29,9 +24,8 @@ export class ManageComponent implements OnInit {
         // Only to check Twitter's login
         this.route.queryParams.subscribe(async params => {
             if (params.oauth_token && params.oauth_verifier) {
+                // @ts-ignore
                 this.connector.getConnector('twitter').processLogin(params.oauth_token, params.oauth_verifier);
-                // this.TwitterOauth_token = params.oauth_token;
-                // this.TwitterOauth_verifier = params.oauth_verifier;
             }
         });
     }
@@ -48,5 +42,15 @@ export class ManageComponent implements OnInit {
 
     FilterConnectors(filter: boolean) {
         return this.Connectors.filter((connector) => connector.isConnected() === filter);
+    }
+
+    OnCloseEpitechModal() {
+        // @ts-ignore
+        this.connector.getConnector('epitech').showModal = false;
+    }
+
+    OnConnectEpitechModal() {
+        // @ts-ignore
+        this.connector.getConnector('epitech').processLogin();
     }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {UserAgentApplication} from 'msal';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
@@ -7,7 +7,7 @@ import {
     FacebookLoginProvider,
 } from 'angularx-social-login';
 import {UserService} from './user.service';
-import {AppComponent} from './app.component';
+import {Router} from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -16,19 +16,21 @@ export class ConnectorService {
     private office365 = new Office365(this.http, this.userService);
     private epitech = new Epitech(this.http, this.userService);
     private facebook = new Facebook(this.http, this.socialAuthService, this.userService);
-    private twitter = new Twitter(this.http, this.userService);
+    private twitter = new Twitter(this.http, this.userService, this.router);
 
 
     Connectors = [
         this.office365,
-        this.epitech,
         this.facebook,
+        this.epitech,
         this.twitter
     ];
 
     constructor(private http: HttpClient,
                 private socialAuthService: AuthService,
-                private userService: UserService) { }
+                private userService: UserService,
+                private router: Router) {
+    }
 
     getConnector(connector) {
         switch (connector) {
@@ -54,14 +56,16 @@ class Twitter {
         userEmail: ''
     };
     config = {
-        consumerKey: 'RQkG7YzJZ1EceRaftPR6PKs5m',
-        consumerSecret: 'TIDaz9zIlQ237VYfbrGqyUayADWtId9ge9CqPIuqCb6BX5kDMO',
+        consumerKey: '',
+        consumerSecret: '',
         endpoint: 'https://api.twitter.com/oauth/'
     };
 
     connected = false;
 
-    constructor(private http: HttpClient, private userService: UserService) {}
+    constructor(private http: HttpClient, private userService: UserService,
+                private router: Router) {
+    }
 
     public async getConnected() {
         const httpOptions = {
@@ -70,12 +74,12 @@ class Twitter {
                 'Authorization': this.userService.getUser().token
             })
         };
-        // const result =  await this.http.get(this.userService.baseUrl + 'outlook/isConnected', httpOptions)
-        //     .toPromise();
-        // // @ts-ignore
-        // this.connected = result.type;
-        // // @ts-ignore
-        // return (result.type);
+        const result =  await this.http.get(this.userService.baseUrl + 'twitter/isConnected', httpOptions)
+            .toPromise();
+        // @ts-ignore
+        this.connected = result.type;
+        // @ts-ignore
+        return (result.type);
     }
 
     public isConnected() {
@@ -89,9 +93,12 @@ class Twitter {
                 'Authorization': this.userService.getUser().token
             })
         };
-        this.http.get(this.userService.baseUrl + 'outlook/logout', httpOptions)
+        this.http.get(this.userService.baseUrl + 'twitter/logout', httpOptions)
             .subscribe(res => {
                 this.connected = false;
+                this.router.navigate([], {
+                    queryParams: {}
+                });
             });
     }
 
@@ -99,10 +106,14 @@ class Twitter {
         const self = this;
         const httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
             })
         };
-        window.location.href = self.config.endpoint + 'authorize?oauth_token=jwyG4gAAAAAA9WRVAAABaSQTc7I';
+        const res = await this.http.get(this.userService.baseUrl + 'twitter/twitterRequestToken', httpOptions).toPromise();
+        // @ts-ignore
+        const query = new URLSearchParams(res.data);
+        window.location.href = self.config.endpoint + 'authorize?oauth_token=' + query.get('oauth_token');
         return (false);
     }
 
@@ -111,21 +122,16 @@ class Twitter {
         const self = this;
         const httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }),
-            responseType: 'text'
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
         };
-        const data  = {
-            oauth_consumer_key : self.config.consumerKey,
-            oauth_token : token,
-            oauth_verifier : verifier
+        const data = {
+            oauth_token: token,
+            oauth_verifier: verifier
         };
-        const url = '?oauth_consumer_key=' + data.oauth_consumer_key + '&oauth_token=' + data.oauth_token + '&oauth_verifier=' + data.oauth_verifier;
-        let res = await this.http.get(self.config.endpoint + 'access_token' + url, httpOptions).toPromise();
-        // const query = new URLSearchParams('oauth_token=2827255306-UYFm2qCRmtGnOyJudPDrtN408k6EuoW3067QvFc&oauth_token_secret=HNlDcRxbkwDplOFYpCXqtVsJrTimlgRGeu31JcDj0jokM&user_id=2827255306&screen_name=0c4f3dc398384d9');
-        // console.log(query.get('oauth_token'));
-        // console.log(query.get('oauth_token_secret'));
-        // console.log(query.toString());
+        await this.http.post(this.userService.baseUrl + 'twitter/accessTokenGenerate', data, httpOptions).toPromise();
+        this.connected = true;
     }
 
     public getData() {
@@ -176,12 +182,15 @@ class Office365 {
             this.config.clientID,
             this.config.authority,
             null,
-            {storeAuthStateInCookie: false,
-                cacheLocation: 'localStorage'});
+            {
+                storeAuthStateInCookie: false,
+                cacheLocation: 'localStorage'
+            });
 
     connected = false;
 
-    constructor(private http: HttpClient, private userService: UserService) {}
+    constructor(private http: HttpClient, private userService: UserService) {
+    }
 
     public async getConnected() {
         const httpOptions = {
@@ -190,7 +199,7 @@ class Office365 {
                 'Authorization': this.userService.getUser().token
             })
         };
-        const result =  await this.http.get(this.userService.baseUrl + 'outlook/isConnected', httpOptions)
+        const result = await this.http.get(this.userService.baseUrl + 'outlook/isConnected', httpOptions)
             .toPromise();
         // @ts-ignore
         this.connected = result.type;
@@ -226,7 +235,7 @@ class Office365 {
         this.msalObj.loginPopup(self.config.graphScopes)
             .then(function (idToken) {
                 self.msalObj.acquireTokenPopup(self.config.graphScopes).then(function (accessToken) {
-                    const data  = {
+                    const data = {
                         accessToken: accessToken
                     };
                     self.http.post(self.userService.baseUrl + 'office365', data, httpOptions)
@@ -268,10 +277,11 @@ class Epitech {
     name = 'Epitech';
     class = 'epitech';
     user = {};
-    config = {
-    };
+    config = {};
+    showModal = false;
 
-    constructor(private http: HttpClient, private userService: UserService) {}
+    constructor(private http: HttpClient, private userService: UserService) {
+    }
 
     public getConnected() {
     }
@@ -287,8 +297,13 @@ class Epitech {
         localStorage.removeItem('epitechToken');
     }
 
-    public login() {
+    public login(viewRef) {
         const self = this;
+        self.showModal = true;
+    }
+
+    public processLogin() {
+        this.showModal = false;
     }
 
     public getData() {
@@ -317,7 +332,8 @@ class Facebook {
 
     constructor(private http: HttpClient,
                 private socialAuthService: AuthService,
-                private  userService: UserService) {}
+                private  userService: UserService) {
+    }
 
     public async getConnected() {
         const httpOptions = {
@@ -326,7 +342,7 @@ class Facebook {
                 'Authorization': this.userService.getUser().token
             })
         };
-        const result =  await this.http.get(this.userService.baseUrl + 'facebook/isConnected', httpOptions)
+        const result = await this.http.get(this.userService.baseUrl + 'facebook/isConnected', httpOptions)
             .toPromise();
         // @ts-ignore
         this.connected = result.type;
@@ -364,7 +380,7 @@ class Facebook {
 
         this.socialAuthService.signIn(socialPlatformProvider).then(
             (userData) => {
-                const data  = {
+                const data = {
                     // @ts-ignore
                     accessToken: userData.authToken,
                     id: userData.id,
@@ -395,8 +411,9 @@ class Facebook {
         this.http.get(this.userService.baseUrl + 'facebook/getMe', httpOptions)
             .subscribe(res => {
                 // @ts-ignore
-                if (res.me.name === 'FacebookApiException')
-                    return ;
+                if (res.me.name === 'FacebookApiException') {
+                    return;
+                }
                 // @ts-ignore
                 this.user.userImage = res.me.picture.data.url;
                 // @ts-ignore
