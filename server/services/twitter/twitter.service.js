@@ -1,6 +1,7 @@
 let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
 let config  = require('../../config/index')
+var Service = require('./../../models/Services')
 let serviceConfig = require('../../config/service')
 let TwitterSpec = require('./twitter.spec');
 const crypto = require('crypto');
