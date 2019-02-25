@@ -1,6 +1,7 @@
 let OutlookModal	= require('./../../models/Outlook')
 let Service	= require('./../../models/Services')
 let User	= require('./../../models/User')
+let request			= require('request');
 const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 
 class Outlook {
@@ -34,11 +35,31 @@ class Outlook {
 		return (true);
 	}
 
+	deleteSubscritpion(id, accessToken) {
+		var options = {
+			method : 'DELETE',
+			url : 'https://graph.microsoft.com/v1.0/subscriptions/' + id,
+			headers :
+			{
+				Authorization : 'Bearer ' + accessToken
+			}
+		}
+
+		request(options, function(error, response, body) {
+			if (error) throw new Error(error);
+
+			console.log(body)
+		})
+	}
+
 	async logout() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
+		let outlook_user = await OutlookModal.findOne({"_id" : service.outlook})
 
-		await OutlookModal.updateOne({"_id" : service.outlook}, { $set : { accessToken : " " }})
+		//Delete subscription
+		this.deleteSubscritpion(outlook_user.subscriptionId, outlook_user.accessToken)
+		await OutlookModal.updateOne({"_id" : service.outlook}, { $set : { accessToken : " " , subscriptionId : " "}})
 		return;
 	}
 
@@ -92,7 +113,7 @@ class Outlook {
 		}
 	}
 
-	async sendEmail(subject, to_email, content) {
+	async sendEmail(subject, content) {
 
 		let user = await User.findOne({token : this.token});
 		var services = await Service.findOne({"_id" : user.services})

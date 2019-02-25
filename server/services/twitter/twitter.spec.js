@@ -1,40 +1,42 @@
 var Twitter = require('twitter');
 var TwitterModal = require('./../../models/Twitter')
-var Service = require('./../../models/Service')
+var Service = require('./../../models/Services')
+var User	= require('./../../models/User')
 
 class TwitterClass {
 	constructor(token) {
 		this.token = token;
 	}
 
-	async addTwitterConnection(consumer_key, consumer_secret, bearer_token) {
+	async addTwitterConnection(token, token_secret) {
 		let newTwitter = new TwitterModal({
-			consumer_key : consumer_key
-			consuemer_secret : consumer_secret
-			bearer_token : bearer_token
+			token : token,
+			token_secret : token_secret
 		})
 
 		await newTwitter.save();
 
-		let user = User.findOne({token : this.token})
+		let user = await User.findOne({token : this.token})
 
 		await Service.updateOne({"_id" : user.services}, { $set : { twitter : newTwitter._id }})
 		return;
 	}
 
-	async setAccessToken() {
-		this.client = new Twitter({
-			consumer_key: '',
-			consumer_secret: '',
-			bearer_token: ''
-		});
-	}
-
 	async tweetSomething(tweet) {
-		this.client.post('statuses/update', {status: 'I Love Twitter'},  function(error, tweet, response) {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
+
+		this.client = new Twitter({
+			consumer_key: process.env.TWITTER_CONSUMER_KEY,
+		  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+			access_token_key: twitter_user.token,
+			access_token_secret: twitter_user.token_secret
+		});
+
+
+		this.client.post('statuses/update', {status: tweet},  function(error, tweet, response) {
 			if(error) throw error;
-			console.log(tweet);  // Tweet body.
-			console.log(response);  // Raw response object.
 		});
 	}
 }
