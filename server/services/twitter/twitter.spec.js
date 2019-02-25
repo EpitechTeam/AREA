@@ -56,9 +56,58 @@ class TwitterClass {
 		return;
 	}
 
-	async getMe() {
+	async sendDirectMessage() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
+		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
+
+		// twitter authentication
+		var twitter_oauth = {
+			consumer_key: process.env.TWITTER_CONSUMER_KEY,
+			consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+			token: twitter_user.token,
+			token_secret: twitter_user.token_secret
+		}
+
+		//if (twitter_user)
+		// direct message request body
+		var dm_params = {
+			"event": {
+				"type": "message_create",
+				"message_create": {
+					"target": {
+						"recipient_id": "4534871"
+					},
+					"message_data": {
+						"text": "What color bird is your fav?",
+						"quick_reply": {
+							"type": "options",
+						}
+					}
+				}
+			}
+		}
+
+		// request options
+		var request_options = {
+			url: 'https://api.twitter.com/1.1/direct_messages/events/new.json',
+			oauth: twitter_oauth,
+			json: true,
+			headers: {
+				'content-type': 'application/json'
+			},
+			body: dm_params
+		}
+
+		// POST request to send Direct Message
+		request.post(request_options, function (error, response, body) {
+			console.log(body)
+		})
+	}
+
+	async getMe() {
+		var user = await User.findOne({token : this.token})
+		var service = await Service.findOne({"_id" : user.services})
 		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
 
 		console.log(twitter_user)
@@ -71,7 +120,7 @@ class TwitterClass {
 
 		this.client.get('account/verify_credentials', function(error, response) {
 			if(error) throw error;
-			console.log(response);
+			TwitterModal.updateOne({"_id" : service.twitter}, { $set : {user_id : response.id_str}})
 			return (response);
 		});
 	}
