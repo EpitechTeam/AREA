@@ -29,6 +29,10 @@ let giveConsumerKey = async(req, res) => {
 	res.json({consumer_key : process.env.TWITTER_CONSUMER_KEY})
 }
 
+let setId = async(id_twitter, user_id) => {
+	await TwitterModal.updateOne({"_id" : id_twitter}, { $set : {user_id : user_id}})
+}
+
 let getMe = async(req, res) => {
 	let user = await User.findOne({token : req.token})
 	var service = await Service.findOne({"_id" : user.services})
@@ -45,7 +49,7 @@ let getMe = async(req, res) => {
 		if(error) throw error;
 		console.log(response.id_str);
 		console.log(service.twitter)
-		TwitterModal.updateOne({"_id" : service.twitter}, { $set : {user_id : response.id_str}})
+		setId(service.twitter, reponse.id_str)
 		res.json({data : response})
 	});
 }
