@@ -62,6 +62,9 @@ let accessTokenGenerate = async(req, res) => {
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
 		console.log(body);
+		let newTwitter = new TwitterSpec.TwitterClass(req.token);
+		let element = new URLSearchParams(body);
+		newTwitter.addTwitterConnection(element.get('oauth_token'), element.get('oauth_token_secret'));
 		res.json({data : body})
 	});
 }
