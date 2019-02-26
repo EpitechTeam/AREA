@@ -126,7 +126,7 @@ class TwitterClass {
 
 		// request options
 		var request_options = {
-			url: 'https://api.twitter.com/1.1/account_activity/webhooks/' + WEBHOOK_ID + '/subscriptions.json',
+			url: 'https://api.twitter.com/1.1/account_activity/all/dev/webhooks/' + WEBHOOK_ID + '/subscriptions.json',
 			oauth: twitter_oauth
 		}
 
@@ -162,7 +162,7 @@ class TwitterClass {
 
 		// request options
 		var request_options = {
-		  url: 'https://api.twitter.com/1.1/account_activity/webhooks/' + WEBHOOK_ID + '/subscriptions.json',
+		  url: 'https://api.twitter.com/1.1/account_activity/all/dev/webhooks/' + WEBHOOK_ID + '/subscriptions.json',
 		  oauth: twitter_oauth
 		}
 
