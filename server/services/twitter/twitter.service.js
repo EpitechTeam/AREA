@@ -127,7 +127,8 @@ let webhook = async(req, res) => {
 	console.log(req.body);
 	let newTwitter = new TwitterSpec.TwitterClass(await getTokenByUserId(req.body.for_user_id));
 
-	newTwitter.handleTweet(req.body.text)
+	console.log(req.body.tweet_create_events[0])
+	newTwitter.handleTweet(req.body.tweet_create_events[0].text)
 	res.send('200 OK')
 }
 
