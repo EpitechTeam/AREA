@@ -117,6 +117,7 @@ let logout = async(req, res) => {
 
 //Listen
 let webhook = async(req, res) => {
+	console.log(req.body);
 	res.send('200 OK')
 }
 
