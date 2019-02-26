@@ -12,8 +12,9 @@ let request			= require('request');
 //Save to Outlook
 //Save to One_drive
 let office365Connection = async (req, res) => {
-	let user = await User.findOne({token : req.token});
+	var user = await User.findOne({token : req.token});
 	var services = await Service.findOne({"_id" : user.services})
+	var date = new Date(Date.now() + 172800000).toISOString()
 
 	if (!req.body.accessToken) {
 		res.json({error : "give an accessToken"});
@@ -28,6 +29,8 @@ let office365Connection = async (req, res) => {
 		})
 		await newOutlook.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { outlook : newOutlook._id}})
+		services = await Service.findOne({"_id" : user.services})
+		setOutlookSubscription(req.body.accessToken, date, services.outlook)
 	}
 	else {
 		let outlook = await Outlook.findOne({"_id" : services.outlook})
@@ -40,6 +43,8 @@ let office365Connection = async (req, res) => {
 		})
 		await newCalendar.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { calendar : newCalendar._id}})
+		services = await Service.findOne({"_id" : user.services})
+		setCalendarSubscription(req.body.accessToken, date, services.calendar)
 	}
 	else {
 		let calendar = await Calendar.findOne({"_id" : services.outlook})
@@ -58,12 +63,7 @@ let office365Connection = async (req, res) => {
 		let one_drive = await One_drive.findOne({"_id" : services.one_drive})
 		await One_drive.updateOne({"_id" : services.one_drive}, { $set : { accessToken : req.body.accessToken}})
 	}
-
-	let date = new Date(Date.now() + 172800000).toISOString()
-	services = await Service.findOne({"_id" : user.services})
-	setOutlookSubscription(req.body.accessToken, date, services.outlook)
-	setCalendarSubscription(req.body.accessToken, date, services.calendar)
-	// setOne_driveSubscription(req.body.accessToken, date, services.one_drive)
+	
 	res.json({
 		data : "accessToken saved"
 	})

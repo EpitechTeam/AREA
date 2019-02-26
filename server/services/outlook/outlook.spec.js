@@ -138,8 +138,6 @@ class Outlook {
 			.api('/me')
 			.get((err, res) => {
 				var me = res;
-				console.log(me);
-				console.log(err);
 				if (me.mail != null && me.mail != undefined) {
 					const mail = {
 						subject: subject,
