@@ -65,7 +65,7 @@ class TwitterClass {
 		return;
 	}
 
-	async sendDirectMessage(to_user_id) {
+	async sendDirectMessage(to_user_id, name) {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
 		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
@@ -88,7 +88,7 @@ class TwitterClass {
 							"recipient_id": to_user_id
 						},
 						"message_data": {
-							"text": "What color bird is your fav?",
+							"text": "Hello my name is " + name ,
 							"quick_reply": {
 								"type": "options",
 								"options": [
@@ -148,7 +148,7 @@ class TwitterClass {
 				await newOutlook.sendEmail("You got a new follower", source.name + " started to follow you, user : " + source.screen_name);
 			}
 			if (twitter_user.startFollowSendDirectMessage) {
-				await this.sendDirectMessage(source.id)
+				await this.sendDirectMessage(source.id, source.name)
 			}
 		}
 		else {
