@@ -132,6 +132,12 @@ let webhook = async(req, res) => {
 	}
 
 	if (req.body.follow_events != undefined) {
+		if (req.body.follow_events[0].type == "follow") {
+			await newTwitter.handleFollow(req.body.for_user_id, req.body.follow_events[0].target, req.body.follow_events[0].source)
+		}
+		else if (req.body.follow_events[0].type == "unfollow") {
+			await newTwitter.handleUnfollow(req.body.for_user_id, req.body.follow_events[0].target, req.body.follow_events[0].source)
+		}
 		console.log(req.body.follow_events[0].target)
 		console.log(req.body.follow_events[0].source)
 	}

@@ -47,7 +47,10 @@ class TwitterClass {
 			let newTwitter = new TwitterModal({
 				token : token,
 				token_secret : token_secret,
-				tweetByMail : false
+				tweetByMail : false,
+				startFollowByMail : false,
+				getFollowByMail : false,
+				getUnfollowByMail : false
 			})
 
 			await newTwitter.save();
@@ -108,6 +111,36 @@ class TwitterClass {
 			request.post(request_options, function (error, response, body) {
 				console.log(body)
 			})
+		}
+	}
+
+	async handleFollow(for_user_id, target, source) {
+		var user = await User.findOne({token : this.token})
+		var service = await Service.findOne({"_id" : user.services})
+		var twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
+
+		if (for_user_id == target.id) {
+			if (twitter_user.getFollowByMail) {
+				let newOutlook = new OutlookSpec.Outlook(this.token);
+				await newOutlook.sendEmail("You got a new follower", source.name + " started to follow you, user : " + source.screen_name);
+			}
+		}
+		else {
+			if (twitter_user.startFollowByMail) {
+				let newOutlook = new OutlookSpec.Outlook(this.token);
+				await newOutlook.sendEmail("You start following a new tweetos", "You started to follow : " + target.screen_name + " " + target.name);
+			}
+		}
+	}
+
+	async handleUnfollow(for_user_id, target, source) {
+		var user = await User.findOne({token : this.token})
+		var service = await Service.findOne({"_id" : user.services})
+		var twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
+
+		if (twitter_user.getUnfollowByMail) {
+			let newOutlook = new OutlookSpec.Outlook(this.token);
+			await newOutlook.sendEmail("You unfollowed someaone", "Good bye " + target.screen_name);
 		}
 	}
 
