@@ -136,11 +136,23 @@ class TwitterClass {
 		// 	return (body
 		// })
 
+		// this.client = new Twitter({
+		// 	consumer_key: process.env.TWITTER_CONSUMER_KEY,
+		//   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+		// 	access_token_key: process.env.TWITTER_ACCESS_TOKEN,
+		// 	access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+		// });
+
+		var user = await User.findOne({token : this.token})
+		var service = await Service.findOne({"_id" : user.services})
+		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
+
+		console.log(twitter_user)
 		this.client = new Twitter({
 			consumer_key: process.env.TWITTER_CONSUMER_KEY,
-		  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-			access_token_key: process.env.TWITTER_ACCESS_TOKEN,
-			access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+			consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+			access_token_key: twitter_user.token,
+			access_token_secret: twitter_user.token_secret
 		});
 
 		var params = {
