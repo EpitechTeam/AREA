@@ -16,10 +16,15 @@ export class ManageComponent implements OnInit {
                 private viewRef: ViewContainerRef) {
     }
 
+    intraToken = '';
+    loading = false;
+
     Connectors = this.connector.Connectors;
 
     async ngOnInit() {
+        this.loading = true;
         await this.GetData();
+        this.loading = false;
 
         // Only to check Twitter's login
         this.route.queryParams.subscribe(async params => {
@@ -37,7 +42,6 @@ export class ManageComponent implements OnInit {
                 await connector.getData();
             }
         }
-
     }
 
     FilterConnectors(filter: boolean) {

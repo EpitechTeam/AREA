@@ -146,9 +146,39 @@ export class CardService {
         enabled: false,
         enableEndpoint: 'todo',
         disableEndpoint: 'todo',
-        key: 'todo',
-        title: 'twitter',
-        description: 'twitter',
+        key: 'tweetByMail',
+        title: 'Tweet to Email',
+        description: 'Each time you tweet, you receive a copy by email',
+        class: 'card-twitter'
+    }, {
+        id: 1,
+        type: 'twitter',
+        enabled: false,
+        enableEndpoint: 'todo',
+        disableEndpoint: 'todo',
+        key: 'startFollowByMail',
+        title: 'Following to Email',
+        description: 'Each time you follow, you receive an email',
+        class: 'card-twitter'
+    }, {
+        id: 2,
+        type: 'twitter',
+        enabled: false,
+        enableEndpoint: 'todo',
+        disableEndpoint: 'todo',
+        key: 'getFollowByMail',
+        title: 'Followed to Email',
+        description: 'Each time you are followed, you receive an email',
+        class: 'card-twitter'
+    }, {
+        id: 3,
+        type: 'twitter',
+        enabled: false,
+        enableEndpoint: 'todo',
+        disableEndpoint: 'todo',
+        key: 'getUnfollowByMail',
+        title: 'Unfollowing to Email',
+        description: 'Each time you unfollow, you receive an email',
         class: 'card-twitter'
     }];
 
@@ -195,20 +225,6 @@ export class CardService {
         }
         if (serviceType === 'facebook') {
             this.FACEBOOKCARDS.forEach(card => {
-                if (res['data'][card.key] === false) {
-                    cards.push(card);
-                }
-            });
-        }
-        if (serviceType === 'oneDrive') {
-            this.ONEDRIVECARDS.forEach(card => {
-                if (res['data'][card.key] === false) {
-                    cards.push(card);
-                }
-            });
-        }
-        if (serviceType === 'calendar') {
-            this.CALENDARCARDS.forEach(card => {
                 if (res['data'][card.key] === false) {
                     cards.push(card);
                 }

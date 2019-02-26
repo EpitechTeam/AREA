@@ -20,14 +20,8 @@ export class ServicesComponent implements OnInit {
         name: 'Facebook',
         class: 'facebook'
     }, {
-        name: 'Outlook',
-        class: 'outlook'
-    }, {
-        name: 'OneDrive',
-        class: 'oneDrive'
-    }, {
-        name: 'Calendar',
-        class: 'calendar'
+        name: 'Twitter',
+        class: 'twitter'
     }];
 
     constructor(private cardService: CardService,

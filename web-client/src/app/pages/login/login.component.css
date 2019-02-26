@@ -114,18 +114,6 @@
   background-color: #DB8546;
 }
 
-#overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  background-color: hsla(0,0%,11%,0.3);
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-}
-
 /* ######################### */
 .lds-dual-ring {
   display: inline-block;
