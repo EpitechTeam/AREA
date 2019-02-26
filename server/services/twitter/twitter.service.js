@@ -132,7 +132,7 @@ let crc = async(request, response) => {
 	var crc_token = request.query.crc_token
 
 	if (crc_token) {
-		var hash = security.get_challenge_response(crc_token, process.env.TWITTER_CONSUMER_SECRET)
+		var hash = get_challenge_response(crc_token, process.env.TWITTER_CONSUMER_SECRET)
 
 		response.status(200);
 		response.send({
