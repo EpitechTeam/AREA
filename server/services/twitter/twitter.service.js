@@ -117,7 +117,7 @@ let logout = async(req, res) => {
 
 let getTokenByUserId = async (id) => {
 	let twitter_user = await TwitterModal.findOne({user_id : id});
-	let services = await Service.findOne({facebook : twitter_user._id})
+	let services = await Service.findOne({twitter : twitter_user._id})
 	let user = await User.findOne({services : services._id})
 	return (user.token)
 }
