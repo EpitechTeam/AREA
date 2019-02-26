@@ -159,7 +159,7 @@ class TwitterClass {
 			url : WEBHOOK_URL
 		}
 
-		this.client.post('account_activity/webhooks.json', params, function(error, response) {
+		this.client.post('account_activity/all/dev/webhooks.json', params, function(error, response) {
 			if(error) throw error;
 			console.log(response)
 			return (response);
