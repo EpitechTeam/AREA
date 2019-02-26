@@ -114,20 +114,32 @@ class TwitterClass {
 		var service = await Service.findOne({"_id" : user.services})
 		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
 
-		this.client = new Twitter({
+
+		var twitter_oauth = {
 			consumer_key: process.env.TWITTER_CONSUMER_KEY,
 			consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-			access_token_key: twitter_user.token,
-			access_token_secret: twitter_user.token_secret
-		});
+		  token: twitter_user.token,
+		  token_secret: twitter_user.token_secret
+		}
 
 		var WEBHOOK_ID = process.env.TWITTER_WEBHOOK_ID
 
-		this.client.post('/account_activity/webhooks/' + WEBHOOK_ID + '/subscriptions.json', function(error, response) {
-			if(error) throw error;
-			console.log(response)
-			return (response);
-		});
+		// request options
+		var request_options = {
+			url: 'https://api.twitter.com/1.1/account_activity/webhooks/' + WEBHOOK_ID + '/subscriptions.json',
+			oauth: twitter_oauth
+		}
+
+		// POST request to create webhook config
+		request.post(request_options, function (error, response, body) {
+
+			if (response.statusCode == 204) {
+				console.log('Subscription added.')
+			} else {
+				console.log('User has not authorized your app.')
+			}
+			return
+		})
 	}
 
 	async deleteSubscription() {
@@ -143,7 +155,7 @@ class TwitterClass {
 		  token_secret: twitter_user.token_secret
 		}
 
-		var WEBHOOK_ID = 'your-webhook-id'
+		var WEBHOOK_ID = process.env.TWITTER_WEBHOOK_ID
 
 
 		// request options
@@ -160,6 +172,7 @@ class TwitterClass {
 		  } else {
 		    console.log('User has not authorized your app or subscription not found.')
 		  }
+			return
 		})
 	}
 
