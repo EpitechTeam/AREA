@@ -38,7 +38,6 @@ let getMe = async(req, res) => {
 	var service = await Service.findOne({"_id" : user.services})
 	let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
 
-	console.log(twitter_user);
 	var client = new Twitter({
 		consumer_key: process.env.TWITTER_CONSUMER_KEY,
 		consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -116,6 +115,64 @@ let logout = async(req, res) => {
 	res.json({type : await newTwitter.logout()})
 }
 
+//Listen
+let webhook = async(req, res) => {
+	res.send('200 OK')
+}
+
+get_challenge_response = function(crc_token, consumer_secret) {
+
+	hmac = crypto.createHmac('sha256', consumer_secret).update(crc_token).digest('base64')
+
+	return hmac
+}
+
+//Challenge
+let crc = async(request, response) => {
+	var crc_token = request.query.crc_token
+
+	if (crc_token) {
+		var hash = security.get_challenge_response(crc_token, process.env.TWITTER_CONSUMER_SECRET)
+
+		response.status(200);
+		response.send({
+			response_token: 'sha256=' + hash
+		})
+	} else {
+		response.status(400);
+		response.send('Error: crc_token missing from request.')
+	}
+}
+
+let createWebhook = async(req, res) => {
+	var twitter_oauth = {
+		consumer_key: process.env.TWITTER_CONSUMER_KEY,
+		consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+		token: process.env.TWITTER_ACCESS_TOKEN,
+		token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+	}
+
+	var WEBHOOK_URL = 'https://area-epitech-2018.herokuapp.com/twitter/webhook'
+
+
+	// request options
+	var request_options = {
+		url: 'https://api.twitter.com/1.1/account_activity/webhooks.json',
+		oauth: twitter_oauth,
+		headers: {
+			'Content-type': 'application/x-www-form-urlencoded'
+		},
+		form: {
+			url: WEBHOOK_URL
+		}
+	}
+
+	// POST request to create webhook config
+	request.post(request_options, function (error, response, body) {
+		console.log(body)
+	})
+}
+
 module.exports = {
 	addTwitterConnection,
 	twitterRequestToken,
@@ -124,5 +181,8 @@ module.exports = {
 	isConnected,
 	accessTokenGenerate,
 	getMe,
-	tweetSomething
+	tweetSomething,
+	webhook,
+	crc,
+	createWebhook
 }

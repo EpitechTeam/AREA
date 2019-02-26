@@ -20,4 +20,10 @@ router.get('/getMe', ensureAuthorized, twitterService.getMe)
 
 router.get('/isConnected', ensureAuthorized, twitterService.isConnected)
 
+router.post('/webhook', twitterService.webhook)
+
+router.get('/webhook', twitterService.crc)
+
+router.get('/create-webhook', twitterService.createWebhook)
+
 module.exports = router
