@@ -155,6 +155,7 @@ let createWebhook = async(req, res) => {
 	var WEBHOOK_URL = 'https://area-epitech-2018.herokuapp.com/twitter/webhook'
 
 
+	console.log(twitter_oauth)
 	// request options
 	var request_options = {
 		url: 'https://api.twitter.com/1.1/account_activity/webhooks.json',
