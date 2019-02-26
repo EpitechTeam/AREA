@@ -145,33 +145,9 @@ let crc = async(request, response) => {
 }
 
 let createWebhook = async(req, res) => {
-	var twitter_oauth = {
-		consumer_key: process.env.TWITTER_CONSUMER_KEY,
-		consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-		token: process.env.TWITTER_ACCESS_TOKEN,
-		token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-	}
+	let newTwitter = new TwitterSpec.TwitterClass("null");
 
-	var WEBHOOK_URL = 'https://area-epitech-2018.herokuapp.com/twitter/webhook'
-
-
-	console.log(twitter_oauth)
-	// request options
-	var request_options = {
-		url: 'https://api.twitter.com/1.1/account_activity/webhooks.json',
-		oauth: twitter_oauth,
-		headers: {
-			'Content-type': 'application/x-www-form-urlencoded'
-		},
-		form: {
-			url: WEBHOOK_URL
-		}
-	}
-
-	// POST request to create webhook config
-	request.post(request_options, function (error, response, body) {
-		console.log(body)
-	})
+	res.json({type : await newTwitter.createWebhook()})
 }
 
 module.exports = {
