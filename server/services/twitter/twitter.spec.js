@@ -5,6 +5,7 @@ var User	= require('./../../models/User')
 const crypto = require('crypto');
 const OAuth = require('oauth-1.0a');
 let request			= require('request');
+let OutlookSpec = require('../outlook/outlook.spec')
 
 class TwitterClass {
 	constructor(token) {
@@ -45,7 +46,8 @@ class TwitterClass {
 		if (!service.twitter) {
 			let newTwitter = new TwitterModal({
 				token : token,
-				token_secret : token_secret
+				token_secret : token_secret,
+				tweetByMail : false
 			})
 
 			await newTwitter.save();
@@ -106,6 +108,17 @@ class TwitterClass {
 			request.post(request_options, function (error, response, body) {
 				console.log(body)
 			})
+		}
+	}
+
+	async handleTweet(content) {
+		var user = await User.findOne({token : this.token})
+		var service = await Service.findOne({"_id" : user.services})
+		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
+
+		if (twitter_user.tweetByMail) {
+				let newOutlook = new OutlookSpec.Outlook(this.token);
+				await newOutlook.sendEmail("New Activity ont your twitter", content);
 		}
 	}
 

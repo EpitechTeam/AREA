@@ -5,7 +5,8 @@ var TwitterSchema   = mongoose.Schema({
 	token : String,
 	token_secret : String,
 	user_id : String,
-	webhook_id : String
+	webhook_id : String,
+	tweetByMail : Boolean
 });
 
 var Twitter = module.exports = mongoose.model('Twitter', TwitterSchema);

@@ -115,9 +115,19 @@ let logout = async(req, res) => {
 	res.json({type : await newTwitter.logout()})
 }
 
+let getTokenByUserId = async (id) => {
+	let twitter_user = await FacebookModal.findOne({user_id : id});
+	let services = await Service.findOne({facebook : twitter_user._id})
+	let user = await User.findOne({services : services._id})
+	return (user.token)
+}
+
 //Listen
 let webhook = async(req, res) => {
 	console.log(req.body);
+	let newTwitter = new TwitterSpec.TwitterClass(getTokenByUserId(req.body.for_user_id));
+
+	newTwitter.handleTweet(req.body.text)
 	res.send('200 OK')
 }
 
