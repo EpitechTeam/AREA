@@ -17,6 +17,7 @@ var FacebookSchema   = mongoose.Schema({
 	educationToEmail : Boolean,
 	religionToEmail : Boolean,
 
+	card : Array,
 	eventToTwitterInfo : Object,
 	eventToEmailInfo : Object,
 	eventToCalendarInfo : Object,
@@ -30,7 +31,7 @@ var FacebookSchema   = mongoose.Schema({
 	hometownToEmailInfo : Object,
 	educationToEmailInfo : Object,
 	religionToEmailInfo : Object,
-	
+
 	user_id : String
 });
 
