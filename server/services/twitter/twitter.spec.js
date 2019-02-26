@@ -91,6 +91,28 @@ class TwitterClass {
 							"text": "What color bird is your fav?",
 							"quick_reply": {
 								"type": "options",
+								"options": [
+									{
+										"label": "Red Bird",
+										"description": "A description about the red bird.",
+										"metadata": "external_id_1"
+									},
+									{
+										"label": "Blue Bird",
+										"description": "A description about the blue bird.",
+										"metadata": "external_id_2"
+									},
+									{
+										"label": "Black Bird",
+										"description": "A description about the black bird.",
+										"metadata": "external_id_3"
+									},
+									{
+										"label": "White Bird",
+										"description": "A description about the white bird.",
+										"metadata": "external_id_4"
+									}
+								]
 							}
 						}
 					}
