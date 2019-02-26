@@ -145,7 +145,7 @@ let crc = async(request, response) => {
 }
 
 let createWebhook = async(req, res) => {
-	let newTwitter = new TwitterSpec.TwitterClass("null");
+	let newTwitter = new TwitterSpec.TwitterClass(req.token);
 
 	res.json({type : await newTwitter.createWebhook()})
 }

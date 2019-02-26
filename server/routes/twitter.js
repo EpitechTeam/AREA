@@ -24,6 +24,6 @@ router.post('/webhook', twitterService.webhook)
 
 router.get('/webhook', twitterService.crc)
 
-router.get('/create-webhook', twitterService.createWebhook)
+router.get('/create-webhook', ensureAuthorized, twitterService.createWebhook)
 
 module.exports = router
