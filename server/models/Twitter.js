@@ -9,7 +9,8 @@ var TwitterSchema   = mongoose.Schema({
 	tweetByMail : Boolean,
 	startFollowByMail : Boolean,
 	getFollowByMail : Boolean,
-	getUnfollowByMail : Boolean
+	getUnfollowByMail : Boolean,
+	startFollowSendDirectMessage : Boolean
 });
 
 var Twitter = module.exports = mongoose.model('Twitter', TwitterSchema);

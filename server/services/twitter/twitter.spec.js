@@ -50,7 +50,8 @@ class TwitterClass {
 				tweetByMail : false,
 				startFollowByMail : false,
 				getFollowByMail : false,
-				getUnfollowByMail : false
+				getUnfollowByMail : false,
+				startFollowSendDirectMessage : false
 			})
 
 			await newTwitter.save();
@@ -64,7 +65,7 @@ class TwitterClass {
 		return;
 	}
 
-	async sendDirectMessage() {
+	async sendDirectMessage(to_user_id) {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
 		let twitter_user = await TwitterModal.findOne({"_id" : service.twitter})
@@ -84,7 +85,7 @@ class TwitterClass {
 					"type": "message_create",
 					"message_create": {
 						"target": {
-							"recipient_id": twitter_user.user_id
+							"recipient_id": to_user_id
 						},
 						"message_data": {
 							"text": "What color bird is your fav?",
@@ -123,6 +124,9 @@ class TwitterClass {
 			if (twitter_user.getFollowByMail) {
 				let newOutlook = new OutlookSpec.Outlook(this.token);
 				await newOutlook.sendEmail("You got a new follower", source.name + " started to follow you, user : " + source.screen_name);
+			}
+			if (twitter_user.startFollowSendDirectMessage) {
+				await this.sendDirectMessage(source.id)
 			}
 		}
 		else {
