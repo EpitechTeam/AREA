@@ -133,6 +133,8 @@ class TwitterClass {
 		// POST request to create webhook config
 		request.post(request_options, function (error, response, body) {
 
+			console.log(err);
+			console.log(body)
 			if (response.statusCode == 204) {
 				console.log('Subscription added.')
 			} else {
