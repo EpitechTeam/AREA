@@ -26,7 +26,7 @@ let getService = async (req, res) => {
 
 	var options = []
 	if (services.facebook) {
-		let facebook_user = await Facebook.findOne({"_id" : services.facebook}, {})
+		let facebook_user = await Facebook.findOne({"_id" : services.facebook}, {card : 1})
 		options.push(facebook_user)
 	}
 	if (services.twitter) {
@@ -54,6 +54,7 @@ let getService = async (req, res) => {
 		options.push(one_drive_user)
 	}
 
+	console.log(options);
 	res.json({
 		services : options
 	})

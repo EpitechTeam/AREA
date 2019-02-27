@@ -148,7 +148,7 @@ class TwitterClass {
 				await newOutlook.sendEmail("You got a new follower", source.name + " started to follow you, user : " + source.screen_name);
 			}
 			if (twitter_user.startFollowSendDirectMessage) {
-				await this.sendDirectMessage(source.id, source.name)
+				await this.sendDirectMessage(source.id, target.name)
 			}
 		}
 		else {
