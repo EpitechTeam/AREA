@@ -170,10 +170,101 @@ let crc = async(request, response) => {
 let createWebhook = async(req, res) => {
 	let newTwitter = new TwitterSpec.TwitterClass(req.token);
 
-	res.json({type : await newTwitter.createWebhook()})
+	res.json({type : await newTwitter.createWebhook()
+	})
+}
+
+let addTweetByMail = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { tweetByMail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeTweetByMail = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { tweetByMail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addStartFollowByMail = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { startFollowByMail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeStartFollowByMail = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { startFollowByMail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addGetFollowByMail = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { getFollowByMail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeGetFollowByMail = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { getFollowByMail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addGetUnfollowByMail = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { getUnfollowByMail : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeGetUnfollowByMail = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { getUnfollowByMail : false}})
+	res.json({type : true, data : "done"})
+}
+
+let addStartFollowSendDirectMessage = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { startFollowSendDirectMessage : true}})
+	res.json({type : true, data : "done"})
+}
+
+let removeStartFollowSendDirectMessage = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+
+	await Twitter.updateOne({"_id" : services.twitter}, { $set : { startFollowSendDirectMessage : false}})
+	res.json({type : true, data : "done"})
 }
 
 module.exports = {
+	addTweetByMail,
+	removeTweetByMail,
+	addStartFollowByMail,
+	removeStartFollowByMail,
+	addGetFollowByMail,
+	removeGetFollowByMail,
+	addGetUnfollowByMail,
+	removeGetUnfollowByMail,
+	addStartFollowSendDirectMessage,
+	removeStartFollowSendDirectMessage,
 	addTwitterConnection,
 	twitterRequestToken,
 	giveConsumerKey,
