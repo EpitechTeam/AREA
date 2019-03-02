@@ -158,6 +158,9 @@ let getData = async (path, token) => {
 let getAccessTokenBySubscriptionId = async(id) => {
 	let outlook = await Outlook.findOne({"subscriptionId" : id})
 
+	if (!outlook) {
+		return (false)
+	}
 	return (outlook.accessToken)
 }
 
@@ -176,7 +179,12 @@ let webhook = async (req, res) => {
 		console.log(body.subscriptionId)
 		console.log(body.changeType)
 		console.log(body.resourceData)
-		getData(resource, await getAccessTokenBySubscriptionId(body.subscriptionId))
+		let token = await getAccessTokenBySubscriptionId(body.subscriptionId)
+		if (token == false) {
+			res.status(200).send();
+			return;
+		}
+		getData(resource, token)
 	}
 	res.json({body})
 }
