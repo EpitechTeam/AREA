@@ -178,7 +178,7 @@ let addTweetByMail = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { tweetByMail : true}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { tweetByMail : true}})
 	res.json({type : true, data : "done"})
 }
 
@@ -186,7 +186,7 @@ let removeTweetByMail = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { tweetByMail : false}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { tweetByMail : false}})
 	res.json({type : true, data : "done"})
 }
 
@@ -194,7 +194,7 @@ let addStartFollowByMail = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { startFollowByMail : true}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { startFollowByMail : true}})
 	res.json({type : true, data : "done"})
 }
 
@@ -202,7 +202,7 @@ let removeStartFollowByMail = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { startFollowByMail : false}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { startFollowByMail : false}})
 	res.json({type : true, data : "done"})
 }
 
@@ -210,7 +210,7 @@ let addGetFollowByMail = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { getFollowByMail : true}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { getFollowByMail : true}})
 	res.json({type : true, data : "done"})
 }
 
@@ -218,7 +218,7 @@ let removeGetFollowByMail = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { getFollowByMail : false}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { getFollowByMail : false}})
 	res.json({type : true, data : "done"})
 }
 
@@ -226,7 +226,7 @@ let addGetUnfollowByMail = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { getUnfollowByMail : true}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { getUnfollowByMail : true}})
 	res.json({type : true, data : "done"})
 }
 
@@ -234,7 +234,7 @@ let removeGetUnfollowByMail = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { getUnfollowByMail : false}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { getUnfollowByMail : false}})
 	res.json({type : true, data : "done"})
 }
 
@@ -242,7 +242,7 @@ let addStartFollowSendDirectMessage = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { startFollowSendDirectMessage : true}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { startFollowSendDirectMessage : true}})
 	res.json({type : true, data : "done"})
 }
 
@@ -250,14 +250,14 @@ let removeStartFollowSendDirectMessage = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
 
-	await Twitter.updateOne({"_id" : services.twitter}, { $set : { startFollowSendDirectMessage : false}})
+	await TwitterModal.updateOne({"_id" : services.twitter}, { $set : { startFollowSendDirectMessage : false}})
 	res.json({type : true, data : "done"})
 }
 
 let myOption = async (req, res) => {
 	let user = await User.findOne({token: req.token})
 	let services = await Service.findOne({"_id" : user.services})
-	let twitter_user = await Twitter.findOne({"_id" : services.twitter})
+	let twitter_user = await TwitterModal.findOne({"_id" : services.twitter})
 
 	res.json({data : twitter_user})
 }
