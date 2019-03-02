@@ -110,16 +110,45 @@ let setCalendarSubscription = (token , date, id_calendar) => {
 	});
 }
 
+let getData = async (path, token) => {
+	let options = {
+		host: "graph.microsoft.com",
+		path: path,
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json;odata.metadata=minimal;' +
+			'odata.streaming=true;IEEE754Compatible=false',
+			Authorization: 'Bearer ' + token
+    }
+  }
+
+	request(options, function (err, body) {
+		console.log(body)
+		console.log(err)
+	})
+}
+
+let getAccessTokenBySubscriptionId = async(id) => {
+	let outlook = await Outlook.findOne({"subscriptionId" : id})
+
+	return (outlook.accessToken)
+}
+
 let webhook = async (req, res) => {
 	console.log("Function office365 webhook")
-	let body = req.body;
+	let body = req.body.value;
 	let query = req.query;
 
 	if (query.validationToken) {
 		res.status(200).send(decodeURI(query.validationToken));
 		return;
 	}
-	console.log(body);
+	console.log(body.subscriptionId)
+	console.log(body.changeType)
+	console.log(body.resourceData)
+	let resource = body.resource
+	getData('/beta/${resource}', await getAccessTokenBySubscriptionId(body.subscriptionId))
 	res.json({body})
 }
 
