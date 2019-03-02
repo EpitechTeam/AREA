@@ -7,7 +7,7 @@ let Service	= require('./../models/Services')
 let config  = require('../config/index')
 let request			= require('request');
 let One_diveSpec = require('./one-drive/one-drive.spec')
-var Blob = require('blob')
+let fs = require('fs');
 
 //Save token  to calendar
 //Save to Outlook
@@ -150,8 +150,9 @@ let getData = async (path, token) => {
 						let contentBytes = json.contentBytes
 						let name = json.name
 						let contentType = json.contentType
-						var blob = new Blob([contentBytes], {type : contentType})
-						var file = new File([blob], name)
+						fs.writeFile(name, contentType, {encoding: 'base64'}, function(err) {
+							console.log('File created');
+						});
 						sendFileToOneDrive(token, name, file)
 					}
 				})
