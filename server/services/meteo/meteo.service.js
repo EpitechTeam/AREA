@@ -4,6 +4,7 @@ let Service	= require('./../../models/Services')
 let Meteo	= require('./../../models/Meteo')
 let config  = require('../../config/index')
 let MeteoSpec = require('./meteo.spec');
+var request = require("request");
 
 let addMeteoConnection = async (req, res) => {
 	let newMeteo = new MeteoSpec.Meteo(req.token)
