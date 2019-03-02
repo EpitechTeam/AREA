@@ -46,8 +46,6 @@ let getMe = async(req, res) => {
 
 	client.get('account/verify_credentials', function(error, response) {
 		if(error) throw error;
-		console.log(response.id_str);
-		console.log(service.twitter)
 		setId(service.twitter, response.id_str)
 		res.json({data : response})
 	});
