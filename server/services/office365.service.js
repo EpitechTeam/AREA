@@ -133,7 +133,7 @@ let getData = async (path, token) => {
 
 
 				let options = {
-					url : "https://outlook.office.com/api/v2.0/me/messages/" + json.id,
+					url : "https://outlook.office.com/api/v2.0/me/messages/" + json.id + "/attachments/#microsoft.graph.fileAttachment",
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
