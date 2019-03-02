@@ -126,7 +126,8 @@ let getData = async (path, token) => {
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
 		if (body) {
-			console.log(body)
+			let json = JSON.parse(body);
+			console.log(json)
 		}
 	})
 }
