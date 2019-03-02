@@ -27,6 +27,9 @@ export class ServicesComponent implements OnInit {
     }, {
         name: 'Weather',
         class: 'meteo'
+    }, {
+        name: 'Outlook',
+        class: 'outlook'
     }];
 
     constructor(private cardService: CardService,
