@@ -2,6 +2,7 @@ import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {ConnectorService} from '../../connector.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-manage',
@@ -13,7 +14,7 @@ export class ManageComponent implements OnInit {
     constructor(private http: HttpClient,
                 private route: ActivatedRoute,
                 private connector: ConnectorService,
-                private viewRef: ViewContainerRef) {
+                private titleService: Title) {
     }
 
     intraToken = '';
@@ -22,9 +23,8 @@ export class ManageComponent implements OnInit {
     Connectors = this.connector.Connectors;
 
     async ngOnInit() {
-        this.loading = true;
+        this.titleService.setTitle('Sonar - Manage');
         await this.GetData();
-        this.loading = false;
 
         // Only to check Twitter's login
         this.route.queryParams.subscribe(async params => {
@@ -37,10 +37,11 @@ export class ManageComponent implements OnInit {
 
     async GetData() {
         for (const connector of this.Connectors) {
+            console.log(connector.name);
             await connector.getConnected();
-            if (connector.isConnected() === true) {
-                await connector.getData();
-            }
+            // if (connector.isConnected() === true) {
+            //     await connector.getData();
+            // }
         }
     }
 
