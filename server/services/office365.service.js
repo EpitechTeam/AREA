@@ -112,8 +112,7 @@ let setCalendarSubscription = (token , date, id_calendar) => {
 
 let getData = async (path, token) => {
 	let options = {
-		host: "graph.microsoft.com",
-		path: path,
+		url : "graph.microsoft.com" + path,
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
