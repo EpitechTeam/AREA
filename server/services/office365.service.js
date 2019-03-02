@@ -119,11 +119,12 @@ let webhook = async (req, res) => {
 		res.status(200).send(decodeURI(query.validationToken));
 		return;
 	}
+	console.log(body);
 	res.json({body})
 }
 
 let logout = async (req, res) => {
-	
+
 }
 
 module.exports = {
