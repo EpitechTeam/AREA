@@ -123,9 +123,11 @@ let getData = async (path, token) => {
     }
   }
 
-	request(options, function (err, body) {
-		console.log(body)
-		console.log(err)
+	request(options, function (err, response, body) {
+		if (error) throw new Error(error);
+		if (body) {
+			console.log(body)
+		}
 	})
 }
 
@@ -144,12 +146,14 @@ let webhook = async (req, res) => {
 		return;
 	}
 
-	let body = req.body.value[0];
-	console.log(body.subscriptionId)
-	console.log(body.changeType)
-	console.log(body.resourceData)
-	let resource = body.resource
-	getData(resource, await getAccessTokenBySubscriptionId(body.subscriptionId))
+	var body = req.body.value[0];
+	var resource = body.resource
+	if (body.changeType == "created") {
+		console.log(body.subscriptionId)
+		console.log(body.changeType)
+		console.log(body.resourceData)
+		getData(resource, await getAccessTokenBySubscriptionId(body.subscriptionId))
+	}
 	res.json({body})
 }
 
