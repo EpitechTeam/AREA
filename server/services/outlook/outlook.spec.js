@@ -72,11 +72,11 @@ class Outlook {
 		return;
 	}
 
-	async setFileToOneDrive() {
+	async setFileToOneDrive(value) {
 		let user = await User.findOne({token : req.token});
 		let services = await Service.findOne({"_id" : user.services})
 
-		await OutlookModal.updateOne({"_id" : services.outlook}, { $set : {fileToOneDrive : true}})
+		await OutlookModal.updateOne({"_id" : services.outlook}, { $set : {fileToOneDrive : value}})
 		return;
 	}
 
