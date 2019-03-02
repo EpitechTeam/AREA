@@ -52,8 +52,7 @@ let office365Connection = async (req, res) => {
 	if (!services.one_drive) {
 		let newOne_drive = new One_drive({
 			accessToken : req.body.accessToken,
-			fileToOneDrive : false,
-			subscriptionId : ""
+			fileToOneDrive : false
 		})
 		await newOne_drive.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { one_drive : newOne_drive._id}})

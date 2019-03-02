@@ -61,7 +61,7 @@ class One_drive {
 	async uploadFile(name, path_local_file) {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
-		let one_drive_user = await One_driveModal.findOne({"_id" : service.outlook})
+		let one_drive_user = await One_driveModal.findOne({"_id" : service.one_drive})
 
 		this.client = MicrosoftGraph.Client.init({
 			authProvider: (done) => {
