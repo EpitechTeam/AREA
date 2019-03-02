@@ -13,7 +13,7 @@ let request			= require('request');
 let office365Connection = async (req, res) => {
 	var user = await User.findOne({token : req.token});
 	var services = await Service.findOne({"_id" : user.services})
-	var date = new Date(Date.now() + 172800000).toISOString()
+	var date = new Date(Date.now() + 3600000).toISOString()
 
 	if (!req.body.accessToken) {
 		res.json({error : "give an accessToken"});
@@ -149,7 +149,7 @@ let getData = async (path, token) => {
 				})
 
 
-				
+
 			}
 		}
 	})
