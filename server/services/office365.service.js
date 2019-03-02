@@ -137,7 +137,7 @@ let getAccessTokenBySubscriptionId = async(id) => {
 
 let webhook = async (req, res) => {
 	console.log("Function office365 webhook")
-	let body = req.body.value;
+	let body = req.body.value[0];
 	let query = req.query;
 
 	if (query.validationToken) {
