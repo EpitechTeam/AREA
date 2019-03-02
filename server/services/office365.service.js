@@ -113,7 +113,7 @@ let setCalendarSubscription = (token , date, id_calendar) => {
 
 let getData = async (path, token) => {
 	let options = {
-		url : "graph.microsoft.com" + path,
+		url : "https://graph.microsoft.com/v1.0/" + path,
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -143,13 +143,13 @@ let webhook = async (req, res) => {
 		res.status(200).send(decodeURI(query.validationToken));
 		return;
 	}
-	
+
 	let body = req.body.value[0];
 	console.log(body.subscriptionId)
 	console.log(body.changeType)
 	console.log(body.resourceData)
 	let resource = body.resource
-	getData('/beta/${resource}', await getAccessTokenBySubscriptionId(body.subscriptionId))
+	getData(resource, await getAccessTokenBySubscriptionId(body.subscriptionId))
 	res.json({body})
 }
 
