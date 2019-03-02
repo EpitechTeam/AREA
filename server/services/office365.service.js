@@ -137,8 +137,6 @@ let getData = async (path, token) => {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						Accept: 'application/json;odata.metadata=minimal;' +
-						'odata.streaming=true;IEEE754Compatible=false',
 						Authorization: 'Bearer ' + token
 			    }
 			  }
