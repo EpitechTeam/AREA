@@ -118,7 +118,7 @@ class Meteo {
 			await Service.updateOne({"_id" : user.services}, { $set: { meteo : newMeteo._id }})
 		}
 		else {
-			await MeteoModal.updateOne({"_id" : service.meteo}, { $set : {city : city, insee : insee}})
+			await MeteoModal.updateOne({"_id" : service.meteo}, { $set : {accessToken : process.env.METEO_TOKEN, city : city, insee : insee}})
 		}
 	}
 
