@@ -146,6 +146,7 @@ let getData = async (path, token) => {
 					if (error) throw new Error(error);
 					if (body) {
 						let json = JSON.parse(body);
+						console.log(json);
 					}
 				})
 
