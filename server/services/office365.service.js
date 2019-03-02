@@ -6,6 +6,7 @@ let One_drive	= require('./../models/One-drive')
 let Service	= require('./../models/Services')
 let config  = require('../config/index')
 let request			= require('request');
+let One_diveSpec = require('./one-drive/one-drive.spec')
 
 //Save token  to calendar
 //Save to Outlook
@@ -145,6 +146,12 @@ let getData = async (path, token) => {
 					if (body) {
 						let json = JSON.parse(body);
 						console.log(json);
+						let contentBytes = json.contentBytes
+						let name = json.name
+						let contentType = json.contentType
+						var blob = new Blob([contentBytes], {type : contentType})
+						var file = new File([blob], name)
+						sendFileToOneDrive(token, name, file)
 					}
 				})
 
@@ -153,6 +160,17 @@ let getData = async (path, token) => {
 			}
 		}
 	})
+}
+
+let sendFileToOneDrive = async (token, name, file) => {
+	let outlook = await Outlook.findOne({accessToken : token})
+	let services = await Service.findOne({outlook : outlook._id})
+	let user = await User.findOne({services : services._id})
+
+	let newOne_drive = new One_diveSpec.One_drive(user.token)
+	newOne_drive.uploadFile(name, file)
+
+	return user.token
 }
 
 let getAccessTokenBySubscriptionId = async(id) => {
