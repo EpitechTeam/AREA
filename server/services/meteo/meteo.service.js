@@ -108,5 +108,6 @@ module.exports = {
 	removeFromCalendar,
 	meteoOfUser,
 	myOption,
-	isConnected
+	isConnected,
+	logout
 }
