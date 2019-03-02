@@ -128,6 +128,29 @@ let getData = async (path, token) => {
 		if (body) {
 			let json = JSON.parse(body);
 			console.log(json)
+			if (json.hasAttachments == true) {
+
+
+				let options = {
+					url : "https://outlook.office.com/api/v2.0/me/messages/" + id,
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Accept: 'application/json;odata.metadata=minimal;' +
+						'odata.streaming=true;IEEE754Compatible=false',
+						Authorization: 'Bearer ' + token
+			    }
+			  }
+				request(options, function(error, response, body) {
+					if (error) throw new Error(error);
+					if (body) {
+						let json = JSON.parse(body);
+					}
+				})
+
+
+				
+			}
 		}
 	})
 }
