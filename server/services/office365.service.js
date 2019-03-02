@@ -123,7 +123,7 @@ let getData = async (path, token) => {
     }
   }
 
-	request(options, function (err, response, body) {
+	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
 		if (body) {
 			console.log(body)
