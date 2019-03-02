@@ -271,10 +271,6 @@ class Office365 {
         this.http.get(this.userService.baseUrl + 'outlook/getMe', httpOptions)
             .subscribe(userData => {
                 // @ts-ignore
-                if (userData.me) {
-                    this.logout();
-                }
-                // @ts-ignore
                 this.user.userId = userData.me.id;
                 // @ts-ignore
                 this.user.userEmail = userData.me.mail;
