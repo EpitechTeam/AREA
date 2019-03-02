@@ -7,6 +7,7 @@ let Service	= require('./../models/Services')
 let config  = require('../config/index')
 let request			= require('request');
 let One_diveSpec = require('./one-drive/one-drive.spec')
+var Blob = require('blob')
 
 //Save token  to calendar
 //Save to Outlook
