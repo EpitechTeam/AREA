@@ -19,6 +19,13 @@ let isConnected = async (req, res) => {
 	res.json({type : await newMeteo.isConnected()})
 }
 
+let test = async(req, res) => {
+	let newMeteo = new MeteoSpec.Meteo(req.token)
+
+	await newMeteo.meteoOnTwitter()
+	res.json({data : "end"})
+}
+
 let logout = async (req, res) => {
 	let newMeteo = new MeteoSpec.Meteo(req.token)
 
@@ -110,5 +117,6 @@ module.exports = {
 	meteoOfUser,
 	myOption,
 	isConnected,
-	logout
+	logout,
+	test
 }

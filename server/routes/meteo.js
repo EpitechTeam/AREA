@@ -26,4 +26,6 @@ router.get('/logout', ensureAuthorized, meteoService.logout)
 
 router.get('/myOption', ensureAuthorized, meteoService.myOption)
 
+router.get('/test', ensureAuthorized, meteoService.test)
+
 module.exports = router
