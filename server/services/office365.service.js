@@ -129,10 +129,9 @@ let getData = async (path, token) => {
 		if (error) throw new Error(error);
 		if (body) {
 			let json = JSON.parse(body);
-			console.log(json.hasAttachments)
-			console.log(json)
+			console.log("Mail chargé")
 			if (json.hasAttachments == true) {
-
+				console.log("contient un attachement")
 
 				let options = {
 					url : "https://graph.microsoft.com/v1.0/me/messages/" + json.id + "/attachments/#microsoft.graph.fileAttachment",
@@ -150,6 +149,7 @@ let getData = async (path, token) => {
 						let name = json.value[0].name
 						let contentType = json.value[0].contentType
 						console.log(name, contentType);
+						console.log("essaie de creer le fichier... " + name);
 						fs.writeFile(name, contentBytes, {encoding: 'base64'}, function(err) {
 							console.log('File created');
 						});
@@ -165,10 +165,14 @@ let getData = async (path, token) => {
 }
 
 let sendFileToOneDrive = async (token, name, file) => {
+	console.log("Send file to One drive")
 	let outlook = await Outlook.findOne({accessToken : token})
 	let services = await Service.findOne({outlook : outlook._id})
 	let user = await User.findOne({services : services._id})
 
+	console.log(outlook)
+	console.log(services)
+	console.log(user)
 	let newOne_drive = new One_diveSpec.One_drive(user.token)
 	newOne_drive.uploadFile(name, file)
 
