@@ -18,9 +18,11 @@ router.put('/removeFromCalendar', ensureAuthorized, meteoService.removeFromTwitt
 
 router.put('/removeFromTwitter', ensureAuthorized, meteoService.removeFromCalendar)
 
-router.get('/meteoOfUser', ensureAuthorized, meteoService.meteoOfUser)
+router.get('/getMe', ensureAuthorized, meteoService.meteoOfUser)
 
 router.get('/isConnected', ensureAuthorized, meteoService.isConnected)
+
+router.get('/logout', ensureAuthorized, meteoService.logout)
 
 router.get('/myOption', ensureAuthorized, meteoService.myOption)
 
