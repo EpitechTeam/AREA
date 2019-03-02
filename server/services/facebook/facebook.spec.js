@@ -178,10 +178,16 @@ class Facebook {
 		try {
 			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
 
+			FB.setAccessToken(this.accessToken);
+			var facebookResponse = await FB.api('/' + photos_id + '?fields=picture', 'GET', {});
+
 			if (facebook_user.photosToEmail) {
-				FB.setAccessToken(this.accessToken);
-				var facebookResponse = await FB.api('/' + photos_id + '?fields=picture', 'GET', {});
 				await this.sendEmailByOutlook("Nouvelle photo sur votre profil", facebookResponse.picture, user_id)
+			}
+
+			if (facebook_user.photosToTwitter) {
+				let newTwitter = new TwitterSpec.TwitterClass(await this.getTokenByUserId(user_id));
+				newTwitter.tweetSomething("Nouvelle photo sur votre profil" + facebookResponse.picture)
 			}
 		}
 		catch (err) {
@@ -193,10 +199,16 @@ class Facebook {
 		try {
 			let facebook_user = await FacebookModal.findOne({accessToken : this.accessToken})
 
+			FB.setAccessToken(this.accessToken);
+			var facebookResponse = await FB.api('/' + status_id, 'GET', {});
+
 			if (facebook_user.statusToEmail) {
-				FB.setAccessToken(this.accessToken);
-				var facebookResponse = await FB.api('/' + status_id, 'GET', {});
 				await this.sendEmailByOutlook("Nouveau post sur votre facebook", facebookResponse.message, user_id)
+			}
+
+			if (facebook_user.statusToTwitter) {
+				let newTwitter = new TwitterSpec.TwitterClass(await this.getTokenByUserId(user_id));
+				newTwitter.tweetSomething(facebookResponse.message)
 			}
 		}
 		catch (err) {
@@ -333,19 +345,230 @@ class Facebook {
 			fb_exchange_token: long_lived_token
 		});
 		if (!service.facebook) {
+			let options = [];
+
+			var eventToTwitterInfo = {
+				id : 1,
+				type : "facebook",
+				title : "Event publish to your Twitter",
+				description : "Tweet the name of the event",
+				class : "card-facebook"
+			}
+			options.push(eventToTwitterInfo)
+
+			var eventToEmailInfo = {
+				id : 2,
+				type : 'facebook',
+				title : 'Event send by mail',
+				description : 'Send info about the event to your office365 mail',
+				class : 'card-facebook'
+			}
+			options.push(eventToEmailInfo)
+
+			var eventToCalendarInfo = {
+				id : 3,
+				type : 'facebook',
+				title : 'Event set in your calendar',
+				description : 'Set the event to your office365 calendar',
+				class : 'card-facebook'
+			}
+			options.push(eventToCalendarInfo)
+
+			var photosToEmailInfo = {
+				id : 4,
+				type : 'facebook',
+				title : 'Send you a notification by mail',
+				description : 'Send a notification about yout photos to your office365 mail',
+				class : 'card-facebook'
+			}
+			options.push(photosToEmailInfo)
+
+			var photosToTwitterInfo = {
+				id : 5,
+				type : 'facebook',
+				title : 'Tweet your new profil picture',
+				description : 'Tweet yout new profil picture',
+				class : 'card-facebook'
+			}
+			options.push(photosToTwitterInfo)
+
+			var statusToEmailInfo = {
+				id : 6,
+				type : 'facebook',
+				title : 'Send your post by mail',
+				description : 'Send a notification about your new post to your office365 mail',
+				class : 'card-facebook'
+			}
+			options.push(statusToEmailInfo)
+
+			var statusToTwitterInfo = {
+				id : 7,
+				type : 'facebook',
+				title : 'Tweet your new post',
+				description : 'Tweet your new post',
+				class : 'card-facebook'
+			}
+			options.push(statusToTwitterInfo)
+
+			var friendsToEmailInfo = {
+				id : 8,
+				type : 'facebook',
+				title : 'Notification about friends',
+				description : 'Receive a notification about your new friends',
+				class : 'card-facebook'
+			}
+			options.push(friendsToEmailInfo)
+			var workToEmailInfo = {
+				id : 9,
+				type : 'facebook',
+				title : 'Notification about work',
+				description : 'Receive a notification when your work section on your profil changed',
+				class : 'card-facebook'
+			}
+			options.push(workToEmailInfo)
+			var locationToEmailInfo = {
+				id : 10,
+				type : 'facebook',
+				title : 'Notification about location',
+				description : 'Receive a notification when your location section on your profil changed',
+				class : 'card-facebook'
+			}
+			options.push(locationToEmailInfo)
+			var hometownToEmailInfo = {
+				id : 11,
+				type : 'facebook',
+				title : 'Notification about hometown',
+				description : 'Receive a notification when your hometown section on your profil changed',
+				class : 'card-facebook'
+			}
+			options.push(hometownToEmailInfo)
+			var educationToEmailInfo = {
+				id : 12,
+				type : 'facebook',
+				title : 'Notification about education',
+				description : 'Receive a notification when your education section on your profil changed',
+				class : 'card-facebook'
+			}
+			options.push(educationToEmailInfo)
+			var religionToEmailInfo = {
+				id : 13,
+				type : 'facebook',
+				title : 'Notification about religion',
+				description : 'Receive a notification when your religion section on your profil changed',
+				class : 'card-facebook'
+			}
+			options.push(religionToEmailInfo)
+
+
 			let newFacebook = new FacebookModal({
 				accessToken : newAccessToken.access_token,
 				eventToEmail : false,
 				eventToTwitter : false,
 				eventToCalendar : false,
 				photosToEmail : false,
+				photosToTwitter : false,
 				statusToEmail : false,
+				statusToTwitter : false,
 				friendsToEmail : false,
 				workToEmail : false,
 				locationToEmail : false,
 				hometownToEmail : false,
 				educationToEmail : false,
 				religionToEmail : false,
+
+				card : options,
+
+				eventToTwitterInfo : {
+					id : 1,
+					type : "facebook",
+					title : "Event publish to your Twitter",
+					description : "Tweet the name of the event",
+					class : "card-facebook"
+				},
+				eventToEmailInfo : {
+					id : 2,
+					type : 'facebook',
+					title : 'Event send by mail',
+					description : 'Send info about the event to your office365 mail',
+					class : 'card-facebook'
+				},
+				eventToCalendarInfo : {
+					id : 3,
+					type : 'facebook',
+					title : 'Event set in your calendar',
+					description : 'Set the event to your office365 calendar',
+					class : 'card-facebook'
+				},
+				photosToEmailInfo : {
+					id : 4,
+					type : 'facebook',
+					title : 'Send you a notification by mail',
+					description : 'Send a notification about yout photos to your office365 mail',
+					class : 'card-facebook'
+				},
+				photosToTwitterInfo : {
+					id : 5,
+					type : 'facebook',
+					title : 'Tweet your new profil picture',
+					description : 'Tweet yout new profil picture',
+					class : 'card-facebook'
+				},
+				statusToEmailInfo : {
+					id : 6,
+					type : 'facebook',
+					title : 'Send your post by mail',
+					description : 'Send a notification about your new post to your office365 mail',
+					class : 'card-facebook'
+				},
+				statusToTwitterInfo : {
+					id : 7,
+					type : 'facebook',
+					title : 'Tweet your new post',
+					description : 'Tweet your new post',
+					class : 'card-facebook'
+				},
+				friendsToEmailInfo : {
+					id : 8,
+					type : 'facebook',
+					title : 'Notification about friends',
+					description : 'Receive a notification about your new friends',
+					class : 'card-facebook'
+				},
+				workToEmailInfo : {
+					id : 9,
+					type : 'facebook',
+					title : 'Notification about work',
+					description : 'Receive a notification when your work section on your profil changed',
+					class : 'card-facebook'
+				},
+				locationToEmailInfo : {
+					id : 10,
+					type : 'facebook',
+					title : 'Notification about location',
+					description : 'Receive a notification when your location section on your profil changed',
+					class : 'card-facebook'
+				},
+				hometownToEmailInfo : {
+					id : 11,
+					type : 'facebook',
+					title : 'Notification about hometown',
+					description : 'Receive a notification when your hometown section on your profil changed',
+					class : 'card-facebook'
+				},
+				educationToEmailInfo : {
+					id : 12,
+					type : 'facebook',
+					title : 'Notification about education',
+					description : 'Receive a notification when your education section on your profil changed',
+					class : 'card-facebook'
+				},
+				religionToEmailInfo : {
+					id : 13,
+					type : 'facebook',
+					title : 'Notification about religion',
+					description : 'Receive a notification when your religion section on your profil changed',
+					class : 'card-facebook'
+				},
 				user_id : user_id
 			})
 

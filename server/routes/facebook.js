@@ -24,6 +24,10 @@ router.put('/addPhotosToEmail', ensureAuthorized, facebookService.addPhotosToEma
 
 router.put('/addStatusToEmail', ensureAuthorized, facebookService.addStatusToEmail)
 
+router.put('/addPhotosToTwitter', ensureAuthorized, facebookService.addPhotosToTwitter)
+
+router.put('/addStatusToTwitter', ensureAuthorized, facebookService.addStatusToTwitter)
+
 router.put('/addFriendsToEmail', ensureAuthorized, facebookService.addFriendsToEmail)
 
 router.put('/addWorkToEmail', ensureAuthorized, facebookService.addWorkToEmail)
@@ -50,7 +54,11 @@ router.put('/removeFriendsToEmail', ensureAuthorized, facebookService.removeFrie
 
 router.put('/removePhotosToEmail', ensureAuthorized, facebookService.removePhotosToEmail)
 
-router.put('/removeStatusToEmail', ensureAuthorized, facebookService.removePhotosToEmail)
+router.put('/removeStatusToEmail', ensureAuthorized, facebookService.removeStatusToEmail)
+
+router.put('/removeStatusToTwitter', ensureAuthorized, facebookService.removeStatusToTwitter)
+
+router.put('/removePhotosToTwitter', ensureAuthorized, facebookService.removePhotosToTwitter)
 
 router.put('/removeEventToEmail', ensureAuthorized, facebookService.removeEventFromEmail)
 

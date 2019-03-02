@@ -29,10 +29,19 @@ class Outlook {
 		let service = await Service.findOne({"_id" : user.services})
 		let outlook_user = await OutlookModal.findOne({"_id" : service.outlook})
 
-		if (outlook_user.accessToken == " ") {
+		if (service.outlook) {
+			if (outlook_user.accessToken) {
+				if (outlook_user.accessToken == " ") {
+					return (false);
+				}
+				else {
+					return (true);
+				}
+			}
+		}
+		else {
 			return (false);
 		}
-		return (true);
 	}
 
 	deleteSubscritpion(id, accessToken) {
@@ -101,15 +110,20 @@ class Outlook {
 		let user = await User.findOne({token : this.token});
 		var services = await Service.findOne({"_id" : user.services})
 
-		if (services.outlook) {
-			let outlook = await OutlookModal.findOne({"_id" : services.outlook})
-			var client = MicrosoftGraph.Client.init({
-				authProvider: (done) => {
-					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
-				}
-			});
-			let user = await client.api('/me').get();
-			return user;
+		try {
+			if (services.outlook) {
+				let outlook = await OutlookModal.findOne({"_id" : services.outlook})
+				var client = MicrosoftGraph.Client.init({
+					authProvider: (done) => {
+						done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
+					}
+				});
+				let user = await client.api('/me').get();
+				return user;
+			}
+		}
+		catch (err) {
+			console.log(err)
 		}
 	}
 
@@ -131,23 +145,25 @@ class Outlook {
 			.api('/me')
 			.get((err, res) => {
 				var me = res;
-				const mail = {
-					subject: subject,
-					toRecipients: [{
-						emailAddress: {
-							address: me.mail
+				if (me.mail != null && me.mail != undefined) {
+					const mail = {
+						subject: subject,
+						toRecipients: [{
+							emailAddress: {
+								address: me.mail
+							}
+						}],
+						body: {
+							content: content,
+							contentType: "text"
 						}
-					}],
-					body: {
-						content: content,
-						contentType: "text"
 					}
-				}
 
-				client
-				.api('/users/me/sendMail')
-				.post({message: mail}, (err, res) => {
-				})
+					client
+					.api('/users/me/sendMail')
+					.post({message: mail}, (err, res) => {
+					})
+				}
 			});
 
 		}

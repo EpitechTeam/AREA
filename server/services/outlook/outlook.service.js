@@ -1,7 +1,6 @@
 let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
 let config  = require('../../config/index')
-let serviceConfig = require('../../config/service')
 let OutlookSpec = require('./outlook.spec')
 let CalendarSpec = require('./../calendar/calendar.spec')
 let One_driveSpec = require('./../one-drive/one-drive.spec')

@@ -6,4 +6,24 @@ let twitterService = require('../services/twitter/twitter.service')
 
 router.post('/addTwitterConnection', ensureAuthorized, twitterService.addTwitterConnection)
 
+router.get('/twitterRequestToken', ensureAuthorized, twitterService.twitterRequestToken)
+
+router.post('/accessTokenGenerate', ensureAuthorized, twitterService.accessTokenGenerate)
+
+router.post('/tweet', ensureAuthorized, twitterService.tweetSomething)
+
+router.get('/getConsumerKey', ensureAuthorized, twitterService.giveConsumerKey)
+
+router.get('/logout', ensureAuthorized, twitterService.logout)
+
+router.get('/getMe', ensureAuthorized, twitterService.getMe)
+
+router.get('/isConnected', ensureAuthorized, twitterService.isConnected)
+
+router.post('/webhook', twitterService.webhook)
+
+router.get('/webhook', twitterService.crc)
+
+router.get('/create-webhook', ensureAuthorized, twitterService.createWebhook)
+
 module.exports = router

@@ -7,6 +7,13 @@ let sha256      = require('sha256')
 let jwt         = require('jsonwebtoken')
 let randomToken = require('random-token')
 let config  = require('../../config/index')
+let Facebook	= require('./../../models/Facebook')
+let Calendar	= require('./../../models/Calendar')
+var Intra = require('./../../models/intra')
+let Meteo	= require('./../../models/Meteo')
+let One_drive	= require('./../../models/One-drive')
+let Outlook	= require('./../../models/Outlook')
+var Twitter = require('./../../models/Twitter')
 
 let me = async (req, res) => {
 	let user = await User.findOne({token: req.token});
@@ -14,11 +21,42 @@ let me = async (req, res) => {
 }
 
 let getService = async (req, res) => {
-	let user = await User.findOne({token : req.token});
-	let services = await Service.findOne({"_id" : user.services})
+	var user = await User.findOne({token : req.token});
+	var services = await Service.findOne({"_id" : user.services})
 
+	var options = []
+	if (services.facebook) {
+		let facebook_user = await Facebook.findOne({"_id" : services.facebook}, {card : 1})
+		options.push(facebook_user)
+	}
+	if (services.twitter) {
+		let twitter_user = await Twitter.findOne({"_id" : services.twitter})
+		options.push(twitter_user)
+	}
+	if (services.outlook) {
+		let outlook_user = await Outlook.findOne({"_id" : services.outlook})
+		options.push(outlook_user)
+	}
+	if (services.intra) {
+		let intra_user = await Intra.findOne({"_id" : services.intra})
+		options.push(intra_user)
+	}
+	if (services.calendar) {
+		let calendar_user = await Calendar.findOne({"_id" : services.calendar})
+		options.push(calendar_user)
+	}
+	if (services.meteo) {
+		let meteo_user = await Meteo.findOne({"_id" : service.meteo})
+		options.push(meteo_user)
+	}
+	if (services.one_drive) {
+		let one_drive_user = await One_drive.findOne({"_id" : services.one_drive})
+		options.push(one_drive_user)
+	}
+
+	console.log(options);
 	res.json({
-		services : services
+		services : options
 	})
 }
 
