@@ -146,11 +146,11 @@ let getData = async (path, token) => {
 					if (error) throw new Error(error);
 					if (body) {
 						let json = JSON.parse(body);
-						console.log(json);
 						let contentBytes = json.contentBytes
 						let name = json.name
 						let contentType = json.contentType
-						fs.writeFile(name, contentType, {encoding: 'base64'}, function(err) {
+						console.log(name, contentType);
+						fs.writeFile(name, contentBytes, {encoding: 'base64'}, function(err) {
 							console.log('File created');
 						});
 						sendFileToOneDrive(token, name, file)
