@@ -86,7 +86,7 @@ let meteoOfUser = async (req, res) => {
 		}
 	};
 
-	request(options, function(err, body) {
+	request(options, function(err, response, body) {
 		res.json({data : body})
 	})
 }
