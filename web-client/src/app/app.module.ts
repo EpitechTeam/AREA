@@ -16,7 +16,10 @@ import {FormsModule} from '@angular/forms';
 export function getAuthServiceConfigs() {
 
     const fbLoginOptions = {
-        scope: 'email,user_likes,user_events,user_tagged_places,user_posts,user_photosŒ',
+        scope: 'email,user_likes,user_events,user_tagged_places,user_posts,user_photos,user_birthday,' +
+            'user_hometown,user_location,user_likes,user_events,user_photos,' +
+            'user_friends,user_status,user_tagged_places,user_posts,user_gender,' +
+            'user_link,manage_pages,pages_show_list,public_profile',
         return_scopes: true,
         enable_profile_selector: true
     };
