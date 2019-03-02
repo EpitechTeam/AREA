@@ -30,7 +30,7 @@ router.get('/create-webhook', ensureAuthorized, twitterService.createWebhook)
 
 router.put('/addTweetByMail', ensureAuthorized, twitterService.addTweetByMail)
 
-router.put('/removeTweetByMail', ensureAuthorized, twitterService.addTweetByMail)
+router.put('/removeTweetByMail', ensureAuthorized, twitterService.removeTweetByMail)
 
 router.put('/addStartFollowByMail', ensureAuthorized, twitterService.addStartFollowByMail)
 
