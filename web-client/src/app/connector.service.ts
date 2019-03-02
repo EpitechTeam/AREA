@@ -181,6 +181,7 @@ class Office365 {
             'openid',
             'profile',
             'mail.send',
+            'files.readwrite',
             'mail.send.shared']
     };
     msalObj =
@@ -259,7 +260,7 @@ class Office365 {
         return (false);
     }
 
-    public getData() {
+    public async getData() {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -269,6 +270,10 @@ class Office365 {
 
         this.http.get(this.userService.baseUrl + 'outlook/getMe', httpOptions)
             .subscribe(userData => {
+                // console.log(userData);
+                if (!userData.me) {
+                    this.logout();
+                }
                 // @ts-ignore
                 this.user.userId = userData.me.id;
                 // @ts-ignore
@@ -276,7 +281,6 @@ class Office365 {
                 // @ts-ignore
                 this.user.userName = userData.me.displayName;
             });
-        return (true);
     }
 }
 

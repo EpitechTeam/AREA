@@ -280,6 +280,36 @@ export class CardService {
         return (cards);
     }
 
+    public async getDisabledCards() {
+        // @ts-ignore
+        let cards: Card[] = [];
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        let res = await this.http.get(this.userService.baseUrl + 'twitter' + '/myOption', httpOptions).toPromise();
+        this.TWITTERCARDS.forEach(card => {
+            if (res['data'][card.key] === false) {
+                cards.push(card);
+            }
+        });
+        res = await this.http.get(this.userService.baseUrl + 'facebook' + '/myOption', httpOptions).toPromise();
+        this.FACEBOOKCARDS.forEach(card => {
+            if (res['data'][card.key] === false) {
+                cards.push(card);
+            }
+        });
+        res = await this.http.get(this.userService.baseUrl + 'meteo' + '/myOption', httpOptions).toPromise();
+        this.WEATHERCARDS.forEach(card => {
+            if (res['data'][card.key] === false) {
+                cards.push(card);
+            }
+        });
+        return (cards);
+    }
+
     public async getEnabledCards(enabled: boolean) {
         let cards: Card[] = [];
         const httpOptions = {
