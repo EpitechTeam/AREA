@@ -29,7 +29,6 @@ let office365Connection = async (req, res) => {
 		await newOutlook.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { outlook : newOutlook._id}})
 		services = await Service.findOne({"_id" : user.services})
-		setOutlookSubscription(req.body.accessToken, date, services.outlook)
 	}
 	else {
 		let outlook = await Outlook.findOne({"_id" : services.outlook})
@@ -43,7 +42,6 @@ let office365Connection = async (req, res) => {
 		await newCalendar.save();
 		await Service.updateOne({"_id" : user.services}, { $set : { calendar : newCalendar._id}})
 		services = await Service.findOne({"_id" : user.services})
-		setCalendarSubscription(req.body.accessToken, date, services.calendar)
 	}
 	else {
 		let calendar = await Calendar.findOne({"_id" : services.outlook})
@@ -63,6 +61,9 @@ let office365Connection = async (req, res) => {
 		await One_drive.updateOne({"_id" : services.one_drive}, { $set : { accessToken : req.body.accessToken}})
 	}
 
+	services = await Service.findOne({"_id" : user.services})
+	setOutlookSubscription(req.body.accessToken, date, services.outlook)
+	setCalendarSubscription(req.body.accessToken, date, services.calendar)
 	res.json({
 		data : "accessToken saved"
 	})
