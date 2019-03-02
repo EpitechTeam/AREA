@@ -10,6 +10,18 @@ let addMeteoConnection = async (req, res) => {
 	res.json({type : true, data : "done"})
 }
 
+let isConnected = async (req, res) => {
+	let newMeteo = new MeteoSpec.Meteo(req.token)
+
+	res.json({type : await newMeteo.isConnected()})
+}
+
+let logout = async (req, res) => {
+	let newMeteo = new MeteoSpec.Meteo(req.token)
+
+	res.json({type : await newMeteo.logout()})
+}
+
 let addMeteoToTwitter = async (req, res) => {
 	let newMeteo = new MeteoSpec.Meteo(req.token)
 

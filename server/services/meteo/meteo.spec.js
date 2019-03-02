@@ -8,6 +8,29 @@ class Meteo {
 		this.token = token;
 	}
 
+	async isConnected() {
+		let user = await User.findOne({token: this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let meteo_user = await MeteoModal.findOne({"_id" : service.meteo})
+
+		if (!service.meteo) {
+			return (false)
+		}
+		if (meteo_user.accessToken == " ") {
+			return (false)
+		}
+		else {
+			return (true)
+		}
+	}
+
+	async logout() {
+		let user = await User.findOne({token: this.token})
+		let service = await Service.findOne({"_id" : user.services})
+
+		await MeteoModal.updateOne({"_id" : services.meteo}, { $set: { accessToken : " " }})
+	}
+
 	async getMeteoOfUser() {
 		let user = await User.findOne({token : this.token})
 		let services = await Service.findOne({"_id" : user.services})
@@ -28,32 +51,6 @@ class Meteo {
 		};
 
 		return (request(options));
-		// const request1 = request(options);
-		// const reponse1 = await request1
-		// console.log(reponse1);
-		// return (reponse1)
-		// var promise = await new Promise(function(resolve, reject) {
-		// 	request(options, function (error, response, body) {
-		// 		if (error) throw new Error(error);
-		// 		console.log(body);
-		// 		resolve(body);
-		// 		return (body);
-		// 	});
-		// });
-
-		try {
-			let response = await request(options);
-			// console.log(response.body)
-			// promise.then(function(value) {
-			// 	console.log("----------Return----------")
-			// 	console.log(value)
-			// 	return (value)
-			// });
-		}
-		catch (err) {
-			console.log(err);
-			return;
-		}
 	}
 
 	async addMeteoToEmail() {
@@ -108,7 +105,7 @@ class Meteo {
 		var user = await User.findOne({token : this.token})
 		var service = await Service.findOne({"_id" : user.services})
 
-		if (user && !service.meteo) {
+		if (!service.meteo) {
 			let newMeteo = new MeteoModal({
 				accessToken : process.env.METEO_TOKEN,
 				city : city,
@@ -119,6 +116,9 @@ class Meteo {
 			})
 			await newMeteo.save();
 			await Service.updateOne({"_id" : user.services}, { $set: { meteo : newMeteo._id }})
+		}
+		else {
+			await MeteoModal.updateOne({"_id" : service.meteo}, { $set : {city : city, insee : insee}})
 		}
 	}
 
@@ -134,15 +134,6 @@ class Meteo {
 
 	}
 }
-
-// let test = async () => {
-// 	let newMeteo = await new Meteo();
-//
-// 	let test = await newMeteo.getMeteoOfUser();
-// 	console.log(test);
-// }
-
-// test();
 
 module.exports = {
 	Meteo
