@@ -73,7 +73,7 @@ class One_drive {
 		console.log("try to upload file")
 		let stream = fs.createReadStream(path_local_file); //path to local file
 		this.client
-		.api('/me/drive/root/' + name + '/content') // path to the destination in OneDrive
+		.api('/me/drive/root:/Attachments/' + name + ':/content') // path to the destination in OneDrive
 		.putStream(stream, (err) => {
 			console.log(err);
 		});

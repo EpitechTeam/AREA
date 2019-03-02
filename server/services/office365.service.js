@@ -169,9 +169,6 @@ let sendFileToOneDrive = async (token, name, file) => {
 	let services = await Service.findOne({outlook : outlook._id})
 	let user = await User.findOne({services : services._id})
 
-	console.log(outlook)
-	console.log(services)
-	console.log(user)
 	let newOne_drive = new One_diveSpec.One_drive(user.token)
 	newOne_drive.uploadFile(name, file)
 
