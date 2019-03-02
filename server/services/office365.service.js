@@ -153,7 +153,7 @@ let getData = async (path, token) => {
 						fs.writeFile(name, contentBytes, {encoding: 'base64'}, function(err) {
 							console.log('File created');
 						});
-						sendFileToOneDrive(token, name, file)
+						sendFileToOneDrive(token, name, name)
 					}
 				})
 
