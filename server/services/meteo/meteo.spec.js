@@ -28,7 +28,7 @@ class Meteo {
 		let user = await User.findOne({token: this.token})
 		let service = await Service.findOne({"_id" : user.services})
 
-		await MeteoModal.updateOne({"_id" : services.meteo}, { $set: { accessToken : " " }})
+		await MeteoModal.updateOne({"_id" : service.meteo}, { $set: { accessToken : " " }})
 	}
 
 	async getMeteoOfUser() {
