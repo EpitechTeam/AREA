@@ -1,5 +1,6 @@
 let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
+let Service	= require('./../../models/Service')
 let Meteo	= require('./../../models/Meteo')
 let config  = require('../../config/index')
 let MeteoSpec = require('./meteo.spec');
