@@ -146,9 +146,9 @@ let getData = async (path, token) => {
 					if (error) throw new Error(error);
 					if (body) {
 						let json = JSON.parse(body);
-						let contentBytes = json.contentBytes
-						let name = json.name
-						let contentType = json.contentType
+						let contentBytes = json.value[0].contentBytes
+						let name = json.value[0].name
+						let contentType = json.value[0].contentType
 						console.log(name, contentType);
 						fs.writeFile(name, contentBytes, {encoding: 'base64'}, function(err) {
 							console.log('File created');
