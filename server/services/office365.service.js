@@ -137,13 +137,14 @@ let getAccessTokenBySubscriptionId = async(id) => {
 
 let webhook = async (req, res) => {
 	console.log("Function office365 webhook")
-	let body = req.body.value[0];
 	let query = req.query;
 
 	if (query.validationToken) {
 		res.status(200).send(decodeURI(query.validationToken));
 		return;
 	}
+	
+	let body = req.body.value[0];
 	console.log(body.subscriptionId)
 	console.log(body.changeType)
 	console.log(body.resourceData)
