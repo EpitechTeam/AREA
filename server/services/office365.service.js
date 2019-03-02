@@ -176,15 +176,17 @@ let webhook = async (req, res) => {
 	var body = req.body.value[0];
 	var resource = body.resource
 	if (body.changeType == "created") {
-		console.log(body.subscriptionId)
-		console.log(body.changeType)
-		console.log(body.resourceData)
 		let token = await getAccessTokenBySubscriptionId(body.subscriptionId)
 		if (token == false) {
 			res.status(200).send();
 			return;
 		}
-		getData(resource, token)
+		else {
+			console.log(body.subscriptionId)
+			console.log(body.changeType)
+			console.log(body.resourceData)
+			getData(resource, token)
+		}
 	}
 	res.json({body})
 }
