@@ -111,7 +111,6 @@
     margin: auto;
     top: 200px;
     width: 600px;
-    height: 300px;
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 6px hsla(0, 0%, 11%, 0.16);
@@ -129,6 +128,7 @@
 
 .modal-body {
     display: flex;
+    padding: 20px;
     align-items: center;
     align-content: center;
     justify-content: center;

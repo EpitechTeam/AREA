@@ -18,6 +18,8 @@ export class ManageComponent implements OnInit {
     }
 
     intraToken = '';
+    city = '';
+    insee = '';
     loading = false;
 
     Connectors = this.connector.Connectors;
@@ -25,6 +27,12 @@ export class ManageComponent implements OnInit {
     async ngOnInit() {
         this.titleService.setTitle('Sonar - Manage');
         await this.GetData();
+
+        this.route.params.subscribe( params => {
+            if (params.type) {
+                this.connector.getConnector(params.type).login();
+            }
+        });
 
         // Only to check Twitter's login
         this.route.queryParams.subscribe(async params => {
@@ -37,11 +45,10 @@ export class ManageComponent implements OnInit {
 
     async GetData() {
         for (const connector of this.Connectors) {
-            console.log(connector.name);
             await connector.getConnected();
-            // if (connector.isConnected() === true) {
-            //     await connector.getData();
-            // }
+            if (connector.isConnected() === true) {
+                await connector.getData();
+            }
         }
     }
 
@@ -57,5 +64,15 @@ export class ManageComponent implements OnInit {
     OnConnectEpitechModal() {
         // @ts-ignore
         this.connector.getConnector('epitech').processLogin(this.intraToken);
+    }
+
+    OnCloseWeatherModal() {
+        // @ts-ignore
+        this.connector.getConnector('weather').showModal = false;
+    }
+
+    OnConnectWeatherModal() {
+        // @ts-ignore
+        this.connector.getConnector('weather').processLogin(this.city, this.insee);
     }
 }

@@ -13,6 +13,7 @@ const routes: Routes = [
     { path: 'myWaves/addWave', component: AddWaveComponent },
     { path: 'myWaves/editWave', component: EditWaveComponent },
     { path: 'manage', component: ManageComponent },
+    { path: 'manage/:type', component: ManageComponent },
 ];
 
 @NgModule({
