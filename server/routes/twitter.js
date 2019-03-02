@@ -18,6 +18,8 @@ router.get('/logout', ensureAuthorized, twitterService.logout)
 
 router.get('/getMe', ensureAuthorized, twitterService.getMe)
 
+router.get('/myOption', ensureAuthorized, twitterService.myOption)
+
 router.get('/isConnected', ensureAuthorized, twitterService.isConnected)
 
 router.post('/webhook', twitterService.webhook)

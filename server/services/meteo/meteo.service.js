@@ -1,5 +1,6 @@
 let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
+let Meteo	= require('./../../models/Meteo')
 let config  = require('../../config/index')
 let MeteoSpec = require('./meteo.spec');
 
@@ -65,12 +66,27 @@ let removeFromCalendar = async (req, res) => {
 }
 
 let meteoOfUser = async (req, res) => {
-	let newMeteo = await new MeteoSpec.Meteo(req.token)
+	let user = await User.findOne({token : req.token})
+	let services = await Service.findOne({"_id" : user.services})
+	let meteo = await Meteo.findOne({"_id" : services.meteo})
 
-	let data = await newMeteo.getMeteoOfUser()
-	console.log("-------DATA-------")
-	console.log(data);
-	res.json({type : true, data : data})
+	var options = {
+		method: 'GET',
+		url: 'https://api.meteo-concept.com/api/ephemeride/1',
+		qs:
+		{
+			token: process.env.METEO_TOKEN,
+			insee: meteo.insee
+		},
+		headers:
+		{
+			'cache-control': 'no-cache'
+		}
+	};
+
+	request(options, function(err, body) {
+		res.json({data : body})
+	})
 }
 
 module.exports = {

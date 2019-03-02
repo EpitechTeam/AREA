@@ -254,6 +254,14 @@ let removeStartFollowSendDirectMessage = async (req, res) => {
 	res.json({type : true, data : "done"})
 }
 
+let myOption = async (req, res) => {
+	let user = await User.findOne({token: req.token})
+	let services = await Service.findOne({"_id" : user.services})
+	let twitter_user = await Twitter.findOne({"_id" : services.twitter})
+
+	res.json({data : twitter_user})
+}
+
 module.exports = {
 	addTweetByMail,
 	removeTweetByMail,
@@ -275,5 +283,6 @@ module.exports = {
 	tweetSomething,
 	webhook,
 	crc,
-	createWebhook
+	createWebhook,
+	myOption
 }
