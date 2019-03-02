@@ -272,6 +272,7 @@ class Office365 {
                 // @ts-ignore
                 this.user.userName = userData.me.displayName;
             });
+        return (true);
     }
 }
 
@@ -341,7 +342,6 @@ class Epitech {
             token: token
         };
         const res = await this.http.post(this.userService.baseUrl + 'intra/addIntraConnection', data, httpOptions).toPromise();
-        console.log(res);
         this.connected = true;
     }
 
