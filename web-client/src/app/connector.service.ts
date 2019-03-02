@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 export class ConnectorService {
     private office365 = new Office365(this.http, this.userService);
     private epitech = new Epitech(this.http, this.userService);
+    private weather = new Weather(this.http, this.userService);
     private facebook = new Facebook(this.http, this.socialAuthService, this.userService);
     private twitter = new Twitter(this.http, this.userService, this.router);
 
@@ -23,7 +24,8 @@ export class ConnectorService {
         this.office365,
         this.facebook,
         this.epitech,
-        this.twitter
+        this.twitter,
+        this.weather
     ];
 
     constructor(private http: HttpClient,
@@ -42,6 +44,8 @@ export class ConnectorService {
                 return this.facebook;
             case 'twitter':
                 return this.twitter;
+            case 'weather':
+                return this.weather;
         }
     }
 }
@@ -363,6 +367,93 @@ class Epitech {
     }
 }
 
+class Weather {
+    name = 'Weather';
+    class = 'meteo';
+    user = {
+        userId: '',
+        userName: '',
+        userImage: '',
+        userEmail: ''
+    };
+    config = {};
+    showModal = false;
+
+    connected = false;
+
+    constructor(private http: HttpClient, private userService: UserService) {
+    }
+
+    public async getConnected() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const result = await this.http.get(this.userService.baseUrl + 'meteo/isConnected', httpOptions)
+            .toPromise();
+        // @ts-ignore
+        this.connected = result.type;
+        // @ts-ignore
+        return (result.type);
+    }
+
+    public isConnected() {
+        return (this.connected);
+    }
+
+    public logout() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        this.http.get(this.userService.baseUrl + 'meteo/logout', httpOptions)
+            .subscribe(res => {
+                this.connected = false;
+            });
+    }
+
+    public login() {
+        const self = this;
+        self.showModal = true;
+    }
+
+    public async processLogin(city, insee) {
+        this.showModal = false;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const data = {
+            insee: insee,
+            city: city
+        };
+        const res = await this.http.post(this.userService.baseUrl + 'meteo/addMeteoConnection', data, httpOptions).toPromise();
+        this.connected = true;
+    }
+
+    public async getData() {
+        // const httpOptions = {
+        //     headers: new HttpHeaders({
+        //         'Content-Type': 'application/json',
+        //         'Authorization': this.userService.getUser().token
+        //     })
+        // };
+        // const res = await this.http.get(this.userService.baseUrl + 'meteo/getMe', httpOptions).toPromise();
+        // // @ts-ignore
+        // this.user.userEmail = res.me.login;
+        // // @ts-ignore
+        // this.user.userImage = 'https://intra.epitech.eu' + res.me.picture;
+        // // @ts-ignore
+        // this.user.userName = res.me.title;
+    }
+}
+
 class Facebook {
     name = 'Facebook';
     class = 'facebook';
@@ -467,6 +558,7 @@ class Facebook {
                 // @ts-ignore
                 this.user.userEmail = res.me.email;
 
+                // @ts-ignore
                 let user = this.userService.getUser();
                 localStorage.removeItem('appUser');
                 user.userImage = this.user.userImage;

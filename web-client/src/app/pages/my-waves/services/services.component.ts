@@ -3,6 +3,7 @@ import {Card, CardService} from '../CardService/card.service';
 import {Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UserService} from '../../../user.service';
+import {ConnectorService} from '../../../connector.service';
 
 @Component({
     selector: 'app-services',
@@ -22,12 +23,16 @@ export class ServicesComponent implements OnInit {
     }, {
         name: 'Twitter',
         class: 'twitter'
+    }, {
+        name: 'Weather',
+        class: 'meteo'
     }];
 
     constructor(private cardService: CardService,
                 private router: Router,
                 private http: HttpClient,
-                private userService: UserService) {
+                private userService: UserService,
+                private connectorService: ConnectorService) {
     }
 
     async ngOnInit() {
@@ -44,15 +49,19 @@ export class ServicesComponent implements OnInit {
     }
 
     private async onEnable(card) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': this.userService.getUser().token
-            })
-        };
-        const url = this.userService.baseUrl + card.type + '/' + card.enableEndpoint;
+        if (this.connectorService.getConnector(card.type).isConnected() === false) {
+            this.router.navigate(['pages/manage/' + card.type]).then();
+        } else {
+            const httpOptions = {
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                    'Authorization': this.userService.getUser().token
+                })
+            };
+            const url = this.userService.baseUrl + card.type + '/' + card.enableEndpoint;
 
-        await this.http.put(url, null, httpOptions).toPromise();
+            await this.http.put(url, null, httpOptions).toPromise();
+        }
         this.cards.splice(this.cards.indexOf(card), 1);
     }
 

@@ -138,14 +138,34 @@ export class CardService {
         disableEndpoint: 'removeEducationToEmail',
         description: 'Send you and email when you add an education place',
         class: 'card-facebook'
+    }, {
+        id: 11,
+        type: 'facebook',
+        title: 'Photo to Twitter',
+        enabled: false,
+        key: 'photosToTwitter',
+        enableEndpoint: 'addPhotosToTwitter',
+        disableEndpoint: 'removePhotosToTwitter',
+        description: 'Tweets your profile/cover picture',
+        class: 'card-facebook'
+    }, {
+        id: 12,
+        type: 'facebook',
+        title: 'Photo to Twitter',
+        enabled: false,
+        key: 'statusToTwitter',
+        enableEndpoint: 'addStatusToTwitter',
+        disableEndpoint: 'removeStatusToTwitter',
+        description: 'Tweets your Facebook posts',
+        class: 'card-facebook'
     }];
 
     TWITTERCARDS: Card[] = [{
         id: 0,
         type: 'twitter',
         enabled: false,
-        enableEndpoint: 'todo',
-        disableEndpoint: 'todo',
+        enableEndpoint: 'addTweetByMail',
+        disableEndpoint: 'removeTweetByMail',
         key: 'tweetByMail',
         title: 'Tweet to Email',
         description: 'Each time you tweet, you receive a copy by email',
@@ -154,8 +174,8 @@ export class CardService {
         id: 1,
         type: 'twitter',
         enabled: false,
-        enableEndpoint: 'todo',
-        disableEndpoint: 'todo',
+        enableEndpoint: 'addStartFollowByMail',
+        disableEndpoint: 'removeStartFollowByMail',
         key: 'startFollowByMail',
         title: 'Following to Email',
         description: 'Each time you follow, you receive an email',
@@ -164,8 +184,8 @@ export class CardService {
         id: 2,
         type: 'twitter',
         enabled: false,
-        enableEndpoint: 'todo',
-        disableEndpoint: 'todo',
+        enableEndpoint: 'addGetFollowByMail',
+        disableEndpoint: 'removeGetFollowByMail',
         key: 'getFollowByMail',
         title: 'Followed to Email',
         description: 'Each time you are followed, you receive an email',
@@ -174,39 +194,58 @@ export class CardService {
         id: 3,
         type: 'twitter',
         enabled: false,
-        enableEndpoint: 'todo',
-        disableEndpoint: 'todo',
+        enableEndpoint: 'addGetUnfollowByMail',
+        disableEndpoint: 'removeGetUnfollowByMail',
         key: 'getUnfollowByMail',
         title: 'Unfollowing to Email',
         description: 'Each time you unfollow, you receive an email',
         class: 'card-twitter'
+    }, {
+        id: 4,
+        type: 'twitter',
+        enabled: false,
+        enableEndpoint: 'addStartFollowSendDirectMessage',
+        disableEndpoint: 'removeStartFollowSendDirectMessage',
+        key: 'startFollowSendDirectMessage',
+        title: 'Followed to Direct Message',
+        description: 'Each time you are followed, you send a direct message',
+        class: 'card-twitter'
     }];
 
-    ONEDRIVECARDS: Card[] = [{
+    WEATHERCARDS: Card[] = [{
         id: 0,
-        type: 'oneDrive',
+        type: 'meteo',
         enabled: false,
-        title: 'One Drive title',
-        key: 'todo',
-        enableEndpoint: 'todo',
-        disableEndpoint: 'todo',
-        description: 'Description',
-        class: 'card-oneDrive'
-    }];
-
-    CALENDARCARDS: Card[] = [{
-        id: 0,
-        type: 'calendar',
+        enableEndpoint: 'addMeteoToEmail',
+        disableEndpoint: 'removeFromEmail',
+        key: 'toEmail',
+        title: 'Weather to Email',
+        description: 'Send you the weather by email =)',
+        class: 'card-meteo'
+    }, {
+        id: 1,
+        type: 'meteo',
         enabled: false,
-        title: 'Calendar Title',
-        key: 'todo',
-        enableEndpoint: 'todo',
-        disableEndpoint: 'todo',
-        description: 'Description',
-        class: 'card-calendar'
+        enableEndpoint: 'addMeteoToCalendar',
+        disableEndpoint: 'removeFromCalendar',
+        key: 'toCalendar',
+        title: 'Weather to Calendar',
+        description: 'Set the weather to Calendar',
+        class: 'card-meteo'
+    }, {
+        id: 2,
+        type: 'meteo',
+        enabled: false,
+        enableEndpoint: 'addMeteoToTwitter',
+        disableEndpoint: 'removeFromTwitter',
+        key: 'toTwitter',
+        title: 'Weather to Twitter',
+        description: 'Tweets the weather',
+        class: 'card-meteo'
     }];
 
     public async getDisabledCardsFromType(serviceType) {
+        // @ts-ignore
         let cards: Card[] = [];
         const httpOptions = {
             headers: new HttpHeaders({
@@ -230,6 +269,14 @@ export class CardService {
                 }
             });
         }
+
+        if (serviceType === 'meteo') {
+            this.WEATHERCARDS.forEach(card => {
+                if (res['data'][card.key] === false) {
+                    cards.push(card);
+                }
+            });
+        }
         return (cards);
     }
 
@@ -243,6 +290,20 @@ export class CardService {
         };
         let res = await this.http.get(this.userService.baseUrl + 'facebook/myOption', httpOptions).toPromise();
         this.FACEBOOKCARDS.forEach(card => {
+            if (res['data'][card.key] === enabled) {
+                card.enabled = enabled;
+                cards.push(card);
+            }
+        });
+        res = await this.http.get(this.userService.baseUrl + 'twitter/myOption', httpOptions).toPromise();
+        this.TWITTERCARDS.forEach(card => {
+            if (res['data'][card.key] === enabled) {
+                card.enabled = enabled;
+                cards.push(card);
+            }
+        });
+        res = await this.http.get(this.userService.baseUrl + 'meteo/myOption', httpOptions).toPromise();
+        this.WEATHERCARDS.forEach(card => {
             if (res['data'][card.key] === enabled) {
                 card.enabled = enabled;
                 cards.push(card);

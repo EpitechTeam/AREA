@@ -13,7 +13,7 @@
       <i class="fa fa-angle-down"></i>
     </div>
     <div id="profile-box-dropdown" *ngIf="profileNavShow">
-      <a class="font-light">Create a new wave</a>
+      <a class="font-light" routerLink="pages/myWaves/addWave">Create a new wave</a>
       <a class="font-black" (click)="onLogout()">Sign out</a>
     </div>
   </div>
