@@ -1,7 +1,6 @@
 let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
 let config  = require('../../config/index')
-let serviceConfig = require('../../config/service')
 let calendarSpec = require('./calendar.spec')
 
 let addCalendarConnection = async (req, res) => {

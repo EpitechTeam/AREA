@@ -5,7 +5,6 @@ let Calendar	= require('./../models/Calendar')
 let One_drive	= require('./../models/One-drive')
 let Service	= require('./../models/Services')
 let config  = require('../config/index')
-let serviceConfig = require('../config/service')
 let request			= require('request');
 
 //Save token  to calendar
@@ -63,7 +62,7 @@ let office365Connection = async (req, res) => {
 		let one_drive = await One_drive.findOne({"_id" : services.one_drive})
 		await One_drive.updateOne({"_id" : services.one_drive}, { $set : { accessToken : req.body.accessToken}})
 	}
-	
+
 	res.json({
 		data : "accessToken saved"
 	})
@@ -111,29 +110,6 @@ let setCalendarSubscription = (token , date, id_calendar) => {
 	});
 }
 
-// let setOne_driveSubscription = (token , date, id_one_drive) => {
-// 	var options = { method: 'POST',
-// 	url: 'https://graph.microsoft.com/v1.0/subscriptions',
-// 	headers:
-// 	{ 'cache-control': 'no-cache',
-// 	Authorization: 'Bearer ' + token,
-// 	'Content-Type': 'application/json' },
-// 	body:
-// 	{ changeType: 'updated',
-// 	notificationUrl: 'https://area-epitech-2018.herokuapp.com/webhook',
-// 	resource: '/drive/root',
-// 	expirationDateTime: date,
-// 	clientState: 'SecretClientState' },
-// 	json: true };
-//
-// 	request(options, function (error, response, body) {
-// 		if (error) throw new Error(error);
-// 		console.log(error);
-// 		console.log(body);
-// 		One_drive.updateOne({"_id" : id_one_drive}, { $set : { subscriptionId : body.id}}, function (error, one_drive_user) {	})
-// 	});
-// }
-
 let webhook = async (req, res) => {
 	console.log("Function office365 webhook")
 	let body = req.body;
@@ -147,8 +123,7 @@ let webhook = async (req, res) => {
 }
 
 let logout = async (req, res) => {
-
-	//Logout from any office365 services
+	
 }
 
 module.exports = {

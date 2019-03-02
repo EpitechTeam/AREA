@@ -1,7 +1,6 @@
 let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
 let config  = require('../../config/index')
-let serviceConfig = require('../../config/service')
 let FacebookSpec = require('./facebook.spec');
 let Service	= require('./../../models/Services')
 let Facebook	= require('./../../models/Facebook')
