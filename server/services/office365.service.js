@@ -132,7 +132,7 @@ let getData = async (path, token) => {
 
 
 				let options = {
-					url : "https://outlook.office.com/api/v2.0/me/messages/" + id,
+					url : "https://outlook.office.com/api/v2.0/me/messages/" + json.id,
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
