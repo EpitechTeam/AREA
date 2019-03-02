@@ -83,7 +83,7 @@ class Outlook {
 	async getMyOption() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
-		let	outllook = await OutlookModal.findOne({"_id" : service.outlook})
+		let	outlook = await OutlookModal.findOne({"_id" : service.outlook})
 		return outlook
 	}
 
