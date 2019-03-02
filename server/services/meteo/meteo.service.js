@@ -74,7 +74,7 @@ let meteoOfUser = async (req, res) => {
 
 	var options = {
 		method: 'GET',
-		url: 'https://api.meteo-concept.com/api/ephemeride/1',
+		url: 'https://api.meteo-concept.com/api/forecast/daily',
 		qs:
 		{
 			token: process.env.METEO_TOKEN,
