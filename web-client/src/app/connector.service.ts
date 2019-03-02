@@ -180,8 +180,8 @@ class Office365 {
             'offline_access',
             'openid',
             'profile',
-            'mail.send',
             'files.readwrite',
+            'mail.send',
             'mail.send.shared']
     };
     msalObj =
@@ -270,8 +270,8 @@ class Office365 {
 
         this.http.get(this.userService.baseUrl + 'outlook/getMe', httpOptions)
             .subscribe(userData => {
-                // console.log(userData);
-                if (!userData.me) {
+                // @ts-ignore
+                if (userData.me) {
                     this.logout();
                 }
                 // @ts-ignore
