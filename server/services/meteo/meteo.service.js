@@ -89,6 +89,14 @@ let meteoOfUser = async (req, res) => {
 	})
 }
 
+let myOption = async(req, res) => {
+	let user = await User.findOne({token : req.token})
+	let services = await Service.findOne({"_id" : user.services})
+	let meteo = await Meteo.findOne({"_id" : services.meteo})
+
+	res.json({data : meteo})
+}
+
 module.exports = {
 	addMeteoConnection,
 	addMeteoToEmail,
@@ -97,5 +105,7 @@ module.exports = {
 	removeFromEmail,
 	removeFromTwitter,
 	removeFromCalendar,
-	meteoOfUser
+	meteoOfUser,
+	myOption,
+	isConnected
 }

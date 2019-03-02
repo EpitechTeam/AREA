@@ -20,4 +20,8 @@ router.put('/removeFromTwitter', ensureAuthorized, meteoService.removeFromCalend
 
 router.get('/meteoOfUser', ensureAuthorized, meteoService.meteoOfUser)
 
+router.get('/isConnected', ensureAuthorized, meteoService.isConnected)
+
+router.get('/myOption', ensureAuthorized, meteoService.myOption)
+
 module.exports = router
