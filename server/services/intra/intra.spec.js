@@ -41,8 +41,34 @@ class Intra {
 		}
 	}
 
+	async getMessageNotification() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let intra_user = await IntraModal.findOne({"_id" : service.intra})
 
+		let options = {
+			method : 'GET',
+			url : "https://intra.epitech.eu/" + intra_user.accessToken + "/user/notification/message?format=json"
+		}
 
+		var registered_id = [];
+		var __self = this;
+		request(options, function(err, response, body) {
+			let json = JSON.parse(body)
+			for (let message of json) {
+				registered_id.push(message.id)
+				__self.handleMessage(message.title, message.id)
+			}
+			__self.updateDone(registered_id)
+		})
+	}
+
+	async handleMessage(title, id) {
+		if (await this.checkIfAlreadyDone(id) == false) {
+			let newOutlook = new OutlookSpec.Outlook(this.token);
+			await newOutlook.sendEmail("New message notification from intranet", title);
+		}
+	}
 
 	async getPlanning() {
 		let user = await User.findOne({token : this.token})
@@ -149,7 +175,6 @@ class Intra {
 
 				GPAChange : false,
 				messageNotificationByMail : false,
-				alertNotificationByMail : false,
 				activityToEmail : false,
 				activityToCalendar : false
 			})

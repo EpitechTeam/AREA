@@ -50,7 +50,7 @@ let isConnected = async(req, res) => {
 let test = async(req, res) => {
 	let newIntra = new IntraSpec.Intra(req.token);
 
-	await newIntra.getPlanning();
+	await newIntra.getMessageNotification();
 	res.json({type : true});
 }
 

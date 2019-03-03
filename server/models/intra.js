@@ -7,7 +7,6 @@ var IntraSchema   = mongoose.Schema({
 
 	GPAChange : Boolean,
 	messageNotificationByMail : Boolean,
-	alertNotificationByMail : Boolean,
 	activityToEmail : Boolean,
 	activityToCalendar : Boolean
 });
