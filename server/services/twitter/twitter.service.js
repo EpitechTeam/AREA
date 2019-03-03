@@ -103,7 +103,6 @@ let accessTokenGenerate = async(req, res) => {
 let isConnected = async(req, res) => {
 	let newTwitter = new TwitterSpec.TwitterClass(req.token);
 
-	console.log(await newTwitter.isConnected())
 	res.json({type : await newTwitter.isConnected()})
 }
 
