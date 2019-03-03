@@ -1,13 +1,35 @@
 let ObjectId	= require('mongodb').ObjectID
 let User	= require('./../../models/User')
+let Service	= require('./../../models/Services')
+let Meteo	= require('./../../models/Meteo')
 let config  = require('../../config/index')
 let MeteoSpec = require('./meteo.spec');
+var request = require("request");
 
 let addMeteoConnection = async (req, res) => {
 	let newMeteo = new MeteoSpec.Meteo(req.token)
 
 	await newMeteo.addConnection(req.body.city, req.body.insee)
 	res.json({type : true, data : "done"})
+}
+
+let isConnected = async (req, res) => {
+	let newMeteo = new MeteoSpec.Meteo(req.token)
+
+	res.json({type : await newMeteo.isConnected()})
+}
+
+let test = async(req, res) => {
+	let newMeteo = new MeteoSpec.Meteo(req.token)
+
+	await newMeteo.meteoOnTwitter()
+	res.json({data : "end"})
+}
+
+let logout = async (req, res) => {
+	let newMeteo = new MeteoSpec.Meteo(req.token)
+
+	res.json({type : await newMeteo.logout()})
 }
 
 let addMeteoToTwitter = async (req, res) => {
@@ -53,12 +75,35 @@ let removeFromCalendar = async (req, res) => {
 }
 
 let meteoOfUser = async (req, res) => {
-	let newMeteo = await new MeteoSpec.Meteo(req.token)
+	let user = await User.findOne({token : req.token})
+	let services = await Service.findOne({"_id" : user.services})
+	let meteo = await Meteo.findOne({"_id" : services.meteo})
 
-	let data = await newMeteo.getMeteoOfUser()
-	console.log("-------DATA-------")
-	console.log(data);
-	res.json({type : true, data : data})
+	var options = {
+		method: 'GET',
+		url: 'https://api.meteo-concept.com/api/forecast/daily',
+		qs:
+		{
+			token: process.env.METEO_TOKEN,
+			insee: meteo.insee
+		},
+		headers:
+		{
+			'cache-control': 'no-cache'
+		}
+	};
+
+	request(options, function(err, response, body) {
+		res.json({data : body})
+	})
+}
+
+let myOption = async(req, res) => {
+	let user = await User.findOne({token : req.token})
+	let services = await Service.findOne({"_id" : user.services})
+	let meteo = await Meteo.findOne({"_id" : services.meteo})
+
+	res.json({data : meteo})
 }
 
 module.exports = {
@@ -69,5 +114,9 @@ module.exports = {
 	removeFromEmail,
 	removeFromTwitter,
 	removeFromCalendar,
-	meteoOfUser
+	meteoOfUser,
+	myOption,
+	isConnected,
+	logout,
+	test
 }

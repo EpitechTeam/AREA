@@ -12,4 +12,6 @@ router.get('/isConnected', ensureAuthorized, intraService.isConnected)
 
 router.get('/logout', ensureAuthorized, intraService.logout)
 
+router.get('/test', ensureAuthorized, intraService.test)
+
 module.exports = router

@@ -72,18 +72,18 @@ class Outlook {
 		return;
 	}
 
-	async setFileToOneDrive() {
-		let user = await User.findOne({token : req.token});
+	async setFileToOneDrive(value) {
+		let user = await User.findOne({token : this.token});
 		let services = await Service.findOne({"_id" : user.services})
 
-		await OutlookModal.updateOne({"_id" : services.outlook}, { $set : {fileToOneDrive : true}})
+		await OutlookModal.updateOne({"_id" : services.outlook}, { $set : {fileToOneDrive : value}})
 		return;
 	}
 
 	async getMyOption() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
-		let	outllook = await OutlookModal.findOne({"_id" : service.outlook})
+		let	outlook = await OutlookModal.findOne({"_id" : service.outlook})
 		return outlook
 	}
 

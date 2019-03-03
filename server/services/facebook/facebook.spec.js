@@ -24,7 +24,10 @@ class Facebook {
 		let service = await Service.findOne({"_id" : user.services})
 		let facebook_user = await FacebookModal.findOne({"_id" : service.facebook})
 
-		if (facebook_user.accessToken == " ") {
+		if (!service.facebook) {
+			return (false)
+		}
+		else if (facebook_user.accessToken == " ") {
 			return (false);
 		}
 		return (true);

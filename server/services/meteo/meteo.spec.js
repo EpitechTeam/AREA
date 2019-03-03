@@ -1,11 +1,38 @@
 let MeteoModal	= require('./../../models/Meteo')
 let Service = require('./../../models/Services')
 let User = require('./../../models/User')
+let OutlookSpec = require('../outlook/outlook.spec')
+let CalendarSpec = require('../calendar/calendar.spec')
+let TwitterSpec = require('../twitter/twitter.spec')
 var request = require("request");
+
 
 class Meteo {
 	constructor(token) {
 		this.token = token;
+	}
+
+	async isConnected() {
+		let user = await User.findOne({token: this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let meteo_user = await MeteoModal.findOne({"_id" : service.meteo})
+
+		if (!service.meteo) {
+			return (false)
+		}
+		if (meteo_user.accessToken == " ") {
+			return (false)
+		}
+		else {
+			return (true)
+		}
+	}
+
+	async logout() {
+		let user = await User.findOne({token: this.token})
+		let service = await Service.findOne({"_id" : user.services})
+
+		await MeteoModal.updateOne({"_id" : service.meteo}, { $set: { accessToken : " " }})
 	}
 
 	async getMeteoOfUser() {
@@ -28,32 +55,6 @@ class Meteo {
 		};
 
 		return (request(options));
-		// const request1 = request(options);
-		// const reponse1 = await request1
-		// console.log(reponse1);
-		// return (reponse1)
-		// var promise = await new Promise(function(resolve, reject) {
-		// 	request(options, function (error, response, body) {
-		// 		if (error) throw new Error(error);
-		// 		console.log(body);
-		// 		resolve(body);
-		// 		return (body);
-		// 	});
-		// });
-
-		try {
-			let response = await request(options);
-			// console.log(response.body)
-			// promise.then(function(value) {
-			// 	console.log("----------Return----------")
-			// 	console.log(value)
-			// 	return (value)
-			// });
-		}
-		catch (err) {
-			console.log(err);
-			return;
-		}
 	}
 
 	async addMeteoToEmail() {
@@ -108,7 +109,7 @@ class Meteo {
 		var user = await User.findOne({token : this.token})
 		var service = await Service.findOne({"_id" : user.services})
 
-		if (user && !service.meteo) {
+		if (!service.meteo) {
 			let newMeteo = new MeteoModal({
 				accessToken : process.env.METEO_TOKEN,
 				city : city,
@@ -120,29 +121,99 @@ class Meteo {
 			await newMeteo.save();
 			await Service.updateOne({"_id" : user.services}, { $set: { meteo : newMeteo._id }})
 		}
+		else {
+			await MeteoModal.updateOne({"_id" : service.meteo}, { $set : {accessToken : process.env.METEO_TOKEN, city : city, insee : insee}})
+		}
 	}
 
 	async meteoByEmail() {
+		let user = await User.findOne({token : this.token})
+		let services = await Service.findOne({"_id" : user.services})
+		let meteo = await MeteoModal.findOne({"_id" : services.meteo})
+		var token = this.token
 
+		var options = {
+			method: 'GET',
+			url: 'https://api.meteo-concept.com/api/forecast/daily',
+			qs:
+			{
+				token: process.env.METEO_TOKEN,
+				insee: meteo.insee
+			},
+			headers:
+			{
+				'cache-control': 'no-cache'
+			}
+		};
+
+		request(options, function(err, response, body) {
+			let json = JSON.parse(body)
+			let newOutlook = new OutlookSpec.Outlook(token);
+			newOutlook.sendEmail("Votre météo quotidienne", "Demain il fera entre " + json.forecast[0].tmin +  " et " + json.forecast[0].tmax + " degres. Bonne journée :)");
+			return (body)
+		})
 	}
 
 	async meteoToCalendar() {
+		let user = await User.findOne({token : this.token})
+		let services = await Service.findOne({"_id" : user.services})
+		var meteo = await MeteoModal.findOne({"_id" : services.meteo})
+		var token = this.token
 
+		var options = {
+			method: 'GET',
+			url: 'https://api.meteo-concept.com/api/forecast/daily',
+			qs:
+			{
+				token: process.env.METEO_TOKEN,
+				insee: meteo.insee
+			},
+			headers:
+			{
+				'cache-control': 'no-cache'
+			}
+		};
+
+		request(options, function(err, response, body) {
+			let json = JSON.parse(body)
+			let newCalendar = new CalendarSpec.Calendar(token);
+			newCalendar.createEvent("Météo",
+															"Météo entre " + json.forecast[0].tmin +  " et " + json.forecast[0].tmax + " degres",
+															meteo.city,
+															json.forecast[0].datetime,
+															json.forecast[0].datetime)
+			return (body)
+		})
 	}
 
 	async meteoOnTwitter() {
+		let user = await User.findOne({token : this.token})
+		let services = await Service.findOne({"_id" : user.services})
+		var meteo = await MeteoModal.findOne({"_id" : services.meteo})
+		var token = this.token
 
+		var options = {
+			method: 'GET',
+			url: 'https://api.meteo-concept.com/api/forecast/daily',
+			qs:
+			{
+				token: process.env.METEO_TOKEN,
+				insee: meteo.insee
+			},
+			headers:
+			{
+				'cache-control': 'no-cache'
+			}
+		};
+
+		request(options, function(err, response, body) {
+			let json = JSON.parse(body)
+			let newTwitter = new TwitterSpec.TwitterClass(token);
+			newTwitter.tweetSomething("Météo entre " + json.forecast[0].tmin +  " et " + json.forecast[0].tmax + " degres")
+			return (body)
+		})
 	}
 }
-
-// let test = async () => {
-// 	let newMeteo = await new Meteo();
-//
-// 	let test = await newMeteo.getMeteoOfUser();
-// 	console.log(test);
-// }
-
-// test();
 
 module.exports = {
 	Meteo

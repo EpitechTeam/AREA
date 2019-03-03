@@ -47,9 +47,17 @@ let isConnected = async(req, res) => {
 	res.json({type : await newIntra.isConnected()});
 }
 
+let test = async(req, res) => {
+	let newIntra = new IntraSpec.Intra(req.token);
+
+	await newIntra.getMessageNotification();
+	res.json({type : true});
+}
+
 module.exports = {
 	addIntraConnection,
 	isConnected,
 	logout,
-	getMe
+	getMe,
+	test
 }

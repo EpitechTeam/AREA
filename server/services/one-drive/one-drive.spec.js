@@ -58,10 +58,22 @@ class One_drive {
 	}
 
 	/*Upload file on one drive*/
-	async uploadFile(path_local_file, path_to_the_destination) {
-		let stream = fs.createReadStream('./logo.png'); //path to local file
+	async uploadFile(name, path_local_file) {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let one_drive_user = await One_driveModal.findOne({"_id" : service.one_drive})
+
+		this.client = MicrosoftGraph.Client.init({
+			authProvider: (done) => {
+				done(null, one_drive_user.accessToken); //first parameter takes an error if you can't get an access token
+			}
+		});
+
+
+		console.log("try to upload file")
+		let stream = fs.createReadStream(path_local_file); //path to local file
 		this.client
-		.api('/me/drive/root/children/logo.png/content') // path to the destination in OneDrive
+		.api('/me/drive/root:/Attachments/' + name + ':/content') // path to the destination in OneDrive
 		.putStream(stream, (err) => {
 			console.log(err);
 		});
