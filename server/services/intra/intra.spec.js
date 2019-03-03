@@ -1,6 +1,11 @@
 let User	= require('./../../models/User')
 let Service	= require('./../../models/Services')
 var IntraModal = require('./../../models/intra')
+let OutlookSpec = require('../outlook/outlook.spec')
+let CalendarSpec = require('../calendar/calendar.spec')
+let TwitterSpec = require('../twitter/twitter.spec')
+let CalendarModal	= require('./../../models/Calendar')
+let request			= require('request');
 
 class Intra {
 	constructor(token) {
@@ -36,14 +41,117 @@ class Intra {
 		}
 	}
 
+
+
+
+	async getPlanning() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let intra_user = await IntraModal.findOne({"_id" : service.intra})
+		var token = this.token
+
+		Date.prototype.yyyymmdd = function() {
+			var mm = this.getMonth() + 1;
+			var dd = this.getDate();
+
+			return [this.getFullYear(),
+				(mm>9 ? '' : '0') + mm,
+				(dd>9 ? '' : '0') + dd
+			].join('-');
+		};
+
+		var end = new Date(Date.now() + 864000000);
+		var start = new Date();
+		let start_at = start.yyyymmdd()
+		let end_at = end.yyyymmdd()
+		let options = {
+			method : 'GET',
+			url : "https://intra.epitech.eu/" + intra_user.accessToken + "/planning/load?format=json&start=" + start_at + "&end=" + end_at
+		}
+
+		var __self = this;
+		var registred_events = []
+		request(options, function(err, response, body) {
+			let json = JSON.parse(body)
+			for (let activity of json) {
+				if (activity.semester == 5 || activity.semester == 6) {
+					if (activity.event_registered == "registered") {
+						if (activity.rdv_group_registered != null) {
+							let date = activity.rdv_group_registered.split('|')
+
+							let start = new Date(date[0]).toISOString()
+							let end = new Date(date[1]).toISOString()
+							registred_events.push(activity.codeevent)
+							__self.handleActivity(activity.acti_title, activity.type_title, activity.room.code, start, end, activity.codeevent)
+						}
+						else {
+							let start = new Date(activity.start).toISOString()
+							let end = new Date(activity.end).toISOString()
+							registred_events.push(activity.codeevent)
+							__self.handleActivity(activity.acti_title, activity.type_title, activity.room.code, start, end, activity.codeevent)
+						}
+					}
+				}
+			}
+			__self.updateDone(registred_events)
+		})
+	}
+
+	async updateDone(array) {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		var intra_user = await IntraModal.findOne({"_id" : service.intra})
+
+		for (let activity of array) {
+			intra_user.done.push(activity)
+		}
+
+		await IntraModal.updateOne({"_id" : service.intra}, {$set : {done : intra_user.done}})
+	}
+
+	async handleActivity(acti_title, type_title, room, start, end, codeevent) {
+		if (await this.checkIfAlreadyDone(codeevent) == false) {
+			await this.setEventToEmail(acti_title, type_title, room, start, end, codeevent)
+		}
+	}
+
+	async checkIfAlreadyDone(id) {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let intra_user = await IntraModal.findOne({"_id" : service.intra})
+
+		let response = intra_user.done.indexOf(id)
+		if (response == -1) {
+			return (false)
+		}
+		else {
+			return (true)
+		}
+	}
+
+	async setEventToEmail(acti_title, type_title, room, start, end, codeevent) {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let intra_user = await IntraModal.findOne({"_id" : service.intra})
+
+		let newCalendar = new CalendarSpec.Calendar(this.token);
+		await newCalendar.createEvent(acti_title, type_title, room, start, end);
+	}
+
 	async addIntraConnection(token) {
 		var user = await User.findOne({token : this.token})
 		var service = await Service.findOne({"_id" : user.services})
 
-		console.log(service);
 		if (!service.intra) {
 			let newIntra = new IntraModal({
-				accessToken : token
+				accessToken : token,
+				done : [],
+
+				GPAChange : false,
+				messageNotificationByMail : false,
+				alertNotificationByMail : false,
+				activityToEmail : false,
+				activityToCalendar : false
 			})
 
 			await newIntra.save();

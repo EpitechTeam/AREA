@@ -2,7 +2,14 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var IntraSchema   = mongoose.Schema({
-	accessToken : String
+	accessToken : String,
+	done : Array,
+
+	GPAChange : Boolean,
+	messageNotificationByMail : Boolean,
+	alertNotificationByMail : Boolean,
+	activityToEmail : Boolean,
+	activityToCalendar : Boolean
 });
 
 var Intra = module.exports = mongoose.model('Intra', IntraSchema);
