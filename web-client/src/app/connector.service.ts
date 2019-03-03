@@ -180,7 +180,7 @@ class Office365 {
             'offline_access',
             'openid',
             'profile',
-            // 'files.readwrite',
+            'files.readwrite',
             'mail.send',
             'mail.send.shared']
     };

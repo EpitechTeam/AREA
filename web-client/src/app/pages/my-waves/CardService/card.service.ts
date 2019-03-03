@@ -244,6 +244,18 @@ export class CardService {
         class: 'card-meteo'
     }];
 
+    OUTLOOKCARDS: Card[] = [{
+        id: 0,
+        type: 'outlook',
+        enabled: false,
+        enableEndpoint: 'addFileToOne_drive',
+        disableEndpoint: 'removeFileToOne_drive',
+        key: 'fileToOneDrive',
+        title: 'Email attachment to OneDrive',
+        description: 'Adds an email attachment to your OneDrive root\'s folder',
+        class: 'card-outlook'
+    }];
+
     public async getDisabledCardsFromType(serviceType) {
         // @ts-ignore
         let cards: Card[] = [];
@@ -272,6 +284,14 @@ export class CardService {
 
         if (serviceType === 'meteo') {
             this.WEATHERCARDS.forEach(card => {
+                if (res['data'][card.key] === false) {
+                    cards.push(card);
+                }
+            });
+        }
+
+        if (serviceType === 'outlook') {
+            this.OUTLOOKCARDS.forEach(card => {
                 if (res['data'][card.key] === false) {
                     cards.push(card);
                 }
@@ -307,6 +327,13 @@ export class CardService {
                 cards.push(card);
             }
         });
+
+        res = await this.http.get(this.userService.baseUrl + 'outlook' + '/myOption', httpOptions).toPromise();
+        this.OUTLOOKCARDS.forEach(card => {
+            if (res['data'][card.key] === false) {
+                cards.push(card);
+            }
+        });
         return (cards);
     }
 
@@ -334,6 +361,14 @@ export class CardService {
         });
         res = await this.http.get(this.userService.baseUrl + 'meteo/myOption', httpOptions).toPromise();
         this.WEATHERCARDS.forEach(card => {
+            if (res['data'][card.key] === enabled) {
+                card.enabled = enabled;
+                cards.push(card);
+            }
+        });
+
+        res = await this.http.get(this.userService.baseUrl + 'outlook/myOption', httpOptions).toPromise();
+        this.OUTLOOKCARDS.forEach(card => {
             if (res['data'][card.key] === enabled) {
                 card.enabled = enabled;
                 cards.push(card);
