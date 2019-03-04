@@ -41,6 +41,20 @@ class Intra {
 		}
 	}
 
+	async getGPAChange() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let intra_user = await IntraModal.findOne({"_id" : service.intra})
+
+		let options = {
+			method : 'GET',
+			url : "https://intra.epitech.eu/" + intra_user.accessToken + "/user/"
+		}
+
+		console.log(options.url)
+
+	}
+
 	async getMessageNotification() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
