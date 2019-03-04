@@ -12,6 +12,14 @@ let addIntraConnection = async (req, res) => {
 	res.json({type: true,	data: "end"	})
 }
 
+let myOption = async (req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+	var intra_user = await Intra.findOne({"_id" : service.intra})
+
+	res.json({data : intra_user})
+}
+
 let getMe = async (req, res) => {
 	var user = await User.findOne({token : req.token})
 	var service = await Service.findOne({"_id" : user.services})
@@ -50,7 +58,7 @@ let isConnected = async(req, res) => {
 let test = async(req, res) => {
 	let newIntra = new IntraSpec.Intra(req.token);
 
-	await newIntra.getMessageNotification();
+	await newIntra.getGPAChange();
 	res.json({type : true});
 }
 
@@ -131,5 +139,6 @@ module.exports = {
 	addActivityByMail,
 	removeActivityByMail,
 	addActivityToCalendar,
-	removeActivityToCalendar
+	removeActivityToCalendar,
+	myOption
 }

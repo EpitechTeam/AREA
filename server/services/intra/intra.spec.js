@@ -41,6 +41,27 @@ class Intra {
 		}
 	}
 
+	async handleGPAChange(gpa) {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let intra_user = await IntraModal.findOne({"_id" : service.intra})
+
+		if (!intra_user.GPA_intra || intra_user.GPA_intra == 0) {
+			await IntraModal.updateOne({"_id" : service.intra}, {GPA_intra : gpa})
+			if (intra_user.GPAChange) {
+				let newOutlook = new OutlookSpec.Outlook(this.token);
+				await newOutlook.sendEmail("Votre GPA actuel", "GPA : " + gpa);
+			}
+		}
+		else {
+			if (intra_user.GPAChange && gpa != intra_user.GPA_intra) {
+				let newOutlook = new OutlookSpec.Outlook(this.token);
+				await newOutlook.sendEmail("Votre GPA a changé", "GPA : " + gpa);
+			}
+			await IntraModal.updateOne({"_id" : service.intra}, {GPA_intra : gpa})
+		}
+	}
+
 	async getGPAChange() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
@@ -48,11 +69,15 @@ class Intra {
 
 		let options = {
 			method : 'GET',
-			url : "https://intra.epitech.eu/" + intra_user.accessToken + "/user/"
+			url : "https://intra.epitech.eu/" + intra_user.accessToken + "/user/?format=json"
 		}
 
-		console.log(options.url)
-
+		var __self = this
+		request(options, function(err, response, body) {
+			let json = JSON.parse(body);
+			let gpa = parseFloat(json.gpa[0].gpa)
+			__self.handleGPAChange(gpa);
+		})
 	}
 
 	async getMessageNotification() {
@@ -185,6 +210,7 @@ class Intra {
 		if (!service.intra) {
 			let newIntra = new IntraModal({
 				accessToken : token,
+				GPA_intra : 0,
 				done : [],
 
 				GPAChange : false,

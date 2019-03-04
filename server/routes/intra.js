@@ -10,6 +10,8 @@ router.get('/getMe', ensureAuthorized, intraService.getMe)
 
 router.get('/isConnected', ensureAuthorized, intraService.isConnected)
 
+router.get('/myOption', ensureAuthorized, intraService.myOption)
+
 router.get('/logout', ensureAuthorized, intraService.logout)
 
 router.get('/test', ensureAuthorized, intraService.test)
