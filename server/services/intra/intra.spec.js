@@ -102,6 +102,9 @@ class Intra {
 
 		var registered_id = [];
 		var __self = this;
+		if (intra_user.messageNotificationByMail == false) {
+			return;
+		}
 		request(options, function(err, response, body) {
 			let json = JSON.parse(body)
 			for (let message of json) {
