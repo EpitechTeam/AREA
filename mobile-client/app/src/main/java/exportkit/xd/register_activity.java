@@ -18,24 +18,26 @@
     package exportkit.xd;
 
     import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+    import android.app.Notification;
+    import android.content.Context;
+    import android.content.Intent;
+    import android.os.Bundle;
+    import android.util.Log;
+    import android.view.View;
+    import android.widget.EditText;
+    import android.widget.Toast;
 
-import com.google.gson.Gson;
+    import com.google.gson.Gson;
 
-import java.io.IOException;
+    import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+    import okhttp3.Call;
+    import okhttp3.Callback;
+    import okhttp3.OkHttpClient;
+    import okhttp3.Request;
+    import okhttp3.RequestBody;
 
-import static exportkit.xd.login_activity.JSON;
+    import static exportkit.xd.login_activity.JSON;
 
     public class register_activity extends Activity {
 
@@ -45,8 +47,10 @@ import static exportkit.xd.login_activity.JSON;
         private EditText register_first;
         private EditText register_last;
         private EditText register_confirm_password;
+        private EditText editBaseUrl;
 
         public void registerClick(View v) throws IOException {
+            ((Global) this.getApplication()).setBaseUrl(editBaseUrl.getText().toString());
             if (register_password != null && register_confirm_password != null)
                 if (!register_password.getText().toString().equals(register_confirm_password.getText().toString())) {
                     Context context = getApplicationContext();
@@ -57,12 +61,12 @@ import static exportkit.xd.login_activity.JSON;
                     toast.show();
                     return;
                 }
-            String postUrl = "https://area-epitech-2018.herokuapp.com/register";
+            String postUrl = ((Global) this.getApplication()).getBaseUrl() +"/register";
             String postBody = "{\n" +
-                    "    \"email\": \"" + (register_username != null ? register_username.getText().toString() : null) + "\",\n" +
-                    "    \"first_name\": \"" + (register_first != null ? register_first.getText().toString() : null) + "\"\n" +
-                    "    \"last_name\": \"" + (register_last != null ? register_last.getText().toString() : null) + "\"\n" +
-                    "    \"password\": \"" + (register_password != null ? register_password.getText().toString() : null) + "\"\n" +
+                    "\"email\": \"" + (register_username != null ? register_username.getText().toString() : null) + "\"," +
+                    "\"first_name\": \"" + (register_first != null ? register_first.getText().toString() : null) + "\"," +
+                    " \"last_name\": \"" + (register_last != null ? register_last.getText().toString() : null) + "\"," +
+                    " \"password\": \"" + (register_password != null ? register_password.getText().toString() : null) + "\"" +
                     "}";
             OkHttpClient client = new OkHttpClient();
             RequestBody body = RequestBody.create(JSON, postBody);
@@ -79,6 +83,7 @@ import static exportkit.xd.login_activity.JSON;
                 @Override
                 public void onResponse(Call call, okhttp3.Response response) throws IOException {
                     String rsp = response.body().string();
+                    Log.d("tes srx fdp?", rsp);
                     String jsonString = rsp;
                     LoginResponse data = new LoginResponse();
                     Gson gson = new Gson();
@@ -102,6 +107,7 @@ import static exportkit.xd.login_activity.JSON;
             register_confirm_password = (EditText) findViewById(R.id.register_confirm_password);
             register_first = (EditText) findViewById(R.id.register_first);
             register_last = (EditText) findViewById(R.id.register_last);
+            editBaseUrl = (EditText) findViewById(R.id.editRegisterBaseUrl);
         }
 
     }

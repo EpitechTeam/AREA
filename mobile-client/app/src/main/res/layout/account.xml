@@ -101,16 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="200dp"
                 android:textAllCaps="false" />
-            <Button
-                android:text="Microsoft Sign Out"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="200dp"
-                android:textColor="#FFFFFF"
-                android:background="#00a1f1"
-                android:textAllCaps="false"
-                android:id="@+id/clearCache"
-                android:visibility="invisible" />
+
 
         </RelativeLayout>
 
@@ -123,13 +114,13 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="287dp">
 
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/google_sign_in"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/twitter_button"
+                android:onClick="launchTwitter"
+                android:text="Twitter Sign in"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="80dp" />
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/facebook_login_button"
@@ -137,16 +128,19 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="30dp" />
 
-                <Button
-                    android:id="@+id/google_sign_out"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:visibility="invisible"
-                    android:layout_marginTop="80dp"
-                    android:text="google+ Sign out"/>
+            <Button
+                android:id="@+id/facebook_logout"
+                android:text="Facebook Sign out"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="40dp"
+                android:visibility="invisible"
+                android:layout_height="wrap_content" />
+
+
 
         </RelativeLayout>
 

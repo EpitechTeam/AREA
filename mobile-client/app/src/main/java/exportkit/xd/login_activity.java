@@ -18,24 +18,27 @@
     package exportkit.xd;
 
     import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
+    import android.content.Intent;
+    import android.os.Bundle;
     import android.util.Log;
     import android.view.View;
-import android.widget.EditText;
+    import android.widget.EditText;
 
-import com.google.gson.Gson;
+    import com.google.gson.Gson;
 
-import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+    import java.io.IOException;
+
+    import okhttp3.Call;
+    import okhttp3.Callback;
+    import okhttp3.MediaType;
+    import okhttp3.OkHttpClient;
+    import okhttp3.Request;
+    import okhttp3.RequestBody;
 
     public class login_activity extends Activity {
+
+        private EditText editBaseUrl;
 
         ApiServiceManager apiServiceManager = new ApiServiceManager();
         EditText email;
@@ -48,10 +51,11 @@ import okhttp3.RequestBody;
         }
 
         public void loginApi(View v) throws IOException {
-            String postUrl = "https://area-epitech-2018.herokuapp.com/login";
+            ((Global) this.getApplication()).setBaseUrl(editBaseUrl.getText().toString());
+            String postUrl = ((Global) this.getApplication()).getBaseUrl() +"/login";
             String postBody = "{\n" +
-                    "    \"email\": \""+ (email != null ? email.getText().toString() : null) +"\",\n" +
-                    "    \"password\": \""+ (password != null ? password.getText().toString() : null) +"\"\n" +
+                    "    \"email\": \"" + (email != null ? email.getText().toString() : null) + "\",\n" +
+                    "    \"password\": \"" + (password != null ? password.getText().toString() : null) + "\"\n" +
                     "}";
             OkHttpClient client = new OkHttpClient();
             RequestBody body = RequestBody.create(JSON, postBody);
@@ -76,6 +80,7 @@ import okhttp3.RequestBody;
                     Intent intent = new Intent();
                     intent.setClass(getApplicationContext(), bottom_navigation_activity.class);
                     intent.putExtra("Login", data);
+                    ((Global) getApplication()).setToken(data.getData().getToken());
                     startActivity(intent);
                 }
             });
@@ -87,12 +92,10 @@ import okhttp3.RequestBody;
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.login);
+            editBaseUrl = (EditText) findViewById(R.id.baseUrl);
             email = (EditText) findViewById(R.id.email);
             password = (EditText) findViewById(R.id.password);
         }
-
-
-
     }
 	
 	

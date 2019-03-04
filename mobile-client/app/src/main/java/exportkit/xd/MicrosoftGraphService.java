@@ -14,7 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,74 +24,46 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.microsoft.aad.adal.ADALError;
-import com.microsoft.aad.adal.AuthenticationCallback;
-import com.microsoft.aad.adal.AuthenticationContext;
-import com.microsoft.aad.adal.AuthenticationException;
-import com.microsoft.aad.adal.AuthenticationResult;
-import com.microsoft.aad.adal.IDispatcher;
-import com.microsoft.aad.adal.Logger;
-import com.microsoft.aad.adal.PromptBehavior;
-import com.microsoft.aad.adal.Telemetry;
+import com.google.gson.Gson;
+import com.microsoft.identity.client.AuthenticationCallback;
+import com.microsoft.identity.client.AuthenticationResult;
+import com.microsoft.identity.client.IAccount;
+import com.microsoft.identity.client.PublicClientApplication;
+import com.microsoft.identity.client.exception.MsalClientException;
+import com.microsoft.identity.client.exception.MsalException;
+import com.microsoft.identity.client.exception.MsalServiceException;
+import com.microsoft.identity.client.exception.MsalUiRequiredException;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MicrosoftGraphService extends Activity  {
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+
+import static exportkit.xd.login_activity.JSON;
+
+public class MicrosoftGraphService extends Activity {
+
+    /* Azure AD v2 Configs */
+    final static String SCOPES[] = {"https://graph.microsoft.com/User.Read", "https://graph.microsoft.com/Calendars.Read", "https://graph.microsoft.com/Calendars.Read.Shared", "https://graph.microsoft.com/Calendars.ReadWrite", "https://graph.microsoft.com/Calendars.ReadWrite.Shared", "https://graph.microsoft.com/Mail.Send", "https://graph.microsoft.com/Mail.Send.Shared","https://graph.microsoft.com/Files.ReadWrite", "email", "offline_access", "openid", "profile"};
+    final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
+
     /* UI & Debugging Variables */
     private static final String TAG = MicrosoftGraphService.class.getSimpleName();
     Button callGraphButton;
     Button signOutButton;
-
-    /* Azure AD Constants */
-    /* Authority is in the form of https://login.microsoftonline.com/yourtenant.onmicrosoft.com */
-    private static final String AUTHORITY = "https://login.microsoftonline.com/common";
-    /* The clientID of your application is a unique identifier which can be obtained from the app registration portal */
-    private static final String CLIENT_ID = "0f68761b-347b-4906-9513-c4b521bc2c56";
-    /* Resource URI of the endpoint which will be accessed */
-    private static final String RESOURCE_ID = "https://graph.microsoft.com/";
-    /* The Redirect URI of the application (Optional) */
-    private static final String REDIRECT_URI = "msal0f68761b-347b-4906-9513-c4b521bc2c56://auth";
-
-    /* Microsoft Graph Constants */
-    private final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
-
+    final static String CLIENT_ID = "6cf6d447-0635-4914-a848-4cb72e761e39";
     /* Azure AD Variables */
-    private AuthenticationContext mAuthContext;
-    private AuthenticationResult mAuthResult;
-
-    /* Handler to do an interactive sign in and acquire token */
-    private Handler mAcquireTokenHandler;
-    /* Boolean variable to ensure invocation of interactive sign-in only once in case of multiple  acquireTokenSilent call failures */
-    private static AtomicBoolean sIntSignInInvoked = new AtomicBoolean();
-    /* Constant to send message to the mAcquireTokenHandler to do acquire token with Prompt.Auto*/
-    private static final int MSG_INTERACTIVE_SIGN_IN_PROMPT_AUTO = 1;
-    /* Constant to send message to the mAcquireTokenHandler to do acquire token with Prompt.Always */
-    private static final int MSG_INTERACTIVE_SIGN_IN_PROMPT_ALWAYS = 2;
-
-    /* Constant to store user id in shared preferences */
-    private static final String USER_ID = "user_id";
-
-    /* Telemetry variables */
-    // Flag to turn event aggregation on/off
-    private static final boolean sTelemetryAggregationIsRequired = true;
-
-    /* Telemetry dispatcher registration */
-    static {
-        Telemetry.getInstance().registerDispatcher(new IDispatcher() {
-            @Override
-            public void dispatchEvent(Map<String, String> events) {
-                // Events from ADAL will be sent to this callback
-                for(Map.Entry<String, String> entry: events.entrySet()) {
-                    Log.d(TAG, entry.getKey() + ": " + entry.getValue());
-                }
-            }
-        }, sTelemetryAggregationIsRequired);
-    }
+    private PublicClientApplication sampleApp;
+    private AuthenticationResult authResult;
+    private String tokenApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,147 +85,151 @@ public class MicrosoftGraphService extends Activity  {
             }
         });
 
-        mAuthContext = new AuthenticationContext(getApplicationContext(), AUTHORITY, false);
-
-        /* Instantiate handler which can invoke interactive sign-in to get the Resource
-         * sIntSignInInvoked ensures interactive sign-in is invoked one at a time */
-
-        mAcquireTokenHandler = new Handler(Looper.getMainLooper()){
-            @Override
-            public void handleMessage(Message msg) {
-                if( sIntSignInInvoked.compareAndSet(false, true)) {
-                    if (msg.what == MSG_INTERACTIVE_SIGN_IN_PROMPT_AUTO){
-                        mAuthContext.acquireToken(getActivity(), RESOURCE_ID, CLIENT_ID, REDIRECT_URI, PromptBehavior.Auto, getAuthInteractiveCallback());
-                    }else if(msg.what == MSG_INTERACTIVE_SIGN_IN_PROMPT_ALWAYS){
-                        mAuthContext.acquireToken(getActivity(), RESOURCE_ID, CLIENT_ID, REDIRECT_URI, PromptBehavior.Always, getAuthInteractiveCallback());
-                    }
-                }
-            }
-        };
-
-        /* ADAL Logging callback setup */
-
-        Logger.getInstance().setExternalLogger(new Logger.ILogger() {
-            @Override
-            public void Log(String tag, String message, String additionalMessage, Logger.LogLevel level, ADALError errorCode) {
-                // You can filter the logs  depending on level or errorcode.
-                Log.d(TAG, message + " " + additionalMessage);
-            }
-        });
-
-        /*Attempt an acquireTokenSilent call to see if we're signed in*/
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String userId = preferences.getString(USER_ID, "");
-        if(!TextUtils.isEmpty(userId)){
-            mAuthContext.acquireTokenSilentAsync(RESOURCE_ID, CLIENT_ID, userId, getAuthSilentCallback());
+        sampleApp = null;
+        if (sampleApp == null) {
+            sampleApp = new PublicClientApplication(
+                    this.getApplicationContext(),
+                    R.raw.auth_config);
         }
-    }
+        tokenApi =  ((Global) getActivity().getApplication()).getToken();
 
-    @Override
-    public void onBackPressed() {
-        String data = mAuthResult.getAccessToken();
-        Intent intent = new Intent();
-        intent.putExtra("MyData", data);
-        setResult(54, intent);
-        finish();
+        List<IAccount> accounts = null;
+
+        try {
+            accounts = sampleApp.getAccounts();
+
+            if (accounts != null && accounts.size() == 1) {
+                /* We have 1 account */
+
+                sampleApp.acquireTokenSilentAsync(SCOPES, accounts.get(0), getAuthSilentCallback());
+            } else {
+                /* We have no account or >1 account */
+            }
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(TAG, "Account at this position does not exist: " + e.toString());
+        }
+
     }
 
     //
-    // Core Auth methods used by ADAL
+    // Core Identity methods used by MSAL
     // ==================================
     // onActivityResult() - handles redirect from System browser
     // onCallGraphClicked() - attempts to get tokens for graph, if it succeeds calls graph & updates UI
+    // onSignOutClicked() - Signs account out of the app & updates UI
     // callGraphAPI() - called on successful token acquisition which makes an HTTP request to graph
-    // onSignOutClicked() - Signs user out of the app & updates UI
     //
 
+    /* Handles the redirect from the System Browser */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mAuthContext.onActivityResult(requestCode, resultCode, data);
+        sampleApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
     }
 
-    /*
-     * End user clicked call Graph API button, time for Auth
-     * Use ADAL to get an Access token for the Microsoft Graph API
+    /* Use MSAL to acquireToken for the end-user
+     * Callback will call Graph api w/ access token & update UI
      */
     private void onCallGraphClicked() {
-        mAcquireTokenHandler.sendEmptyMessage(MSG_INTERACTIVE_SIGN_IN_PROMPT_AUTO);
+        sampleApp.acquireToken(getActivity(), SCOPES, getAuthInteractiveCallback());
     }
 
-    private void callGraphAPI() {
-        Log.d(TAG, "Starting volley request to graph");
+    /* Clears an account's tokens from the cache.
+     * Logically similar to "sign out" but only signs out of this app.
+     */
+    private void onSignOutClicked() {
+        String postUrl = ((Global) getActivity().getApplication()).getBaseUrl() + "/outlook/logout";
+        OkHttpClient client = new OkHttpClient();
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(postUrl)
+                .addHeader("Authorization", tokenApi)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
-        /* Make sure we have a token to send to graph */
-        if (mAuthResult.getAccessToken() == null) {return;}
+            }
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JSONObject parameters = new JSONObject();
+            @Override
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
+
+            }
+        });
+        List<IAccount> accounts = null;
 
         try {
-            parameters.put("key", "value");
-        } catch (Exception e) {
-            Log.d(TAG, "Failed to put parameters: " + e.toString());
-        }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, MSGRAPH_URL,
-                parameters,new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                /* Successfully called graph, process data and send to UI */
-                Log.d(TAG, "Response: " + response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error: " + error.toString());
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + mAuthResult.getAccessToken());
-                return headers;
-            }
-        };
+            accounts = sampleApp.getAccounts();
 
-        Log.d(TAG, "Adding HTTP GET to Queue, Request: " + request.toString());
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                3000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(request);
+            if (accounts == null) {
+                /* We have no accounts */
+
+            } else if (accounts.size() == 1) {
+                /* We have 1 account */
+                /* Remove from token cache */
+                sampleApp.removeAccount(accounts.get(0));
+                updateSignedOutUI();
+
+            } else {
+                /* We have multiple accounts */
+                for (int i = 0; i < accounts.size(); i++) {
+                    sampleApp.removeAccount(accounts.get(i));
+                }
+            }
+
+            Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
+                    .show();
+
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(TAG, "User at this position does not exist: " + e.toString());
+        }
     }
 
-    private void onSignOutClicked() {
-        // End user has clicked the Sign Out button
-        // Kill the token cache
-        // Optionally call the signout endpoint to fully sign out the user account
-        mAuthContext.getCache().removeAll();
-        updateSignedOutUI();
+    /* Use Volley to make an HTTP request to the /me endpoint from MS Graph using an access token */
+    private void callGraphAPI() {
+        if (authResult == null)
+            return;
+        String postUrl = ((Global) getActivity().getApplication()).getBaseUrl() + "/office365";
+        String postBody = "{\n" +
+                "\"accessToken\": \"" + authResult.getAccessToken() + "\"\n" +
+                "}";
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, postBody);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(postUrl)
+                .addHeader("Authorization", tokenApi)
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                String rsp = response.body().string();
+                Log.d("Azure Token Push Response", rsp);
+            }
+        });
     }
 
     //
-    // UI Helper methods
+    // Helper methods manage UI updates
     // ================================
     // updateGraphUI() - Sets graph response in UI
     // updateSuccessUI() - Updates UI when token acquisition succeeds
     // updateSignedOutUI() - Updates UI when app sign out succeeds
     //
 
-
-
-    @SuppressLint("SetTextI18n")
+    /* Set the UI for successful token acquisition data */
     private void updateSuccessUI() {
-        // Called on success from /me endpoint
-        // Removed call Graph API button and paint Sign out
         callGraphButton.setVisibility(View.INVISIBLE);
         signOutButton.setVisibility(View.VISIBLE);
         findViewById(R.id.welcome).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.welcome)).setText("Welcome, " +
-                mAuthResult.getUserInfo().getGivenName());
+                authResult.getAccount().getUsername());
     }
 
-    @SuppressLint("SetTextI18n")
+    /* Set the UI for signed out account */
     private void updateSignedOutUI() {
         callGraphButton.setVisibility(View.VISIBLE);
         signOutButton.setVisibility(View.INVISIBLE);
@@ -259,7 +237,7 @@ public class MicrosoftGraphService extends Activity  {
     }
 
     //
-    // ADAL Callbacks
+    // App callbacks for MSAL
     // ======================
     // getActivity() - returns activity so we can acquireToken within a callback
     // getAuthSilentCallback() - callback defined to handle acquireTokenSilent() case
@@ -274,137 +252,110 @@ public class MicrosoftGraphService extends Activity  {
      * Looks if tokens are in the cache (refreshes if necessary and if we don't forceRefresh)
      * else errors that we need to do an interactive request.
      */
-    private AuthenticationCallback<AuthenticationResult> getAuthSilentCallback() {
-        return new AuthenticationCallback<AuthenticationResult>() {
+    private AuthenticationCallback getAuthSilentCallback() {
+        return new AuthenticationCallback() {
             @Override
             public void onSuccess(AuthenticationResult authenticationResult) {
-                if(authenticationResult==null || TextUtils.isEmpty(authenticationResult.getAccessToken())
-                        || authenticationResult.getStatus()!= AuthenticationResult.AuthenticationStatus.Succeeded){
-                    Log.d(TAG, "Silent acquire token Authentication Result is invalid, retrying with interactive");
-                    /* retry with interactive */
-                    mAcquireTokenHandler.sendEmptyMessage(MSG_INTERACTIVE_SIGN_IN_PROMPT_AUTO);
-                    return;
-                }
                 /* Successfully got a token, call graph now */
                 Log.d(TAG, "Successfully authenticated");
-                /* Store the mAuthResult */
-                mAuthResult = authenticationResult;
+
+                /* Store the authResult */
+                authResult = authenticationResult;
+
                 /* call graph */
                 callGraphAPI();
 
                 /* update the UI to post call graph state */
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateSuccessUI();
-                    }
-                });
+                updateSuccessUI();
             }
 
             @Override
-            public void onError(Exception exception) {
+            public void onError(MsalException exception) {
                 /* Failed to acquireToken */
-                Log.e(TAG, "Authentication failed: " + exception.toString());
-                if (exception instanceof AuthenticationException) {
-                    AuthenticationException authException = ((AuthenticationException) exception);
-                    ADALError error = authException.getCode();
-                    logHttpErrors(authException);
-                    /*  Tokens expired or no session, retry with interactive */
-                    if (error == ADALError.AUTH_REFRESH_FAILED_PROMPT_NOT_ALLOWED ) {
-                        mAcquireTokenHandler.sendEmptyMessage(MSG_INTERACTIVE_SIGN_IN_PROMPT_AUTO);
-                    }else if(error == ADALError.NO_NETWORK_CONNECTION_POWER_OPTIMIZATION){
-                        /* Device is in Doze mode or App is in stand by mode.
-                           Wake up the app or show an appropriate prompt for the user to take action
-                           More information on this : https://github.com/AzureAD/azure-activedirectory-library-for-android/wiki/Handle-Doze-and-App-Standby */
-                        Log.e(TAG, "Device is in doze mode or the app is in standby mode");
-                    }
-                    return;
+                Log.d(TAG, "Authentication failed: " + exception.toString());
+
+                if (exception instanceof MsalClientException) {
+                    /* Exception inside MSAL, more info inside MsalError.java */
+                } else if (exception instanceof MsalServiceException) {
+                    /* Exception when communicating with the STS, likely config issue */
+                } else if (exception instanceof MsalUiRequiredException) {
+                    /* Tokens expired or no session, retry with interactive */
                 }
-                /* Attempt an interactive on any other exception */
-                mAcquireTokenHandler.sendEmptyMessage(MSG_INTERACTIVE_SIGN_IN_PROMPT_AUTO);
+            }
+
+            @Override
+            public void onCancel() {
+                /* User canceled the authentication */
+                Log.d(TAG, "User cancelled login.");
             }
         };
-    }
-
-    private void logHttpErrors(AuthenticationException authException){
-        int httpResponseCode = authException.getServiceStatusCode();
-        Log.d(TAG , "HTTP Response code: " + authException.getServiceStatusCode());
-        if(httpResponseCode< 200 || httpResponseCode >300) {
-            // logging http response headers in case of a http error.
-            HashMap<String, List<String>> headers = authException.getHttpResponseHeaders();
-            if (headers != null) {
-                StringBuilder sb = new StringBuilder();
-                for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-                    sb.append(entry.getKey());
-                    sb.append(":");
-                    sb.append(entry.getValue().toString());
-                    sb.append("; ");
-                }
-                Log.e(TAG, "HTTP Response headers: " + sb.toString());
-            }
-        }
     }
 
     /* Callback used for interactive request.  If succeeds we use the access
      * token to call the Microsoft Graph. Does not check cache
      */
-    private AuthenticationCallback<AuthenticationResult> getAuthInteractiveCallback() {
-        return new AuthenticationCallback<AuthenticationResult>() {
+    private AuthenticationCallback getAuthInteractiveCallback() {
+        return new AuthenticationCallback() {
             @Override
             public void onSuccess(AuthenticationResult authenticationResult) {
-                if(authenticationResult==null || TextUtils.isEmpty(authenticationResult.getAccessToken())
-                        || authenticationResult.getStatus()!= AuthenticationResult.AuthenticationStatus.Succeeded){
-                    Log.e(TAG, "Authentication Result is invalid");
-                    return;
-                }
                 /* Successfully got a token, call graph now */
                 Log.d(TAG, "Successfully authenticated");
-                Log.d(TAG, "ID Token: " + authenticationResult.getIdToken());
+                Log.d(TAG, "Access Token: " + authenticationResult.getAccessToken());
 
                 /* Store the auth result */
-                mAuthResult = authenticationResult;
+                authResult = authenticationResult;
+                List<IAccount> accounts = null;
+                try {
+                    accounts = sampleApp.getAccounts();
 
-                /* Store User id to SharedPreferences to use it to acquire token silently later */
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                preferences.edit().putString(USER_ID, authenticationResult.getUserInfo().getUserId()).apply();
+                    if (accounts == null) {
+                        /* We have no accounts */
 
+                    } else if (accounts.size() == 1) {
+                        /* We have 1 account */
+                        /* Remove from token cache */
+                        sampleApp.removeAccount(accounts.get(0));
+                        updateSignedOutUI();
+
+                    } else {
+                        /* We have multiple accounts */
+                        for (int i = 0; i < accounts.size(); i++) {
+                            sampleApp.removeAccount(accounts.get(i));
+                        }
+                    }
+
+                    Toast.makeText(getBaseContext(), "Signed Out!", Toast.LENGTH_SHORT)
+                            .show();
+
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d(TAG, "User at this position does not exist: " + e.toString());
+                }
                 /* call graph */
                 callGraphAPI();
 
                 /* update the UI to post call graph state */
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateSuccessUI();
-                    }
-                });
-                /* set the sIntSignInInvoked boolean back to false  */
-                sIntSignInInvoked.set(false);
+                updateSuccessUI();
             }
 
             @Override
-            public void onError(Exception exception) {
+            public void onError(MsalException exception) {
                 /* Failed to acquireToken */
-                Log.e(TAG, "Authentication failed: " + exception.toString());
-                if (exception instanceof AuthenticationException) {
-                    ADALError  error = ((AuthenticationException)exception).getCode();
-                    if(error==ADALError.AUTH_FAILED_CANCELLED){
-                        Log.e(TAG, "The user cancelled the authorization request");
-                    }else if(error== ADALError.AUTH_FAILED_NO_TOKEN){
-                        // In this case ADAL has found a token in cache but failed to retrieve it.
-                        // Retry interactive with Prompt.Always to ensure we do an interactive sign in
-                        mAcquireTokenHandler.sendEmptyMessage(MSG_INTERACTIVE_SIGN_IN_PROMPT_ALWAYS);
-                    }else if(error == ADALError.NO_NETWORK_CONNECTION_POWER_OPTIMIZATION){
-                        /* Device is in Doze mode or App is in stand by mode.
-                           Wake up the app or show an appropriate prompt for the user to take action
-                           More information on this : https://github.com/AzureAD/azure-activedirectory-library-for-android/wiki/Handle-Doze-and-App-Standby */
-                        Log.e(TAG, "Device is in doze mode or the app is in standby mode");
-                    }
+                Log.d(TAG, "Authentication failed: " + exception.toString());
+
+                if (exception instanceof MsalClientException) {
+                    /* Exception inside MSAL, more info inside MsalError.java */
+                } else if (exception instanceof MsalServiceException) {
+                    /* Exception when communicating with the STS, likely config issue */
                 }
-                /* set the sIntSignInInvoked boolean back to false  */
-                sIntSignInInvoked.set(false);
+            }
+
+            @Override
+            public void onCancel() {
+                /* User canceled the authentication */
+                Log.d(TAG, "User cancelled login.");
             }
         };
     }
+
 
 }

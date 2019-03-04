@@ -1,159 +1,180 @@
-<RelativeLayout android:id="@+id/content_container"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-				<RelativeLayout android:id="@+id/inputs_ek1"
-					android:layout_marginTop="145dp"
-					android:layout_marginStart="39dp"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					>
-
-
-					<RelativeLayout android:id="@+id/login_ek4"
-						android:layout_marginTop="230dp"
-						android:layout_marginStart="0dp"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						>
-
-                        <Button
-                            android:id="@+id/background_ek3"
-                            android:layout_width="282dp"
-                            android:layout_height="50dp"
-                            android:layout_marginStart="0dp"
-                            android:layout_marginLeft="0dp"
-                            android:layout_marginTop="100dp"
-                            android:background="@drawable/background_ek3_shape"
-                            android:onClick="registerClick"
-                            android:text="Create account" />
-
-					</RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_marginTop="230dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
-
-                        <EditText android:id="@+id/register_first"
-                            android:hint="First Name"
-                            android:background="@drawable/background_ek6_shape"
-                            android:layout_marginLeft="0dp"
-                            android:layout_marginStart="0dp"
-                            android:layout_marginTop="0dp"
-                            android:layout_width="280dp"
-                            android:layout_height="48dp" />
-
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_marginTop="280dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
-
-                        <EditText android:id="@+id/register_last"
-                            android:hint="Last Name"
-                            android:background="@drawable/background_ek6_shape"
-                            android:layout_marginLeft="0dp"
-                            android:layout_marginStart="0dp"
-                            android:layout_marginTop="0dp"
-                            android:layout_width="280dp"
-                            android:layout_height="48dp" />
-
-                    </RelativeLayout>
-					<RelativeLayout android:id="@+id/password_ek1"
-						android:layout_marginTop="140dp"
-						android:layout_marginStart="0dp"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						>
-
-						<EditText android:id="@+id/register_confirm_password"
-							android:hint="Confirm Password"
-                            android:inputType="textPassword"
-							android:background="@drawable/background_ek4_shape"
-							 android:layout_marginLeft="0dp"
-							 android:layout_marginStart="0dp"
-							android:layout_marginTop="0dp"
-							android:layout_width="280dp"
-							android:layout_height="48dp" />
+    <RelativeLayout
+        android:id="@+id/inputs_ek1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="145dp">
 
 
-					</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/login_ek4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="230dp">
+
+            <Button
+                android:id="@+id/background_ek3"
+                android:layout_width="282dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/background_ek3_shape"
+                android:onClick="registerClick"
+                android:text="Create account" />
+
+            <EditText
+                android:id="@+id/editRegisterBaseUrl"
+                android:layout_width="350dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="160dp"
+                android:background="@drawable/background_ek6_shape"
+                android:hint="http://localhost:8080"
+                android:text="https://area-epitech-2018.herokuapp.com" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="230dp">
+
+            <EditText
+                android:id="@+id/register_first"
+                android:layout_width="280dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/background_ek6_shape"
+                android:hint="First Name"
+                android:text="Marvyn" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="280dp">
+
+            <EditText
+                android:id="@+id/register_last"
+                android:layout_width="280dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/background_ek6_shape"
+                android:hint="Last Name"
+                android:text="Quivront" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/password_ek1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="140dp">
+
+            <EditText
+                android:id="@+id/register_confirm_password"
+                android:layout_width="280dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/background_ek4_shape"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:text="test" />
 
 
-					<RelativeLayout android:id="@+id/password_ek2"
-						android:layout_marginTop="70dp"
-						android:layout_marginStart="0dp"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						>
-
-						<EditText android:id="@+id/register_password"
-							android:hint="Password"
-							android:background="@drawable/background_ek5_shape"
-							 android:layout_marginLeft="0dp"
-							 android:layout_marginStart="0dp"
-                            android:inputType="textPassword"
-							android:layout_marginTop="0dp"
-							android:layout_width="280dp"
-							android:layout_height="48dp" />
+        </RelativeLayout>
 
 
-					</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/password_ek2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="70dp">
+
+            <EditText
+                android:id="@+id/register_password"
+                android:layout_width="280dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/background_ek5_shape"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:text="test" />
 
 
-					<RelativeLayout android:id="@+id/email_ek1"
-						android:layout_marginTop="0dp"
-						android:layout_marginStart="0dp"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						>
-
-						<EditText android:id="@+id/register_username"
-							android:hint="example@domain.com"
-							android:background="@drawable/background_ek6_shape"
-							 android:layout_marginLeft="0dp"
-							 android:layout_marginStart="0dp"
-							android:layout_marginTop="0dp"
-							android:layout_width="280dp"
-							android:layout_height="48dp" />
-					</RelativeLayout>
-
-				</RelativeLayout>
-
-				<RelativeLayout android:id="@+id/header"
-					android:layout_marginTop="0dp"
-					android:layout_marginStart="0dp"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					>
-
-					<View android:id="@+id/background_ek7"
-						android:background="@drawable/background_ek7_shape"
-						 android:layout_marginLeft="0dp"
-						 android:layout_marginStart="0dp"
-						android:layout_marginTop="0dp"
-						android:layout_width="match_parent"
-						android:layout_height="84dp" />
+        </RelativeLayout>
 
 
-					<TextView android:id="@+id/register_ek3"
-						android:fontFamily="Roboto"
-						android:layout_gravity="center_horizontal|center"
-						android:gravity="center"
-						android:textSize="26sp"
-						android:textColor="#ffffff"
-						android:layout_marginLeft="126dp"
-						android:layout_marginTop="27dp"
-						android:layout_width="105dp"
-						android:layout_height="35dp"
-						android:text="Register"
-						 />
+        <RelativeLayout
+            android:id="@+id/email_ek1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp">
+
+            <EditText
+                android:id="@+id/register_username"
+                android:layout_width="280dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/background_ek6_shape"
+                android:hint="example@domain.com"
+                android:text="marvyn@epitech.eu" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp">
+
+        <View
+            android:id="@+id/background_ek7"
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/background_ek7_shape" />
 
 
-				</RelativeLayout>
+        <TextView
+            android:id="@+id/register_ek3"
+            android:layout_width="105dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_marginLeft="126dp"
+            android:layout_marginTop="27dp"
+            android:fontFamily="Roboto"
+            android:gravity="center"
+            android:text="Register"
+            android:textColor="#ffffff"
+            android:textSize="26sp" />
 
-		</RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

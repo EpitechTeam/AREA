@@ -4,7 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
+        android:name=".Global"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +24,8 @@
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
-            <intent-filter><action android:name="android.intent.action.VIEW" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.ALTERNATIVE" />
@@ -30,7 +33,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".login_activity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -41,7 +43,19 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.microsoft.identity.client.BrowserTabActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="msal6cf6d447-0635-4914-a848-4cb72e761e39"
+                    android:host="auth" />
+            </intent-filter>
+        </activity>
         <activity android:name="exportkit.xd.register_activity"></activity>
+        <activity android:name=".Twitter_activity"></activity>
         <activity android:name="exportkit.xd.MicrosoftGraphService"></activity>
         <activity android:name="exportkit.xd.bottom_navigation_activity"></activity>
         <activity android:name="exportkit.xd.my_waves___add_activity"></activity>
