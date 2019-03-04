@@ -30,6 +30,9 @@ export class ServicesComponent implements OnInit {
     }, {
         name: 'Outlook',
         class: 'outlook'
+    }, {
+        name: 'Epitech',
+        class: 'intra'
     }];
 
     constructor(private cardService: CardService,
@@ -58,6 +61,9 @@ export class ServicesComponent implements OnInit {
     }
 
     private async OnServiceClicked(serviceType) {
+        // if (serviceType === 'outlook') {
+        //     serviceType = 'office365';
+        // }
         this.searchText = '';
         this.selectedService = serviceType;
         this.cards = this.stockCards.filter((item) => item.type === this.selectedService);
@@ -73,8 +79,12 @@ export class ServicesComponent implements OnInit {
     }
 
     private async onEnable(card) {
-        if (this.connectorService.getConnector(card.type).isConnected() === false) {
-            this.router.navigate(['pages/manage/' + card.type]).then();
+        let tempType = card.type;
+        if (card.type === 'outlook') {
+            tempType = 'office365';
+        }
+        if (this.connectorService.getConnector(tempType).isConnected() === false) {
+            this.router.navigate(['pages/manage/' + tempType]).then();
         } else {
             const httpOptions = {
                 headers: new HttpHeaders({

@@ -125,8 +125,6 @@ body {
 }
 
 .main {
-    max-width: 1200px;
-    min-width: 1140px;
     min-height: 400px;
     margin: auto;
     background-color: white;
@@ -238,7 +236,7 @@ body {
     background-position-x: 15px;
 }
 
-.epitech {
+.intra {
     background-color: #00579C;
     background-image: url("assets/img/intra-logo.svg");
     background-repeat: no-repeat;
@@ -292,6 +290,10 @@ body {
     background-position-x: 15px;
 }
 
+.noservices {
+    background-color: lightgray;
+}
+
 .separator {
     height: 300px;
     margin-left: 25px;
@@ -306,7 +308,7 @@ body {
     overflow-y: scroll;
     height: calc(100% - 50px);
     box-shadow: 0 0 10px hsla(0, 0%, 11%, 0.05) inset;
-    min-width: 850px;
+    min-width: 80%;
     border-radius: 5px;
 }
 
@@ -388,6 +390,15 @@ body {
     background-position-x: 20px;
 }
 
+.service-card.card-intra {
+    background-color: #00579C;
+    background-image: url("assets/img/intra-logo.svg");
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-position-y: 20px;
+    background-position-x: 20px;
+}
+
 .service-card-action {
     display: block;
 }
@@ -412,7 +423,7 @@ body {
     text-transform: capitalize;
 }
 
-.epitech {
+.intra {
     background-color: #0062ae;
 }
 
@@ -427,6 +438,10 @@ body {
     width: 100vw;
     display: flex;
     align-items: center;
+}
+
+.text-centered {
+    text-align: center;
 }
 
 
