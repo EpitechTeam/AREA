@@ -6,7 +6,7 @@ let outlookService = require('../services/outlook/outlook.service')
 
 router.put('/addFileToOne_drive', ensureAuthorized, outlookService.addFileToOne_drive)
 
-router.put('/removeFileToOne_drive', ensureAuthorized, outlookService.removeFileToOne_drive)
+router.put('/removeFileToOne_drive', ensureAuthorized, outlookService.removeFileToOne_Drive)
 
 router.get('/myOption', ensureAuthorized, outlookService.getMyOption)
 
