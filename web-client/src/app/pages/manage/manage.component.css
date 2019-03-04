@@ -2,19 +2,29 @@
     margin-top: 20px;
 }
 
-.connectedServices {
+.connectServices {
     margin-top: 50px;
-    width: 470px;
+    width: 100%;
+    min-width: 200px;
     flex-shrink: 1;
 }
 
+.connectedServices {
+    margin-top: 50px;
+    min-width: 700px;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
 .connectedService {
+    flex: 0 45%;
+    margin-bottom: 20px;
     border-radius: 3px;
     box-shadow: 0 0 6px hsla(0, 0%, 11%, 0.16);
 }
 
 .connectedService + .connectedService {
-    margin-top: 50px;
+    /*margin-top: 50px;*/
 }
 
 .cs-header {
@@ -77,7 +87,7 @@
 
 .connectorLoginLink {
     cursor: pointer;
-    width: 300px;
+    width: 100%;
     text-align: center;
     height: 45px;
     border-radius: 3px;
@@ -171,4 +181,45 @@
 
 .login-button:active {
     background-color: #DB8546;
+}
+
+.weatherStamp {
+    min-width: 60px;
+    min-height: 60px;
+    background-size: 45px;
+    background-position-y: center;
+    background-position-x: center;
+    background-repeat: no-repeat;
+}
+
+.weatherStamp + .weatherStamp {
+    /*margin-left: 10px;*/
+}
+
+.weatherStamp.code-0 {
+    background-image: url("../../../assets/img/icons/sun.svg");
+}
+
+.weatherStamp.code-1 {
+    background-image: url("../../../assets/img/icons/cloud.svg");
+}
+
+.weatherStamp.code-2 {
+    background-image: url("../../../assets/img/icons/rain.svg");
+}
+
+.weatherStamp.code-3 {
+    background-image: url("../../../assets/img/icons/snow.svg");
+}
+
+.weatherStamp.code-4 {
+    background-image: url("../../../assets/img/icons/storm.svg");
+}
+
+#connected-services {
+    margin-left: 20px;
+}
+
+#connected-to-services {
+    min-width: 250px;
 }

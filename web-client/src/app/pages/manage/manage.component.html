@@ -1,36 +1,47 @@
 <div class="content">
-  <div class="flex-box main row space-between">
-    <div class="flex-box column">
-      <div class="font-bold s-20">Connected services</div>
-      <div class="connectedServices">
-        <div class="connectedService" *ngFor="let connector of FilterConnectors(true)">
-            <div class="cs-header s-18 font-bold {{ connector.class }}">
-              {{ connector.name }}
+    <div class="flex-box main row">
+        <div class="flex-box column col-20" id="connected-to-services">
+            <div class="font-bold s-20">Connect to services</div>
+            <div class="connectServices" *ngFor="let connector of FilterConnectors(false)">
+                <div class="{{ connector.class }} connectorLoginLink" (click)="connector.login()">
+                    <span class="link"><a>Connect to {{ connector.name }}</a></span>
+                </div>
             </div>
-            <div class="cs-body s-16 font-medium">
-              <div class="statusRow" *ngIf="connector.user.userImage">
-                <img src="{{ connector.user.userImage }}" alt="profile image" width="50px" height="50px">
-              </div>
-              <div class="statusRow"><span class="lightGreyStatus" *ngIf="connector.class !== 'meteo'">Connected as </span><span class="capitalize">{{ connector.user.userName }}</span></div>
-              <div class="statusRow redStatus" (click)="connector.logout()"><span>Disconnect from </span><span>{{ connector.name }}</span></div>
+            <div *ngIf="FilterConnectors(false).length === 0" class="connectServices noservices connectorLoginLink">
+                <span class="link"><a>No services connected</a></span>
             </div>
         </div>
-      </div>
+        <div class="flex-box column col-80" id="connected-services">
+            <div class="font-bold s-20">Connected services</div>
+            <div class="connectedServices flex-box wrapped">
+                <div class="connectedService" *ngFor="let connector of FilterConnectors(true)">
+                    <div class="cs-header s-18 font-bold {{ connector.class }}">
+                        {{ connector.name }}
+                    </div>
+                    <div class="cs-body s-16 font-medium">
+                        <div class="statusRow" *ngIf="connector.user.userImage">
+                            <img src="{{ connector.user.userImage }}" alt="profile image" width="50px" height="50px">
+                        </div>
+                        <div class="statusRow" *ngIf="connector.class !== 'meteo'"><span class="lightGreyStatus">Connected as </span><span class="capitalize">{{ connector.user.userName }}</span></div>
+                        <div class="statusRow" *ngIf="connector.class === 'meteo'">
+                            <div class="flex-box row space-between">
+                                <div class="flex-box column center text-centered" *ngFor="let day of connector.days">
+                                    <div class="weatherStamp code-{{day.weather}}"></div>
+                                    <div class="font-light">{{SetDayOfWeek(day)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="statusRow redStatus" (click)="connector.logout()"><span>Disconnect from </span><span>{{ connector.name }}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="flex-box column">
-      <div class="font-bold s-20">Connect to services</div>
-      <div class="connectedServices" *ngFor="let connector of FilterConnectors(false)">
-          <div class="{{ connector.class }} connectorLoginLink" (click)="connector.login()">
-            <span class="link"><a>Connect to {{ connector.name }}</a></span>
-          </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<div class="modal" *ngIf="connector.getConnector('epitech').showModal">
+<div class="modal" *ngIf="connector.getConnector('intra').showModal">
     <div class="modal-content">
-        <div class="modal-header epitech space-between">
+        <div class="modal-header intra space-between">
             <div>Connect to Epitech</div>
             <div class="modal-close"(click)="OnCloseEpitechModal()">Close</div>
         </div>
@@ -42,7 +53,7 @@
     </div>
 </div>
 
-<div class="modal" *ngIf="connector.getConnector('weather').showModal">
+<div class="modal" *ngIf="connector.getConnector('meteo').showModal">
     <div class="modal-content">
         <div class="modal-header meteo space-between">
             <div>Connect to Weather</div>
@@ -62,4 +73,3 @@
 <div class="overlay" *ngIf="loading">
     <div class="lds-dual-ring"></div>
 </div>
-
