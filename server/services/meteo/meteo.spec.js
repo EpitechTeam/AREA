@@ -35,6 +35,60 @@ class Meteo {
 		await MeteoModal.updateOne({"_id" : service.meteo}, { $set: { accessToken : " " }})
 	}
 
+	async	checkIfAlreadyDone(today) {
+		let user = await User.findOne({token : this.token})
+		let services = await Service.findOne({"_id" : user.services})
+		var meteo = await MeteoModal.findOne({"_id" : services.meteo})
+
+		let indexOf = meteo.done.indexOf(today)
+		if (indexOf == -1) {
+			return (false)
+		}
+		else {
+			return (true)
+		}
+	}
+
+	async addToday(today) {
+		let user = await User.findOne({token : this.token})
+		let services = await Service.findOne({"_id" : user.services})
+		var meteo = await MeteoModal.findOne({"_id" : services.meteo})
+
+		meteo.done.push(today)
+		await MeteoModal.updateOne({"_id" : services.meteo}, { $set : {done : meteo.done}})
+	}
+
+	async handleMeteoCards() {
+		let user = await User.findOne({token : this.token})
+		let services = await Service.findOne({"_id" : user.services})
+		var meteo = await MeteoModal.findOne({"_id" : services.meteo})
+
+		Date.prototype.yyyymmdd = function() {
+			var mm = this.getMonth() + 1;
+			var dd = this.getDate();
+
+			return [this.getFullYear(),
+				(mm>9 ? '' : '0') + mm,
+				(dd>9 ? '' : '0') + dd
+			].join('-');
+		};
+
+		let date = new Date()
+		if (await this.checkIfAlreadyDone(date.yyyymmdd()) == false) {
+			if (meteo.toEmail) {
+				await this.meteoByEmail()
+			}
+			if (meteo.toCalendar) {
+				await this.meteoToCalendar()
+			}
+			if (meteo.toTwitter) {
+				await this.meteoOnTwitter()
+			}
+			await this.addToday(date.yyyymmdd())
+		}
+	}
+
+
 	async getMeteoOfUser() {
 		let user = await User.findOne({token : this.token})
 		let services = await Service.findOne({"_id" : user.services})
@@ -112,6 +166,8 @@ class Meteo {
 		if (!service.meteo) {
 			let newMeteo = new MeteoModal({
 				accessToken : process.env.METEO_TOKEN,
+				done : [],
+
 				city : city,
 				insee : insee,
 				toEmail : false,

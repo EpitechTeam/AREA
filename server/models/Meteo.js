@@ -3,6 +3,8 @@ var Schema       = mongoose.Schema;
 
 var MeteoSchema   = mongoose.Schema({
 	accessToken : String,
+	done : Array,
+
 	city : String,
 	insee : String,
 	toEmail : Boolean,

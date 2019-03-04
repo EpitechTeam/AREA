@@ -41,6 +41,16 @@ class Intra {
 		}
 	}
 
+	async handleIntraCards() {
+		let user = await User.findOne({token : this.token})
+		let service = await Service.findOne({"_id" : user.services})
+		let intra_user = await IntraModal.findOne({"_id" : service.intra})
+
+		await this.getGPAChange()
+		await this.getMessageNotification()
+		await this.getPlanning()
+	}
+
 	async handleGPAChange(gpa) {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
