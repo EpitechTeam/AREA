@@ -20,7 +20,11 @@ export class ManageComponent implements OnInit {
     intraToken = '';
     city = '';
     insee = '';
+    now = new Date();
     loading = false;
+
+    days = ['Sun', 'Mon', 'Tues', 'Wedn', 'Thur', 'Frid', 'Satu'];
+
 
     Connectors = this.connector.Connectors;
 
@@ -58,21 +62,26 @@ export class ManageComponent implements OnInit {
 
     OnCloseEpitechModal() {
         // @ts-ignore
-        this.connector.getConnector('epitech').showModal = false;
+        this.connector.getConnector('intra').showModal = false;
     }
 
     OnConnectEpitechModal() {
         // @ts-ignore
-        this.connector.getConnector('epitech').processLogin(this.intraToken);
+        this.connector.getConnector('intra').processLogin(this.intraToken);
     }
 
     OnCloseWeatherModal() {
         // @ts-ignore
-        this.connector.getConnector('weather').showModal = false;
+        this.connector.getConnector('meteo').showModal = false;
     }
 
     OnConnectWeatherModal() {
         // @ts-ignore
-        this.connector.getConnector('weather').processLogin(this.city, this.insee);
+        this.connector.getConnector('meteo').processLogin(this.city, this.insee);
+    }
+
+    SetDayOfWeek(day) {
+        const date = new Date(day.datetime);
+        return this.days[date.getDay()];
     }
 }

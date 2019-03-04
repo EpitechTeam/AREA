@@ -38,13 +38,13 @@ export class ConnectorService {
         switch (connector) {
             case 'office365':
                 return this.office365;
-            case 'epitech':
+            case 'intra':
                 return this.epitech;
             case 'facebook':
                 return this.facebook;
             case 'twitter':
                 return this.twitter;
-            case 'weather':
+            case 'meteo':
                 return this.weather;
         }
     }
@@ -271,18 +271,24 @@ class Office365 {
         this.http.get(this.userService.baseUrl + 'outlook/getMe', httpOptions)
             .subscribe(userData => {
                 // @ts-ignore
-                this.user.userId = userData.me.id;
-                // @ts-ignore
-                this.user.userEmail = userData.me.mail;
-                // @ts-ignore
-                this.user.userName = userData.me.displayName;
+                if (!userData.me) {
+                    console.log('token expired');
+                    this.logout();
+                } else {
+                    // @ts-ignore
+                    this.user.userId = userData.me.id;
+                    // @ts-ignore
+                    this.user.userEmail = userData.me.mail;
+                    // @ts-ignore
+                    this.user.userName = userData.me.displayName;
+                }
             });
     }
 }
 
 class Epitech {
     name = 'Epitech';
-    class = 'epitech';
+    class = 'intra';
     user = {
         userId: '',
         userName: '',
@@ -347,6 +353,7 @@ class Epitech {
         };
         const res = await this.http.post(this.userService.baseUrl + 'intra/addIntraConnection', data, httpOptions).toPromise();
         this.connected = true;
+        this.getData();
     }
 
     public async getData() {
@@ -363,13 +370,13 @@ class Epitech {
         this.user.userImage = 'https://intra.epitech.eu' + res.me.picture;
         // @ts-ignore
         this.user.userName = res.me.title;
-        console.log(res);
     }
 }
 
 class Weather {
     name = 'Weather';
     class = 'meteo';
+    days = [];
     user = {
         userId: '',
         userName: '',
@@ -435,22 +442,48 @@ class Weather {
         };
         const res = await this.http.post(this.userService.baseUrl + 'meteo/addMeteoConnection', data, httpOptions).toPromise();
         this.connected = true;
+        this.getData();
     }
 
     public async getData() {
-        // const httpOptions = {
-        //     headers: new HttpHeaders({
-        //         'Content-Type': 'application/json',
-        //         'Authorization': this.userService.getUser().token
-        //     })
-        // };
-        // const res = await this.http.get(this.userService.baseUrl + 'meteo/getMe', httpOptions).toPromise();
-        // // @ts-ignore
-        // this.user.userEmail = res.me.login;
-        // // @ts-ignore
-        // this.user.userImage = 'https://intra.epitech.eu' + res.me.picture;
-        // // @ts-ignore
-        // this.user.userName = res.me.title;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const res = await this.http.get(this.userService.baseUrl + 'meteo/getMe', httpOptions).toPromise();
+        // @ts-ignore
+        const temp = JSON.parse(res.data).forecast;
+        if (this.days.length === 0) {
+            temp.forEach((item, key) => {
+                let code = item.weather;
+                // 0: Sunny
+                // 1: Cloudy
+                // 2: Rainy
+                // 3: Snowy
+                // 4: Stormy
+                if ((code === 0)) {
+                    code = 0;
+                }
+                if ((code >= 1 && code <= 7)) {
+                    code = 1;
+                }
+                if ((code >= 10 && code <= 16) || (code >= 40 && code <= 48) || (code >= 210 && code <= 212)) {
+                    code = 2;
+                }
+                if ((code >= 20 && code <= 32) || (code >= 60 && code <= 78) || (code >= 120 && code <= 138) ||
+                    (code >= 141 && code <= 142) || (code >= 220 && code <= 232)) {
+                    code = 3;
+                }
+                if ((code >= 100 && code <= 142) || (code === 235)) {
+                    code = 4;
+                }
+                item.weather = code;
+                this.days.push(item);
+            });
+            this.days.splice(7, 7);
+        }
     }
 }
 

@@ -151,7 +151,7 @@ export class CardService {
     }, {
         id: 12,
         type: 'facebook',
-        title: 'Photo to Twitter',
+        title: 'Facebook post to Twitter',
         enabled: false,
         key: 'statusToTwitter',
         enableEndpoint: 'addStatusToTwitter',
@@ -256,6 +256,48 @@ export class CardService {
         class: 'card-outlook'
     }];
 
+    INTRACARDS: Card[] = [{
+        id: 0,
+        type: 'intra',
+        enabled: false,
+        enableEndpoint: 'addGPAChangeByMail',
+        disableEndpoint: 'removeGPAChangeByMail',
+        key: 'GPAChange',
+        title: 'GPA change to Email',
+        description: 'You receive an email when your GPA changes',
+        class: 'card-intra'
+    }, {
+        id: 1,
+        type: 'intra',
+        enabled: false,
+        enableEndpoint: 'addMessageNotificationByMail',
+        disableEndpoint: 'removeMessageNotificationByMail',
+        key: 'messageNotificationByMail',
+        title: 'Notifications to Email',
+        description: 'You receive an email when your have an Intra notification',
+        class: 'card-intra'
+    }, {
+        id: 2,
+        type: 'intra',
+        enabled: false,
+        enableEndpoint: 'addActivityByMail',
+        disableEndpoint: 'removeActivityByMail',
+        key: 'activityToEmail',
+        title: 'Register to activity to Email',
+        description: 'You receive an email when your register to an activity',
+        class: 'card-intra'
+    }, {
+        id: 3,
+        type: 'intra',
+        enabled: false,
+        enableEndpoint: 'addActivityToCalendar',
+        disableEndpoint: 'removeActivityToCalendar',
+        key: 'activityToCalendar',
+        title: 'Register to activity to Calendar',
+        description: 'Add the activity event to your Calendar',
+        class: 'card-intra'
+    }];
+
     public async getDisabledCardsFromType(serviceType) {
         // @ts-ignore
         let cards: Card[] = [];
@@ -292,6 +334,14 @@ export class CardService {
 
         if (serviceType === 'outlook') {
             this.OUTLOOKCARDS.forEach(card => {
+                if (res['data'][card.key] === false) {
+                    cards.push(card);
+                }
+            });
+        }
+
+        if (serviceType === 'intra') {
+            this.INTRACARDS.forEach(card => {
                 if (res['data'][card.key] === false) {
                     cards.push(card);
                 }
@@ -334,6 +384,13 @@ export class CardService {
                 cards.push(card);
             }
         });
+
+        res = await this.http.get(this.userService.baseUrl + 'intra' + '/myOption', httpOptions).toPromise();
+        this.INTRACARDS.forEach(card => {
+            if (res['data'][card.key] === false) {
+                cards.push(card);
+            }
+        });
         return (cards);
     }
 
@@ -369,6 +426,14 @@ export class CardService {
 
         res = await this.http.get(this.userService.baseUrl + 'outlook/myOption', httpOptions).toPromise();
         this.OUTLOOKCARDS.forEach(card => {
+            if (res['data'][card.key] === enabled) {
+                card.enabled = enabled;
+                cards.push(card);
+            }
+        });
+
+        res = await this.http.get(this.userService.baseUrl + 'intra/myOption', httpOptions).toPromise();
+        this.INTRACARDS.forEach(card => {
             if (res['data'][card.key] === enabled) {
                 card.enabled = enabled;
                 cards.push(card);
