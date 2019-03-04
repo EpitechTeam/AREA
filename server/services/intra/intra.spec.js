@@ -138,7 +138,7 @@ class Intra {
 			].join('-');
 		};
 
-		var end = new Date(Date.now() + 864000000);
+		var end = new Date(Date.now() + 1728000000);
 		var start = new Date();
 		let start_at = start.yyyymmdd()
 		let end_at = end.yyyymmdd()
