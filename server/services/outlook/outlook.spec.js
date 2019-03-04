@@ -134,7 +134,6 @@ class Outlook {
 
 		if (services.outlook) {
 			let outlook = await OutlookModal.findOne({"_id" : services.outlook})
-			console.log(outlook.accessToken)
 			var client = MicrosoftGraph.Client.init({
 				authProvider: (done) => {
 					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
@@ -144,6 +143,9 @@ class Outlook {
 			client
 			.api('/me')
 			.get((err, res) => {
+				if (err) {
+					return;
+				}
 				var me = res;
 				if (me.mail != null && me.mail != undefined) {
 					const mail = {

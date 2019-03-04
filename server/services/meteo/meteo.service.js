@@ -22,7 +22,7 @@ let isConnected = async (req, res) => {
 let test = async(req, res) => {
 	let newMeteo = new MeteoSpec.Meteo(req.token)
 
-	await newMeteo.meteoOnTwitter()
+	await newMeteo.handleMeteoCards()
 	res.json({data : "end"})
 }
 

@@ -3,6 +3,7 @@ var Schema       = mongoose.Schema;
 
 var IntraSchema   = mongoose.Schema({
 	accessToken : String,
+	GPA_intra : Number,
 	done : Array,
 
 	GPAChange : Boolean,
