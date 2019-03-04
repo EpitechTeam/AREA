@@ -152,7 +152,7 @@ class Intra {
 		request(options, function(err, response, body) {
 			let json = JSON.parse(body)
 			for (let activity of json) {
-				if (activity.semester == 5 || activity.semester == 6) {
+				if (activity.semester == 5 || activity.semester == 6 || activity.semester == 0) {
 					if (activity.event_registered == "registered") {
 						if (activity.rdv_group_registered != null) {
 							let date = activity.rdv_group_registered.split('|')
