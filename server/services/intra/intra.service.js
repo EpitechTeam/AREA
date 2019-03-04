@@ -12,6 +12,14 @@ let addIntraConnection = async (req, res) => {
 	res.json({type: true,	data: "end"	})
 }
 
+let myOption = async (req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+	var intra_user = await Intra.findOne({"_id" : service.intra})
+
+	res.json({data : intra_user})
+}
+
 let getMe = async (req, res) => {
 	var user = await User.findOne({token : req.token})
 	var service = await Service.findOne({"_id" : user.services})
@@ -47,9 +55,90 @@ let isConnected = async(req, res) => {
 	res.json({type : await newIntra.isConnected()});
 }
 
+let test = async(req, res) => {
+	let newIntra = new IntraSpec.Intra(req.token);
+
+	await newIntra.getPlanning();
+	res.json({type : true});
+}
+
+let addGPAChangeByMail = async(req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+
+	await Intra.updateOne({"_id" : service.intra}, {$set : {GPAChange : true}})
+	res.json({data : "done"})
+}
+
+let removeGPAChangeByMail = async(req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+
+	await Intra.updateOne({"_id" : service.intra}, {$set : {GPAChange : false}})
+	res.json({data : "done"})
+}
+
+let addMessageNotificationByMail = async(req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+
+	await Intra.updateOne({"_id" : service.intra}, {$set : {messageNotificationByMail : true}})
+	res.json({data : "done"})
+}
+
+let removeMessageNotificationByMail = async(req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+
+	await Intra.updateOne({"_id" : service.intra}, {$set : {messageNotificationByMail: false}})
+	res.json({data : "done"})
+}
+
+let addActivityByMail = async(req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+
+	await Intra.updateOne({"_id" : service.intra}, {$set : {activityToEmail : true}})
+	res.json({data : "done"})
+}
+
+let removeActivityByMail = async(req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+
+	await Intra.updateOne({"_id" : service.intra}, {$set : {activityToEmail: false}})
+	res.json({data : "done"})
+}
+
+let addActivityToCalendar = async(req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+
+	await Intra.updateOne({"_id" : service.intra}, {$set : {activityToCalendar : true}})
+	res.json({data : "done"})
+}
+
+let removeActivityToCalendar = async(req, res) => {
+	var user = await User.findOne({token : req.token})
+	var service = await Service.findOne({"_id" : user.services})
+
+	await Intra.updateOne({"_id" : service.intra}, {$set : {activityToCalendar: false}})
+	res.json({data : "done"})
+}
+
 module.exports = {
 	addIntraConnection,
 	isConnected,
 	logout,
-	getMe
+	getMe,
+	test,
+	addGPAChangeByMail,
+	removeGPAChangeByMail,
+	addMessageNotificationByMail,
+	removeMessageNotificationByMail,
+	addActivityByMail,
+	removeActivityByMail,
+	addActivityToCalendar,
+	removeActivityToCalendar,
+	myOption
 }

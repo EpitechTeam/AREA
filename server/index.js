@@ -21,6 +21,11 @@ let outlook       = require('./routes/outlook')
 let one_drive       = require('./routes/one-drive')
 let office365       = require('./routes/office365')
 let request			= require('request');
+let Robot	= require('./services/user/robot')
+
+let newRobot = new Robot.Robot()
+
+setInterval(newRobot.refreshAllUser, 30000)
 
 let config = require(path.resolve(path.resolve(__dirname)  + '/config/index.js'))
 let port = config.PORT

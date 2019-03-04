@@ -14,6 +14,7 @@ let Meteo	= require('./../../models/Meteo')
 let One_drive	= require('./../../models/One-drive')
 let Outlook	= require('./../../models/Outlook')
 var Twitter = require('./../../models/Twitter')
+let aboutServices = require('./services')
 
 let me = async (req, res) => {
 	let user = await User.findOne({token: req.token});
@@ -112,20 +113,50 @@ let register = async (req, res) => {
 	res.json({type: true, data : user});
 }
 
+let getServices = async(token) => {
+	var services = []
+
+	let facebook = await aboutServices.facebook(token)
+	if (facebook != null) {
+		services.push(facebook)
+	}
+
+	let twitter = await aboutServices.twitter(token)
+	if(twitter != null) {
+		services.push(twitter)
+	}
+
+	let mail = await aboutServices.mail(token)
+	if (mail != null) {
+		services.push(mail)
+	}
+
+	let intra = await aboutServices.intra(token)
+	if (intra != null) {
+		services.push(intra)
+	}
+
+	let meteo = await aboutServices.meteo(token)
+	if (meteo != null) {
+		services.push(meteo)
+	}
+
+	return (services)
+}
+
 let about = async (req, res) => {
-	//Client ip
+	let body = {
+		client : {
+			host : req.ip
+		},
+		server : {
+			current_time : Math.floor(new Date() / 1000),
+			services : []
+		}
+	}
 
-	//Server
-	//--Current time
-	//--Services
-	//---Name
-	//---Actions
-	//----name
-	//----description
-	//---Reactions
-	//----name
-	//----dexription
-
+	body.server.services = await getServices(req.token);
+	res.json({body})
 }
 
 module.exports = {

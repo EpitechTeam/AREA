@@ -33,7 +33,14 @@ let getMyOption = async (req, res) => {
 let addFileToOne_drive = async (req, res) => {
 	let newOutlook = new OutlookSpec.Outlook(req.token);
 
-	await newOutlook.setFileToOneDrive();
+	await newOutlook.setFileToOneDrive(true);
+	res.json({type : true})
+}
+
+let removeFileToOne_Drive = async (req, res) => {
+	let newOutlook = new OutlookSpec.Outlook(req.token);
+
+	await newOutlook.setFileToOneDrive(false);
 	res.json({type : true})
 }
 

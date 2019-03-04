@@ -72,18 +72,18 @@ class Outlook {
 		return;
 	}
 
-	async setFileToOneDrive() {
-		let user = await User.findOne({token : req.token});
+	async setFileToOneDrive(value) {
+		let user = await User.findOne({token : this.token});
 		let services = await Service.findOne({"_id" : user.services})
 
-		await OutlookModal.updateOne({"_id" : services.outlook}, { $set : {fileToOneDrive : true}})
+		await OutlookModal.updateOne({"_id" : services.outlook}, { $set : {fileToOneDrive : value}})
 		return;
 	}
 
 	async getMyOption() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
-		let	outllook = await OutlookModal.findOne({"_id" : service.outlook})
+		let	outlook = await OutlookModal.findOne({"_id" : service.outlook})
 		return outlook
 	}
 
@@ -134,7 +134,6 @@ class Outlook {
 
 		if (services.outlook) {
 			let outlook = await OutlookModal.findOne({"_id" : services.outlook})
-			console.log(outlook.accessToken)
 			var client = MicrosoftGraph.Client.init({
 				authProvider: (done) => {
 					done(null, outlook.accessToken); //first parameter takes an error if you can't get an access token
@@ -144,6 +143,9 @@ class Outlook {
 			client
 			.api('/me')
 			.get((err, res) => {
+				if (err) {
+					return;
+				}
 				var me = res;
 				if (me.mail != null && me.mail != undefined) {
 					const mail = {
