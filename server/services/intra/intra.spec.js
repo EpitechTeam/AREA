@@ -176,7 +176,7 @@ class Intra {
 
 	async handleActivity(acti_title, type_title, room, start, end, codeevent) {
 		if (await this.checkIfAlreadyDone(codeevent) == false) {
-			await this.setEventToEmail(acti_title, type_title, room, start, end, codeevent)
+			await this.sendActivity(acti_title, type_title, room, start, end, codeevent)
 		}
 	}
 
@@ -194,13 +194,19 @@ class Intra {
 		}
 	}
 
-	async setEventToEmail(acti_title, type_title, room, start, end, codeevent) {
+	async sendActivity(acti_title, type_title, room, start, end, codeevent) {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
 		let intra_user = await IntraModal.findOne({"_id" : service.intra})
 
-		let newCalendar = new CalendarSpec.Calendar(this.token);
-		await newCalendar.createEvent(acti_title, type_title, room, start, end);
+		if (intra_user.activityToCalendar) {
+			let newCalendar = new CalendarSpec.Calendar(this.token);
+			await newCalendar.createEvent(acti_title, type_title, room, start, end);
+		}
+		if (intra_user.activityToEmail) {
+			let newOutlook = new OutlookSpec.Outlook(this.token);
+			await newOutlook.sendEmail("New activity registered", acti_title + " " + type_title + " " + start + " " + end);
+		}
 	}
 
 	async addIntraConnection(token) {
