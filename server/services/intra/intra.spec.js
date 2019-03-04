@@ -105,7 +105,10 @@ class Intra {
 		request(options, function(err, response, body) {
 			let json = JSON.parse(body)
 			for (let message of json) {
-				registered_id.push(message.id)
+				let indexOf = intra_user.done.indexOf(message.id)
+				if (indexOf == -1) {
+					registered_id.push(message.id)
+				}
 				__self.handleMessage(message.title, message.id)
 			}
 			__self.updateDone(registered_id)
@@ -122,7 +125,7 @@ class Intra {
 	async getPlanning() {
 		let user = await User.findOne({token : this.token})
 		let service = await Service.findOne({"_id" : user.services})
-		let intra_user = await IntraModal.findOne({"_id" : service.intra})
+		var intra_user = await IntraModal.findOne({"_id" : service.intra})
 		var token = this.token
 
 		Date.prototype.yyyymmdd = function() {
@@ -156,13 +159,22 @@ class Intra {
 
 							let start = new Date(date[0]).toISOString()
 							let end = new Date(date[1]).toISOString()
-							registred_events.push(activity.codeevent)
+
+							let indexOf = intra_user.done.indexOf(codeevent)
+							if (indexOf == -1) {
+								registred_events.push(activity.codeevent)
+							}
+
 							__self.handleActivity(activity.acti_title, activity.type_title, activity.room.code, start, end, activity.codeevent)
 						}
 						else {
 							let start = new Date(activity.start).toISOString()
 							let end = new Date(activity.end).toISOString()
-							registred_events.push(activity.codeevent)
+
+							let indexOf = intra_user.done.indexOf(codeevent)
+							if (indexOf == -1) {
+								registred_events.push(activity.codeevent)
+							}
 							__self.handleActivity(activity.acti_title, activity.type_title, activity.room.code, start, end, activity.codeevent)
 						}
 					}
