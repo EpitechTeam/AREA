@@ -160,7 +160,7 @@ class Intra {
 							let start = new Date(date[0]).toISOString()
 							let end = new Date(date[1]).toISOString()
 
-							let indexOf = intra_user.done.indexOf(codeevent)
+							let indexOf = intra_user.done.indexOf(activity.codeevent)
 							if (indexOf == -1) {
 								registred_events.push(activity.codeevent)
 							}
@@ -171,7 +171,7 @@ class Intra {
 							let start = new Date(activity.start).toISOString()
 							let end = new Date(activity.end).toISOString()
 
-							let indexOf = intra_user.done.indexOf(codeevent)
+							let indexOf = intra_user.done.indexOf(activity.codeevent)
 							if (indexOf == -1) {
 								registred_events.push(activity.codeevent)
 							}
