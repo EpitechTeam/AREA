@@ -61,11 +61,18 @@ let getService = async (req, res) => {
 	})
 }
 
-let update = async (req, res) => {
+let updatePassword = async(req, res) => {
 	let user = await User.findOne({token : req.token})
 	let hashpassword = sha256(req.body.password)
 
-	await User.updateOne({token : req.token}, { $set :  {first_name : req.body.first_name, last_name : req.body.last_name, email : req.body.email, password : hashpassword}})
+	await User.updateOne({token : req.token}, { $set :  {password : hashpassword}})
+	res.json({data : "saved"})
+}
+
+let update = async (req, res) => {
+	let user = await User.findOne({token : req.token})
+
+	await User.updateOne({token : req.token}, { $set :  {first_name : req.body.first_name, last_name : req.body.last_name, email : req.body.email}})
 	res.json({data : "saved"})
 }
 
@@ -173,5 +180,6 @@ module.exports = {
 	register,
 	about,
 	getService,
-	update
+	update,
+	updatePassword
 }
