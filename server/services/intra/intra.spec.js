@@ -82,6 +82,9 @@ class Intra {
 			url : "https://intra.epitech.eu/" + intra_user.accessToken + "/user/?format=json"
 		}
 
+		if (intra_user.GPAChange == false) {
+			return;
+		}
 		var __self = this
 		request(options, function(err, response, body) {
 			let json = JSON.parse(body);
@@ -150,6 +153,9 @@ class Intra {
 			url : "https://intra.epitech.eu/" + intra_user.accessToken + "/planning/load?format=json&start=" + start_at + "&end=" + end_at
 		}
 
+		if (intra_user.activityToEmail == false && intra_user.activityToCalendar == false) {
+			return;
+		}
 		var __self = this;
 		var registred_events = []
 		request(options, function(err, response, body) {
