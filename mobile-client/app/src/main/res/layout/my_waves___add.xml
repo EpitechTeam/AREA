@@ -35,6 +35,7 @@
                 android:layout_marginTop="115dp">
 
 
+
                 <RelativeLayout
                     android:id="@+id/yammer"
                     android:layout_width="wrap_content"
@@ -391,6 +392,7 @@
                     <ImageButton
                         android:id="@+id/facebook_wave_entry"
                         android:layout_width="320dp"
+                        android:onClick="launchFacebookCards"
                         android:layout_height="65dp"
                         android:layout_marginStart="0dp"
                         android:layout_marginLeft="0dp"

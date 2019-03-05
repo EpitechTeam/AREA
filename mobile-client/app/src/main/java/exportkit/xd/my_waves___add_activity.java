@@ -18,6 +18,7 @@
 package exportkit.xd;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -25,9 +26,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class my_waves___add_activity extends Activity {
+import com.google.gson.Gson;
 
-	
+	public class my_waves___add_activity extends Activity {
+
 	private View _bg__my_waves___add_ek2;
 	private ImageView item_ek4;
 	private TextView yammer_ek1;
@@ -61,17 +63,19 @@ public class my_waves___add_activity extends Activity {
 	private ImageView path_ek9;
 	private View box_ek3;
 
-	@Override
+	CardApi facebookCard;
+		private CardApi data;
+
+		public void launchFacebookCards(View v) {
+			Intent myIntent = new Intent(this, my_waves___add___action_activity.class);
+			this.startActivity(myIntent);
+		}
+
+		@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_waves___add);
-
-
-	
-		
-		//custom code goes here
-	
 	}
 }
 	

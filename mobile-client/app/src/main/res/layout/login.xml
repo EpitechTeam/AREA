@@ -35,6 +35,8 @@
             android:layout_marginTop="232dp"
             android:fontFamily="Roboto"
             android:text="Or register here"
+            android:onClick="clickText"
+            android:clickable="true"
             android:textColor="#1c1c1c"
             android:textSize="16sp" />
 
@@ -59,14 +61,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/password"
+            android:id="@+id/background_ek1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="70dp">
 
             <EditText
-                android:id="@+id/background_ek1"
+                android:id="@+id/password"
                 android:layout_width="280dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="0dp"
@@ -74,28 +76,43 @@
                 android:layout_marginTop="0dp"
                 android:background="@drawable/background_ek1_shape"
                 android:hint="Password"
+                android:text="test"
                 android:inputType="textPassword" />
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/email"
+            android:id="@+id/background_ek2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp">
 
             <EditText
-                android:id="@+id/background_ek2"
+                android:id="@+id/email"
                 android:layout_width="280dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="0dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/background_ek2_shape"
+                android:text="marvyn@epitech.eu"
                 android:hint="example@mail.com" />
         </RelativeLayout>
+
     </RelativeLayout>
+
+    <EditText
+        android:layout_width="390dp"
+        android:id="@+id/baseUrl"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="500dp"
+        android:background="@drawable/background_ek2_shape"
+        android:hint="http://localhost:8080"
+        android:text="https://area-epitech-2018.herokuapp.com" />
 
     <ImageView
         android:id="@+id/sonar"
