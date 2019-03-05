@@ -84,7 +84,9 @@ class Meteo {
 			if (meteo.toTwitter) {
 				await this.meteoOnTwitter()
 			}
-			await this.addToday(date.yyyymmdd())
+			if (meteo.toEmail || meteo.toCalendar || meteo.toTwitter) {
+				await this.addToday(date.yyyymmdd())
+			}
 		}
 	}
 

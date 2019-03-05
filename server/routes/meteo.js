@@ -16,7 +16,7 @@ router.put('/removeFromEmail', ensureAuthorized, meteoService.removeFromEmail)
 
 router.put('/removeFromCalendar', ensureAuthorized, meteoService.removeFromCalendar)
 
-router.put('/removeFromTwitter', ensureAuthorized, meteoService.removeFromCalendar)
+router.put('/removeFromTwitter', ensureAuthorized, meteoService.removeFromTwitter)
 
 router.get('/getMe', ensureAuthorized, meteoService.meteoOfUser)
 

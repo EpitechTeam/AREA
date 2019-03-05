@@ -91,7 +91,7 @@ class TwitterClass {
 							"recipient_id": to_user_id
 						},
 						"message_data": {
-							"text": "Hello my name is " + name ,
+							"text": "Thank you to follow me ! " + name ,
 							"quick_reply": {
 								"type": "options",
 								"options": [

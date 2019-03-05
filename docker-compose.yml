@@ -1,19 +1,15 @@
-version: '2'
+version: "3"
+
 services:
-  web:
-    build: .
-    command:
-      - cd server
-      - npm install
-      - npm start
-    volumes:
-      - .:/usr/app/
-      - /usr/app/node_modules
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-    environment:
-      NODE_ENV: developement
-  postgres:
-    image: postgres:9.6.2-alpine
+    nodeserver:
+        build: ./server
+        volumes:
+            - "./server/server:${PWD}/server"
+        ports:
+            - "8080:8080"
+    frontend:
+        build: ./web-client
+        volumes:
+            - "./web-client/web-client:/${PWD}web-client"
+        ports:
+            - "8081:8081"

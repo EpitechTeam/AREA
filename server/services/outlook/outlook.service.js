@@ -56,5 +56,6 @@ module.exports = {
 	getMyOption,
 	getMe,
 	isConnected,
-	logout
+	logout,
+	removeFileToOne_Drive
 }
