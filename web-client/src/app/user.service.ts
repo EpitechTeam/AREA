@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {ConnectorService} from './connector.service';
+import {last} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -89,8 +90,54 @@ export class UserService {
                 this.user.token = res.user.token;
                 // @ts-ignore
                 this.user.id = res.user._id;
+                // @ts-ignore
+                this.user.email = res.user.email;
                 localStorage.setItem('appUser', JSON.stringify(this.user));
                 this.router.navigate(['pages/myWaves']).then();
             });
+    }
+
+    public async changeUserPassword(password) {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.getUser().token
+            })
+        };
+        let data = {
+            password: password
+        };
+        // @ts-ignore
+        let res = await this.http.put(this.baseUrl + 'updatePassword', data, httpOptions).toPromise();
+    }
+
+    public async updateUser(firstName, lastName, email) {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.getUser().token
+            })
+        };
+        let data = {
+            first_name: firstName,
+            last_name: lastName,
+            email: email
+        };
+        // @ts-ignore
+        let res = await this.http.put(this.baseUrl + 'update', data, httpOptions).toPromise();
+        // @ts-ignore
+        if (res.data === 'saved') {
+            let userstored = this.getUser();
+            // @ts-ignore
+            userstored.last_name = lastName;
+            this.user.last_name = lastName;
+            // @ts-ignore
+            userstored.first_name = firstName;
+            this.user.first_name = firstName;
+            // @ts-ignore
+            userstored.email = email;
+            this.user.email = email;
+            localStorage.setItem('appUser', JSON.stringify(userstored));
+        }
     }
 }

@@ -1,3 +1,36 @@
-<p>
-  account works!
-</p>
+<div class="content">
+    <div class="flex-box main column">
+        <div class="main-head font-black s-22">Edit profile</div>
+        <div class="flex-box column">
+            <div class="flex-box column">
+                <div class="edit-profile-form">
+                    <div class="form-label font-light s-16">First name</div>
+                    <input type="text" class="font-light s-16" [(ngModel)]="firstName"/>
+                </div>
+
+                <div class="edit-profile-form">
+                    <div class="form-label font-light s-16">Last name</div>
+                    <input type="text" class="font-light s-16" [(ngModel)]="lastName"/>
+                </div>
+
+                <div class="edit-profile-form">
+                    <div class="form-label font-light s-16">Email</div>
+                    <input type="text" class="font-light s-16" [(ngModel)]="email"/>
+                </div>
+
+                <div class="edit-profile-form">
+                    <div class="form-label font-light s-16">Password</div>
+                    <span class="edit-password" *ngIf="changePassword === false" (click)="editPassword()">Change password</span>
+                    <input type="password" class="font-light s-16 {{badPasswordClass}}" *ngIf="changePassword === true" [(ngModel)]="password" (ngModelChange)="onChanged($event)"/>
+                </div>
+
+                <div class="edit-profile-form" *ngIf="changePassword === true">
+                    <div class="form-label font-light s-16">Confirm password</div>
+                    <input type="password" class="font-light s-16 {{badPasswordClass}}" [(ngModel)]="confirmPassword"/>
+                    <span class="edit-password" *ngIf="changePassword === true" (click)="editPasswordProcedure()">Save</span>
+                </div>
+            </div>
+            <span class="save-changes" (click)="saveChanges()">Save changes</span>
+        </div>
+    </div>
+</div>

@@ -3,7 +3,7 @@
 }
 
 .connectServices {
-    margin-top: 50px;
+    margin-top: 20px;
     width: 100%;
     min-width: 200px;
     flex-shrink: 1;
@@ -217,6 +217,7 @@
 }
 
 #connected-services {
+    min-width: 780px;
     margin-left: 20px;
 }
 

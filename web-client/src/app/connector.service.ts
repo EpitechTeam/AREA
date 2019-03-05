@@ -454,6 +454,10 @@ class Weather {
         };
         const res = await this.http.get(this.userService.baseUrl + 'meteo/getMe', httpOptions).toPromise();
         // @ts-ignore
+        if (JSON.parse(res.data).code === 400) {
+            return;
+        }
+        // @ts-ignore
         const temp = JSON.parse(res.data).forecast;
         if (this.days.length === 0) {
             temp.forEach((item, key) => {
