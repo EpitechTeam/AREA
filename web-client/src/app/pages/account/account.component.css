@@ -1,0 +1,49 @@
+.edit-profile-form {
+    margin-top: 20px;
+}
+
+.edit-profile-form > div {
+    display: inline-block;
+}
+
+.edit-profile-form input {
+    width: 240px;
+    margin-left: 10px;
+    outline: 0;
+    background-color: transparent;
+    border: 0;
+    border-bottom: 0.5px solid hsla(0, 0%, 11%, 0.16);
+}
+
+.form-label {
+    width: 100px !important;
+}
+
+.save-changes {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #00579C;
+    cursor: pointer;
+}
+
+.save-changes:hover {
+    color: #00276C;
+    cursor: pointer;
+}
+
+
+.edit-password {
+    margin-top: 20px;
+    color: #00579C;
+    cursor: pointer;
+}
+
+.edit-password:hover {
+    color: #00276C;
+    cursor: pointer;
+}
+
+.badPassword {
+    color: #c9524c;
+    border-color: red;
+}
