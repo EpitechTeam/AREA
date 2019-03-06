@@ -20,35 +20,11 @@ import org.json.JSONObject;
 
 public class bottom_navigation_activity extends Activity {
 
-    String facebookcard = "{\"array\":[{" +
-            "\"id\": \"0\"," +
-            "\"type\":\"facebook\","+
-            "\"enabled\":\"false\","+
-            "\"title\":\"Event to Twitter\","+
-            "\"key\":\"eventToTwitter\","+
-            "\"enableEndpoint\":\"addEventToTwitter\","+
-            "\"disableEndpoint\":\"removeEventToTwitter\","+
-            "\"description\":\"Tweet when you subscribe to an event\""+
-"},"+"{" +
-            "\"id\": \"0\"," +
-                    "\"type\":\"facebook\","+
-                    "\"enabled\":\"false\","+
-                    "\"title\":\"Event to Calendar\","+
-                    "\"key\":\"eventToCalendar\","+
-                    "\"enableEndpoint\":\"addEventToCalendar\","+
-                    "\"disableEndpoint\":\"removeEventToCalendar\","+
-                    "\"description\":\"Add an event to your calendar when you subscribe to an event\""+
-                    "}]}"
-;
-    AccountFragment accountFragment = new AccountFragment();
-    MicrosoftGraphService microsoftGraphService = new MicrosoftGraphService();
-    private LoginResponse loginResponse;
-    private CardApi data;
 
-    public void addWaves(View v) {
-        Intent myIntent = new Intent(this, my_waves___add_activity.class);
-        this.startActivity(myIntent);
-    }
+    AccountFragment accountFragment = new AccountFragment();
+    my_waves_fragment my_waves_fragment = new my_waves_fragment();
+    private LoginResponse loginResponse;
+
 
     public void launchGraph(View v) {
         Intent myIntent = new Intent(this, MicrosoftGraphService.class);
@@ -93,8 +69,6 @@ public class bottom_navigation_activity extends Activity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_waves);
-        Gson gson = new Gson();
-        data = gson.fromJson(facebookcard, CardApi.class);
     }
 
     public void switchToFragmentDiscover() {
@@ -104,13 +78,11 @@ public class bottom_navigation_activity extends Activity {
 
     public void switchToFragmentWaves() {
         android.app.FragmentManager manager = getFragmentManager();
-        manager.beginTransaction().replace(R.id.fragment_container, new my_waves_fragment()).commit();
+        manager.beginTransaction().replace(R.id.fragment_container, my_waves_fragment).commit();
     }
 
     public void switchToFragmentAccount() {
         FragmentManager manager = getFragmentManager();
-        Bundle bundle = new Bundle();
-        accountFragment.setArguments(bundle);
         manager.beginTransaction().replace(R.id.fragment_container, accountFragment).commit();
     }
 

@@ -1,6 +1,5 @@
 package exportkit.xd;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -23,15 +22,14 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.BufferedSink;
 
-public class ActionAdapter extends  RecyclerView.Adapter<ActionViewholder> {
+public class OptionAdapter extends  RecyclerView.Adapter<OptionViewholder> {
 
-
-     String baseUrl;
+    String baseUrl;
     String token;
     Context c;
     List<ArrayItem> action;
 
-    public ActionAdapter (Context c, List<ArrayItem> action, String token, String baseUrl) {
+    public OptionAdapter (Context c, List<ArrayItem> action, String token, String baseUrl) {
         this.c = c;
         this.action = action;
         this.token = token;
@@ -40,19 +38,19 @@ public class ActionAdapter extends  RecyclerView.Adapter<ActionViewholder> {
 
     @NonNull
     @Override
-    public ActionViewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public OptionViewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(c).inflate(R.layout.model, viewGroup, false);
-        return new ActionViewholder(v);
+        return new OptionViewholder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ActionViewholder actionViewholder, final int i) {
+    public void onBindViewHolder(@NonNull OptionViewholder actionViewholder, final int i) {
         actionViewholder.actionTxt.setText(action.get(i).getTitle());
         actionViewholder.descriptionTxt.setText(action.get(i).getDescription());
         actionViewholder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String postUrl =  baseUrl+"/"+ action.get(i).getType()+"/"+action.get(i).getEnableEndpoint();
+                String postUrl =  baseUrl+"/"+ action.get(i).getType()+"/"+action.get(i).getDisableEndpoint();
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
                         .url(postUrl)
@@ -73,14 +71,13 @@ public class ActionAdapter extends  RecyclerView.Adapter<ActionViewholder> {
                 client.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        Log.d("Card Response Error", e.toString());
+
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         String rsp = response.body().string();
-                        Log.d("Card Response", rsp);
-                        ((Activity)c).finish();
+                        Log.d("Disable Card Response", rsp);
                     }
                 });
             }

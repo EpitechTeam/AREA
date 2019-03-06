@@ -51,7 +51,7 @@
 
         public void registerClick(View v) throws IOException {
             ((Global) this.getApplication()).setBaseUrl(editBaseUrl.getText().toString());
-            if (register_password != null && register_confirm_password != null)
+            if (register_password != null && register_confirm_password != null) {
                 if (!register_password.getText().toString().equals(register_confirm_password.getText().toString())) {
                     Context context = getApplicationContext();
                     CharSequence text = "Password and Password Confirmation not same! Please retry after edit.";
@@ -61,40 +61,42 @@
                     toast.show();
                     return;
                 }
-            String postUrl = ((Global) this.getApplication()).getBaseUrl() +"/register";
-            String postBody = "{\n" +
-                    "\"email\": \"" + (register_username != null ? register_username.getText().toString() : null) + "\"," +
-                    "\"first_name\": \"" + (register_first != null ? register_first.getText().toString() : null) + "\"," +
-                    " \"last_name\": \"" + (register_last != null ? register_last.getText().toString() : null) + "\"," +
-                    " \"password\": \"" + (register_password != null ? register_password.getText().toString() : null) + "\"" +
-                    "}";
-            OkHttpClient client = new OkHttpClient();
-            RequestBody body = RequestBody.create(JSON, postBody);
-            Request request = new Request.Builder()
-                    .url(postUrl)
-                    .post(body)
-                    .build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    call.cancel();
-                }
+                String postUrl = ((Global) this.getApplication()).getBaseUrl() + "/register";
+                String postBody = "{\n" +
+                        "\"email\": \"" + (register_username != null ? register_username.getText().toString() : null) + "\"," +
+                        "\"first_name\": \"" + (register_first != null ? register_first.getText().toString() : null) + "\"," +
+                        " \"last_name\": \"" + (register_last != null ? register_last.getText().toString() : null) + "\"," +
+                        " \"password\": \"" + (register_password != null ? register_password.getText().toString() : null) + "\"" +
+                        "}";
+                OkHttpClient client = new OkHttpClient();
+                RequestBody body = RequestBody.create(JSON, postBody);
+                Request request = new Request.Builder()
+                        .url(postUrl)
+                        .post(body)
+                        .build();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        call.cancel();
+                    }
 
-                @Override
-                public void onResponse(Call call, okhttp3.Response response) throws IOException {
-                    String rsp = response.body().string();
-                    Log.d("tes srx fdp?", rsp);
-                    String jsonString = rsp;
-                    LoginResponse data = new LoginResponse();
-                    Gson gson = new Gson();
-                    data = gson.fromJson(jsonString, LoginResponse.class);
-                    Intent intent = new Intent();
-                    intent.setClass(getApplicationContext(), bottom_navigation_activity.class);
-                    intent.putExtra("Login", data);
-                    startActivity(intent);
-                }
-            });
+                    @Override
+                    public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                        String rsp = response.body().string();
+                        Log.d("tes srx fdp?", rsp);
+                        String jsonString = rsp;
+                        LoginResponse data = new LoginResponse();
+                        Gson gson = new Gson();
+                        data = gson.fromJson(jsonString, LoginResponse.class);
+                        ((Global) getApplication()).setToken(data.getData().getToken());
+                        Intent intent = new Intent();
+                        intent.setClass(getApplicationContext(), bottom_navigation_activity.class);
+                        intent.putExtra("Login", data);
+                        startActivity(intent);
+                    }
+                });
 
+            }
         }
 
         @Override

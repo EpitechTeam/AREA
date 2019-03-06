@@ -18,6 +18,7 @@
     package exportkit.xd;
 
     import android.app.Activity;
+    import android.content.Intent;
     import android.os.Bundle;
 
 
@@ -33,31 +34,12 @@
 
     public class my_waves___add___action_activity extends Activity {
 
-        String facebookcard = "{\"array\":[{" +
-                "\"id\": \"0\"," +
-                "\"type\":\"facebook\"," +
-                "\"enabled\":\"false\"," +
-                "\"title\":\"Event to Twitter\"," +
-                "\"key\":\"eventToTwitter\"," +
-                "\"enableEndpoint\":\"addEventToTwitter\"," +
-                "\"disableEndpoint\":\"removeEventToTwitter\"," +
-                "\"description\":\"Tweet when you subscribe to an event\"" +
-                "}," + "{" +
-                "\"id\": \"1\"," +
-                "\"type\":\"facebook\"," +
-                "\"enabled\":\"false\"," +
-                "\"title\":\"Event to Calendar\"," +
-                "\"key\":\"eventToCalendar\"," +
-                "\"enableEndpoint\":\"addEventToCalendar\"," +
-                "\"disableEndpoint\":\"removeEventToCalendar\"," +
-                "\"description\":\"Add an event to your calendar when you subscribe to an event\"" +
-                "}]}";
-
 
         private RecyclerView recycleView;
         private CardApi data;
         private String token;
         private String baseUrl;
+        private String facebookcard;
 
 
         @Override
@@ -66,6 +48,8 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.my_waves___add___action);
 
+            Intent intent = getIntent();
+            facebookcard = intent.getStringExtra("facebookcard");
             recycleView = (RecyclerView) findViewById(R.id.recycle);
             token = ((Global) getApplication()).getToken();
             baseUrl = ((Global) getApplication()).getBaseUrl();
