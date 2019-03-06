@@ -7,6 +7,7 @@ import {ManageComponent} from './manage/manage.component';
 import {AddWaveComponent} from './my-waves/add-wave/add-wave.component';
 import {EditWaveComponent} from './my-waves/edit-wave/edit-wave.component';
 import {AccountComponent} from './account/account.component';
+import {AboutComponent} from './about/about.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
     { path: 'myWaves/editWave', component: EditWaveComponent },
     { path: 'manage', component: ManageComponent },
     { path: 'account', component: AccountComponent },
+    { path: 'about', component: AboutComponent },
     { path: 'manage/:type', component: ManageComponent },
 ];
 

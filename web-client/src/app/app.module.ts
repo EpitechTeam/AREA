@@ -11,6 +11,7 @@ import {
     FacebookLoginProvider,
 } from 'angularx-social-login';
 import {FormsModule} from '@angular/forms';
+import {NgxJsonViewerModule} from 'ngx-json-viewer';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -42,7 +43,8 @@ export function getAuthServiceConfigs() {
         FormsModule,
         AppRoutingModule,
         HttpClientModule,
-        SocialLoginModule
+        SocialLoginModule,
+        NgxJsonViewerModule
     ],
     providers: [
         {

@@ -10,7 +10,7 @@
 }
 
 .connectedServices {
-    margin-top: 50px;
+    margin-top: 20px;
     min-width: 700px;
     flex-flow: row wrap;
     justify-content: space-between;

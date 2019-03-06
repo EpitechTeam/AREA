@@ -21,7 +21,6 @@ export class AccountComponent implements OnInit {
         this.firstName = this.userService.getUser().first_name;
         this.lastName = this.userService.getUser().last_name;
         this.email = this.userService.getUser().email;
-        console.log(this.userService.getUser());
     }
 
     ngOnInit() {

@@ -59,8 +59,6 @@ export class UserService {
 
     public logout() {
         localStorage.removeItem('appUser');
-        localStorage.removeItem('facebookUser');
-        localStorage.removeItem('facebookToken');
         this.router.navigate(['/pages/login']).then();
     }
 
@@ -77,11 +75,7 @@ export class UserService {
         };
         this.http.get(this.baseUrl + 'me', httpOptions)
             .subscribe(res => {
-                if (localStorage.getItem('facebookUser') == null) {
-                    this.user.userImage = 'https://api.adorable.io/avatars/50/abott@adorable.png';
-                } else {
-                    this.user.userImage = JSON.parse(localStorage.getItem('facebookUser')).userImage;
-                }
+                this.user.userImage = 'https://api.adorable.io/avatars/50/abott@adorable.png';
                 // @ts-ignore
                 this.user.last_name = res.user.last_name;
                 // @ts-ignore
