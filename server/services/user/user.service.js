@@ -128,30 +128,30 @@ let register = async (req, res) => {
 	res.json({type: true, data : user});
 }
 
-let getServices = async(token) => {
+let getServices = async() => {
 	var services = []
 
-	let facebook = await aboutServices.facebook(token)
+	let facebook = await aboutServices.facebook()
 	if (facebook != null) {
 		services.push(facebook)
 	}
 
-	let twitter = await aboutServices.twitter(token)
+	let twitter = await aboutServices.twitter()
 	if(twitter != null) {
 		services.push(twitter)
 	}
 
-	let mail = await aboutServices.mail(token)
+	let mail = await aboutServices.mail()
 	if (mail != null) {
 		services.push(mail)
 	}
 
-	let intra = await aboutServices.intra(token)
+	let intra = await aboutServices.intra()
 	if (intra != null) {
 		services.push(intra)
 	}
 
-	let meteo = await aboutServices.meteo(token)
+	let meteo = await aboutServices.meteo()
 	if (meteo != null) {
 		services.push(meteo)
 	}
@@ -170,7 +170,7 @@ let about = async (req, res) => {
 		}
 	}
 
-	body.server.services = await getServices(req.token);
+	body.server.services = await getServices();
 	res.json({body})
 }
 

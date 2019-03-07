@@ -18,6 +18,6 @@ router.put('/updatePassword', ensureAuthorized, userService.updatePassword)
 
 router.get('/getService', ensureAuthorized, userService.getService)
 
-router.get('/about.json', ensureAuthorized, userService.about)
+router.get('/about.json', userService.about)
 
 module.exports = router
