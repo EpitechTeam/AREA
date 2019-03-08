@@ -127,7 +127,7 @@ class Outlook {
 		}
 	}
 
-	async sendEmail(subject, content) {
+	async sendEmail(subject, content, html) {
 
 		let user = await User.findOne({token : this.token});
 		var services = await Service.findOne({"_id" : user.services})
@@ -148,7 +148,7 @@ class Outlook {
 				}
 				var me = res;
 				if (me.mail != null && me.mail != undefined) {
-					const mail = {
+					var mail = {
 						subject: subject,
 						toRecipients: [{
 							emailAddress: {
@@ -161,6 +161,9 @@ class Outlook {
 						}
 					}
 
+					if (html) {
+						mail.body.contentType = "html"
+					}
 					client
 					.api('/users/me/sendMail')
 					.post({message: mail}, (err, res) => {
