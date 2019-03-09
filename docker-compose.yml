@@ -14,6 +14,6 @@ services:
     mobile:
         build: ./mobile-client
         volumes:
-          - static-content:/home/
+          - static-content:/home/android
 volumes:
      static-content:
