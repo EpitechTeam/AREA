@@ -16,6 +16,7 @@ export class ConnectorService {
     private office365 = new Office365(this.http, this.userService);
     private epitech = new Epitech(this.http, this.userService);
     private lemonde = new Lemonde(this.http, this.userService);
+    private nasa = new Nasa(this.http, this.userService);
     private weather = new Weather(this.http, this.userService);
     private facebook = new Facebook(this.http, this.socialAuthService, this.userService);
     private twitter = new Twitter(this.http, this.userService, this.router);
@@ -27,7 +28,8 @@ export class ConnectorService {
         this.epitech,
         this.twitter,
         this.weather,
-        this.lemonde
+        this.lemonde,
+        this.nasa,
     ];
 
     constructor(private http: HttpClient,
@@ -50,6 +52,8 @@ export class ConnectorService {
                 return this.weather;
             case 'lemonde':
                 return this.lemonde;
+            case 'nasa':
+                return this.nasa;
         }
     }
 }
@@ -558,6 +562,77 @@ class Lemonde {
             })
         };
         const res = await this.http.get(this.userService.baseUrl + 'lemonde/addLemondeConnection', httpOptions).toPromise();
+        this.connected = true;
+        this.getData();
+    }
+
+    public async getData() {
+    }
+}
+
+class Nasa {
+    name = 'Nasa';
+    class = 'nasa';
+    days = [];
+    user = {
+        userId: '',
+        userName: '',
+        userImage: '',
+        userEmail: ''
+    };
+    config = {};
+    showModal = false;
+
+    connected = false;
+
+    constructor(private http: HttpClient, private userService: UserService) {
+    }
+
+    public async getConnected() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const result = await this.http.get(this.userService.baseUrl + 'nasa/isConnected', httpOptions)
+            .toPromise();
+        // @ts-ignore
+        this.connected = result.data;
+        // @ts-ignore
+        return (result.data);
+    }
+
+    public isConnected() {
+        return (this.connected);
+    }
+
+    public logout() {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        this.http.get(this.userService.baseUrl + 'nasa/logout', httpOptions)
+            .subscribe(res => {
+                this.connected = false;
+            });
+    }
+
+    public login() {
+        this.processLogin();
+    }
+
+    public async processLogin() {
+        this.showModal = false;
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': this.userService.getUser().token
+            })
+        };
+        const res = await this.http.get(this.userService.baseUrl + 'nasa/addNasaConnection', httpOptions).toPromise();
         this.connected = true;
         this.getData();
     }

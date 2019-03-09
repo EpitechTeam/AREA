@@ -36,6 +36,9 @@ export class ServicesComponent implements OnInit {
     }, {
         name: 'Le Monde',
         class: 'lemonde'
+    }, {
+        name: 'Nasa',
+        class: 'nasa'
     }];
 
     constructor(private cardService: CardService,

@@ -57,7 +57,7 @@ export class ManageComponent implements OnInit {
     }
 
     AnnexCards(connector) {
-        if (connector === 'meteo' || connector === 'lemonde') {
+        if (connector === 'meteo' || connector === 'lemonde' || connector === 'nasa') {
             return false;
         }
         return true;
