@@ -3,13 +3,17 @@ version: "3"
 services:
     nodeserver:
         build: ./server
-        volumes:
-            - "./server/server:${PWD}/server"
         ports:
             - "8080:8080"
     frontend:
         build: ./web-client
-        volumes:
-            - "./web-client/web-client:/${PWD}web-client"
         ports:
             - "8081:8081"
+        volumes:
+            - static-content:/home/
+    mobile:
+        build: ./mobile-client
+        volumes:
+          - static-content:/home/
+volumes:
+     static-content:
