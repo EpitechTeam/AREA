@@ -56,6 +56,13 @@ export class ManageComponent implements OnInit {
         }
     }
 
+    AnnexCards(connector) {
+        if (connector === 'meteo' || connector === 'lemonde') {
+            return false;
+        }
+        return true;
+    }
+
     FilterConnectors(filter: boolean) {
         return this.Connectors.filter((connector) => connector.isConnected() === filter);
     }
