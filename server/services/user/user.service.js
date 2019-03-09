@@ -156,6 +156,10 @@ let getServices = async() => {
 		services.push(meteo)
 	}
 
+	let lemonde = await aboutServices.lemonde()
+	if (lemonde != null) {
+		services.push(lemonde)
+	}
 	return (services)
 }
 

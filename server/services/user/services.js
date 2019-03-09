@@ -232,10 +232,34 @@ let meteo = async (token) => {
   return (one)
 }
 
+let lemonde = async () => {
+	let one = {
+		name : "Le monde",
+		actions : [],
+		reactions : []
+	}
+
+	let actions = {
+		name : "News of the day",
+		description : "Envoi des nouvelles sur lemonde.fr"
+	}
+	one.actions.push(actions)
+
+	let reactions = {
+		name : "Mail",
+		description : "Envoi des nouvelles par mail"
+	}
+
+	one.reactions.push(reactions)
+
+	return (one)
+}
+
 module.exports = {
   facebook,
   intra,
   twitter,
   mail,
-  meteo
+  meteo,
+	lemonde
 }
