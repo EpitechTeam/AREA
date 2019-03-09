@@ -34,6 +34,7 @@
     import com.facebook.AccessToken;
     import com.facebook.AccessTokenTracker;
     import com.facebook.CallbackManager;
+    import com.facebook.login.LoginManager;
     import com.facebook.login.LoginResult;
     import com.facebook.login.widget.LoginButton;
     import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -85,12 +86,12 @@
 
                 @Override
                 public void onResponse(Call call, okhttp3.Response response) throws IOException {
-                    String rsp = response.body().string();
-                    Log.d("response isconnected microsoft", rsp);
-                    String jsonString = rsp;
-                    IsConnected data = new IsConnected();
-                    Gson gson = new Gson();
-                    data = gson.fromJson(jsonString, IsConnected.class);
+                        String rsp = response.body().string();
+                        Log.d("response isconnected microsoft", rsp);
+                        String jsonString = rsp;
+                        IsConnected data = new IsConnected();
+                        Gson gson = new Gson();
+                        data = gson.fromJson(jsonString, IsConnected.class);
                     if (data.isType()) {
                         azureButton.setText("Microsoft Graph Sign out");
                         azureButton.setOnClickListener(new View.OnClickListener() {
@@ -235,6 +236,7 @@
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
                                 Log.d("Log out Api Facebook", "ok");
+                                LoginManager.getInstance().logOut();
                             }
                         });
                     }
@@ -285,6 +287,7 @@
                                             @Override
                                             public void onResponse(Call call, Response response) throws IOException {
                                                 Log.d("Log out Api Facebook", "ok1");
+                                                LoginManager.getInstance().logOut();
                                             }
                                         });
                                     }

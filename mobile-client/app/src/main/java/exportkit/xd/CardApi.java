@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 @Generated("com.robohorse.robopojogenerator")
 public class CardApi implements Serializable {
 
-	@SerializedName("array")
+	@SerializedName("data")
 	private List<ArrayItem> array;
 
 	public void setArray(List<ArrayItem> array){
