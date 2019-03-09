@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import $ from 'jquery';
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
-  selector: 'app-clientapk',
-  templateUrl: './clientapk.component.html',
-  styleUrls: ['./clientapk.component.css']
+    selector: 'app-clientapk',
+    templateUrl: './clientapk.component.html',
+    styleUrls: ['./clientapk.component.css']
 })
 export class ClientapkComponent implements OnInit {
 
-  constructor(private router: Router) { }
+    constructor(private http: HttpClient) {
+    }
 
-  ngOnInit() {
-  }
+    async ngOnInit() {
+        const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
+
+        a.href = 'test.png';
+        a.download = 'test.png';
+        document.body.appendChild(a);
+        a.click();
+    }
 
 }
