@@ -12,8 +12,12 @@ router.post('/register', userService.register)
 
 router.post('/checkLogin', ensureAuthorized, userService.register)
 
+router.put('/update', ensureAuthorized, userService.update)
+
+router.put('/updatePassword', ensureAuthorized, userService.updatePassword)
+
 router.get('/getService', ensureAuthorized, userService.getService)
 
-router.get('/about.json', ensureAuthorized, userService.about)
+router.get('/about.json', userService.about)
 
 module.exports = router

@@ -1,12 +1,8 @@
-FROM node:8
-
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
+FROM node:10
+RUN mkdir -p /usr/src/app
+WORKDIR ./web-client
+COPY package.json .
 RUN npm install
-
-COPY . .
-
-EXPOSE 8080
-CMD [ "npm", "start" ]
+COPY . ./
+EXPOSE 3000
+CMD NODE_ENV=development npm start

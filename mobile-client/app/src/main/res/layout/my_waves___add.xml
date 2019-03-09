@@ -35,22 +35,13 @@
                 android:layout_marginTop="115dp">
 
 
+
                 <RelativeLayout
                     android:id="@+id/yammer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="539dp">
-
-                    <ImageView
-                        android:id="@+id/item_ek4"
-                        android:layout_width="320dp"
-                        android:layout_height="65dp"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginTop="0dp"
-                        android:contentDescription="item_ek4"
-                        android:src="@drawable/item_ek4" />
 
                     <TextView
                         android:id="@+id/yammer_ek1"
@@ -125,15 +116,16 @@
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="449dp">
 
-                    <ImageView
-                        android:id="@+id/item_ek5"
+                    <Button
+                        android:id="@+id/meteo_waves_entry"
                         android:layout_width="320dp"
                         android:layout_height="65dp"
+                        android:text="METEO"
+                        android:background="@color/tw__composer_red"
                         android:layout_marginStart="0dp"
                         android:layout_marginLeft="0dp"
                         android:layout_marginTop="0dp"
-                        android:contentDescription="item_ek5"
-                        android:src="@drawable/item_ek5" />
+                     />
 
                     <TextView
                         android:id="@+id/gmail_ek1"
@@ -188,7 +180,7 @@
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="280dp">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/item_ek6"
                         android:layout_width="320dp"
                         android:layout_height="65dp"
@@ -196,7 +188,8 @@
                         android:layout_marginLeft="0dp"
                         android:layout_marginTop="0dp"
                         android:contentDescription="item_ek6"
-                        android:src="@drawable/item_ek6" />
+                        android:background="@drawable/item_ek6"
+                        />
 
                     <TextView
                         android:id="@+id/twitter_ek1"
@@ -251,17 +244,17 @@
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="180dp">
 
-                    <ImageButton
-                        android:id="@+id/one_drive_wave_entry"
+                    <Button
+                        android:id="@+id/outlook_wave_entry"
                         android:layout_width="320dp"
                         android:layout_height="65dp"
                         android:layout_marginStart="0dp"
                         android:layout_marginLeft="0dp"
                         android:layout_marginTop="0dp"
-                        android:background="@color/colorAccent"
+                        android:text="outlook"
+                        android:background="@color/com_facebook_blue"
                         android:contentDescription="item_ek8"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/item_ek8" />
+                        />
 
                     <TextView
                         android:id="@+id/one_drive_ek1"

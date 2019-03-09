@@ -12,17 +12,16 @@ let CalendarSpec = require('../calendar/calendar.spec')
 let TwitterSpec = require('../twitter/twitter.spec')
 let IntraSpec = require('./../intra/intra.spec');
 let MeteoSpec = require('./../meteo/meteo.spec');
+let LemondeSpec = require('./../lemonde/lemonde.spec');
 
 class Robot {
   constructor() {
-
   }
 
   async refreshAllUser() {
     console.log("Refresh");
     let all_user = await User.find({})
 
-    // console.log(all_user)
     for (let user of all_user) {
       let service = await Service.findOne({"_id" : user.services})
 
@@ -33,6 +32,10 @@ class Robot {
       if (service.meteo) {
         let newMeteo = new MeteoSpec.Meteo(user.token)
         await newMeteo.handleMeteoCards()
+      }
+      if (service.lemonde) {
+        let newLemonde = new LemondeSpec.Lemonde(user.token)
+        await newLemonde.handleLemondeCards()
       }
 
     }

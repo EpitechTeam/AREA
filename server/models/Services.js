@@ -10,7 +10,8 @@ var ServiceSchema   = mongoose.Schema({
 	/*Office 365*/
 	outlook : String,
 	calendar : String,
-	one_drive : String
+	one_drive : String,
+	lemonde : String
 });
 
 var Service = module.exports = mongoose.model('Service', ServiceSchema);

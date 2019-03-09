@@ -61,6 +61,21 @@ let getService = async (req, res) => {
 	})
 }
 
+let updatePassword = async(req, res) => {
+	let user = await User.findOne({token : req.token})
+	let hashpassword = sha256(req.body.password)
+
+	await User.updateOne({token : req.token}, { $set :  {password : hashpassword}})
+	res.json({data : "saved"})
+}
+
+let update = async (req, res) => {
+	let user = await User.findOne({token : req.token})
+
+	await User.updateOne({token : req.token}, { $set :  {first_name : req.body.first_name, last_name : req.body.last_name, email : req.body.email}})
+	res.json({data : "saved"})
+}
+
 let login = (req, res) => {
 	User.findOne({email: req.body.email, password: sha256(req.body.password)}, (err, rep) => {
 		if (err || !rep) {
@@ -113,34 +128,38 @@ let register = async (req, res) => {
 	res.json({type: true, data : user});
 }
 
-let getServices = async(token) => {
+let getServices = async() => {
 	var services = []
 
-	let facebook = await aboutServices.facebook(token)
+	let facebook = await aboutServices.facebook()
 	if (facebook != null) {
 		services.push(facebook)
 	}
 
-	let twitter = await aboutServices.twitter(token)
+	let twitter = await aboutServices.twitter()
 	if(twitter != null) {
 		services.push(twitter)
 	}
 
-	let mail = await aboutServices.mail(token)
+	let mail = await aboutServices.mail()
 	if (mail != null) {
 		services.push(mail)
 	}
 
-	let intra = await aboutServices.intra(token)
+	let intra = await aboutServices.intra()
 	if (intra != null) {
 		services.push(intra)
 	}
 
-	let meteo = await aboutServices.meteo(token)
+	let meteo = await aboutServices.meteo()
 	if (meteo != null) {
 		services.push(meteo)
 	}
 
+	let lemonde = await aboutServices.lemonde()
+	if (lemonde != null) {
+		services.push(lemonde)
+	}
 	return (services)
 }
 
@@ -155,7 +174,7 @@ let about = async (req, res) => {
 		}
 	}
 
-	body.server.services = await getServices(req.token);
+	body.server.services = await getServices();
 	res.json({body})
 }
 
@@ -164,5 +183,7 @@ module.exports = {
 	login,
 	register,
 	about,
-	getService
+	getService,
+	update,
+	updatePassword
 }
