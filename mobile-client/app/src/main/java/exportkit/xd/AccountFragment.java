@@ -29,6 +29,7 @@
     import android.view.View;
     import android.view.ViewGroup;
     import android.widget.Button;
+    import android.widget.TextView;
     import android.widget.Toast;
 
     import com.facebook.AccessToken;
@@ -66,6 +67,9 @@
         private LoginButton facebookButton;
         private String token;
         private Button facebookLogout;
+        private Button intraButton;
+        private Button intraButtonOut;
+        private TextView name;
 
         @Override
         public void onResume() {
@@ -86,12 +90,12 @@
 
                 @Override
                 public void onResponse(Call call, okhttp3.Response response) throws IOException {
-                        String rsp = response.body().string();
-                        Log.d("response isconnected microsoft", rsp);
-                        String jsonString = rsp;
-                        IsConnected data = new IsConnected();
-                        Gson gson = new Gson();
-                        data = gson.fromJson(jsonString, IsConnected.class);
+                    String rsp = response.body().string();
+                    Log.d("response isconnected microsoft", rsp);
+                    String jsonString = rsp;
+                    IsConnected data = new IsConnected();
+                    Gson gson = new Gson();
+                    data = gson.fromJson(jsonString, IsConnected.class);
                     if (data.isType()) {
                         azureButton.setText("Microsoft Graph Sign out");
                         azureButton.setOnClickListener(new View.OnClickListener() {
@@ -305,7 +309,67 @@
                     }
                 }
             });
+            String postUrl3 = ((Global) this.getActivity().getApplication()).getBaseUrl() + "/intra/isConnected";
+            OkHttpClient client3 = new OkHttpClient();
+            Request request3 = new Request.Builder()
+                    .url(postUrl3)
+                    .addHeader("Authorization", token)
+                    .build();
+            client3.newCall(request3).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
 
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String rsp = response.body().string();
+                    Log.d("response isconnected Facebook", rsp);
+                    String jsonString = rsp;
+                    IsConnected data = new IsConnected();
+                    Gson gson = new Gson();
+                    data = gson.fromJson(jsonString, IsConnected.class);
+                    if (data.isType()) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                intraButton.setVisibility(View.INVISIBLE);
+                                intraButtonOut.setVisibility(View.VISIBLE);
+                                intraButtonOut.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String postUrl = ((Global) getActivity().getApplication()).getBaseUrl() + "/intra/logout";
+                                        OkHttpClient client = new OkHttpClient();
+                                        Request request = new Request.Builder()
+                                                .url(postUrl)
+                                                .addHeader("Authorization", token)
+                                                .build();
+                                        client.newCall(request).enqueue(new Callback() {
+                                            @Override
+                                            public void onFailure(Call call, IOException e) {
+
+                                            }
+
+                                            @Override
+                                            public void onResponse(Call call, Response response) throws IOException {
+                                                Log.d("Log out Api Intra", "ok");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                intraButton.setVisibility(View.VISIBLE);
+                                intraButtonOut.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }
+                }
+            });
         }
 
         @RequiresApi(api = Build.VERSION_CODES.M)
@@ -317,7 +381,11 @@
             twitterbutton = (Button) view.findViewById(R.id.twitter_button);
             facebookButton = (LoginButton) view.findViewById(R.id.facebook_login_button);
             facebookLogout = (Button) view.findViewById(R.id.facebook_logout);
-            Bundle b = getArguments();
+            intraButton = (Button) view.findViewById(R.id.intra_launch);
+            intraButtonOut = (Button) view.findViewById(R.id.intra_logout);
+            name = (TextView) view.findViewById(R.id.david_zakrzewski);
+            String nameStr = getArguments().getString("name");
+            name.setText(nameStr);
             callbackManager = CallbackManager.Factory.create();
             facebookService.init(this, view, callbackManager);
             return view;

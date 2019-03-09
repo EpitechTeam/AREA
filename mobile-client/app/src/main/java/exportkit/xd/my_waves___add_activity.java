@@ -22,6 +22,7 @@
     import android.os.Bundle;
 
 
+    import android.util.Log;
     import android.view.View;
     import android.widget.Button;
     import android.widget.ImageButton;
@@ -37,6 +38,7 @@
         private String intraCard;
         private String meteoCard;
         private String outlookCard;
+        private String leMondeCard;
 
 
         @Override
@@ -68,10 +70,10 @@
                     Intent myIntent = new Intent(getBaseContext(), my_waves___add___action_activity.class);
                     myIntent.putExtra("facebookcard", intraCard);
                     startActivity(myIntent);
-                }
+                      }
             });
             Button meteoButton = (Button) findViewById(R.id.meteo_waves_entry);
-            intraButton.setOnClickListener(new View.OnClickListener() {
+            meteoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(getBaseContext(), my_waves___add___action_activity.class);
@@ -80,11 +82,20 @@
                 }
             });
             Button outlookButton = (Button) findViewById(R.id.outlook_wave_entry);
-            intraButton.setOnClickListener(new View.OnClickListener() {
+            outlookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(getBaseContext(), my_waves___add___action_activity.class);
                     myIntent.putExtra("facebookcard", outlookCard);
+                    startActivity(myIntent);
+                }
+            });
+            ImageButton leMondeButton = (ImageButton) findViewById(R.id.le_monde);
+            leMondeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(getBaseContext(), my_waves___add___action_activity.class);
+                    myIntent.putExtra("facebookcard", leMondeCard);
                     startActivity(myIntent);
                 }
             });
@@ -94,6 +105,7 @@
             intraCard = intent.getStringExtra("intraCard");
             meteoCard = intent.getStringExtra("meteoCard");
             outlookCard = intent.getStringExtra("outlookCard");
+            leMondeCard = intent.getStringExtra("leMondeCard");
         }
     }
 	

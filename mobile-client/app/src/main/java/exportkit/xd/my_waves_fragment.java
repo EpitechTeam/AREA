@@ -360,6 +360,19 @@
                 "   }\n" +
                 "]}";
 
+        String leMondeCard="{\"data\":[\n" +
+                "   {\n" +
+                "      \"id\":0,\n" +
+                "      \"type\":\"lemonde\",\n" +
+                "      \"enabled\":false,\n" +
+                "      \"enableEndpoint\":\"addNewsToEmail\",\n" +
+                "      \"disableEndpoint\":\"removeNewsToEmail\",\n" +
+                "      \"key\":\"newToEmail\",\n" +
+                "      \"title\":\"Sends to Email\",\n" +
+                "      \"description\":\"You receive the news by mail\",\n" +
+                "      \"class\":\"card-intra\"\n" +
+                "   }\n" +
+                "]}";
 
         CardApi fake = new Gson().fromJson(twitterCard, CardApi.class);
         private OptionAdapter adapter;
@@ -380,13 +393,14 @@
                     myIntent.putExtra("meteoCard", meteoCard);
                     myIntent.putExtra("intraCard", intraCard);
                     myIntent.putExtra("outlookCard", outlookCard);
+                    myIntent.putExtra("leMondeCard", leMondeCard);
                     startActivity(myIntent);
                 }
             });
             token = ((Global) getActivity().getApplication()).getToken();
 
             recycle.setLayoutManager(new LinearLayoutManager(getContext()));
-            adapter = new OptionAdapter(getContext(), fake.getArray(), token, baseUrl);
+            adapter = new OptionAdapter(getContext(), fake.getArray(), token, baseUrl, getActivity());
             recycle.setAdapter(adapter);
             return view;
         }
@@ -427,10 +441,16 @@
                     Gson gson1 = new Gson();
                     CardApi data1 = gson1.fromJson(facebookcard, CardApi.class);
                     for (int i = 0; i < data1.getArray().size(); i++) {
-                        if (data1.getArray().get(i).getKey().equals(data))
+                        ArrayItem myVar = data1.getArray().get(i);
+                        if (myVar.getKey().equals(data.getData().getActualCard(myVar.getKey())))
                             fake.getArray().add(data1.getArray().get(i));
                     }
-
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
                 }
             });
             String postUrlTwitter = ((Global) getActivity().getApplication()).getBaseUrl() + "/twitter/myOption";
@@ -471,10 +491,10 @@
             String postUrlMeteo = ((Global) getActivity().getApplication()).getBaseUrl() + "/meteo/myOption";
             OkHttpClient clientMeteo = new OkHttpClient();
             Request requestMeteo = new Request.Builder()
-                    .url(postUrlTwitter)
+                    .url(postUrlMeteo)
                     .addHeader("Authorization", token)
                     .build();
-            clientTwitter.newCall(requestMeteo).enqueue(new Callback() {
+            clientMeteo.newCall(requestMeteo).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
 
@@ -485,16 +505,22 @@
                     String rsp = response.body().string();
                     Log.d("response Meteo option", rsp);
                     String jsonString = rsp;
-                    OptionsTwitter data;
+                    OptionsMeteo data;
                     Gson gson = new Gson();
-                    data = gson.fromJson(jsonString, OptionsTwitter.class);
+                    data = gson.fromJson(jsonString, OptionsMeteo.class);
                     Gson gson1 = new Gson();
                     CardApi data1 = gson1.fromJson(meteoCard, CardApi.class);
                     for (int i = 0; i < data1.getArray().size(); i++) {
                         ArrayItem myVar = data1.getArray().get(i);
-                        if (myVar.getKey().equals(data.getTwitterOptData().getActualCard(myVar.getKey())))
+                        if (myVar.getKey().equals(data.getMeteoData().getActualCard(myVar.getKey())))
                             fake.getArray().add(data1.getArray().get(i));
                     }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
                 }
             });
             String postUrlIntra = ((Global) getActivity().getApplication()).getBaseUrl() + "/intra/myOption";
@@ -503,7 +529,7 @@
                     .url(postUrlIntra)
                     .addHeader("Authorization", token)
                     .build();
-            clientTwitter.newCall(requestTwitter).enqueue(new Callback() {
+            clientIntra.newCall(requestIntra).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
 
@@ -514,21 +540,21 @@
                     String rsp = response.body().string();
                     Log.d("response Intra option", rsp);
                     String jsonString = rsp;
-                    OptionsTwitter data;
+                    OptionsIntra data;
                     Gson gson = new Gson();
-                    data = gson.fromJson(jsonString, OptionsTwitter.class);
+                    data = gson.fromJson(jsonString, OptionsIntra.class);
                     Gson gson1 = new Gson();
                     CardApi data1 = gson1.fromJson(intraCard, CardApi.class);
                     for (int i = 0; i < data1.getArray().size(); i++) {
                         ArrayItem myVar = data1.getArray().get(i);
-                        if (myVar.getKey().equals(data.getTwitterOptData().getActualCard(myVar.getKey())))
+                        if (myVar.getKey().equals(data.getIntraOpt().getActualCard(myVar.getKey())))
                             fake.getArray().add(data1.getArray().get(i));
                     }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             recycle.setLayoutManager(new LinearLayoutManager(getContext()));
-                            OptionAdapter adapter = new OptionAdapter(getContext(), fake.getArray(), token, baseUrl);
+                            OptionAdapter adapter = new OptionAdapter(getContext(), fake.getArray(), token, baseUrl, getActivity());
                             recycle.setAdapter(adapter);
                         }
                     });
@@ -565,6 +591,41 @@
                         @Override
                         public void run() {
                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            });
+            String postUrlLeMonde = ((Global) getActivity().getApplication()).getBaseUrl() + "/lemonde/myOption";
+            OkHttpClient clientLeMonde = new OkHttpClient();
+            Request requestLeMonde = new Request.Builder()
+                    .url(postUrlLeMonde)
+                    .addHeader("Authorization", token)
+                    .build();
+            clientLeMonde.newCall(requestLeMonde).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String rsp = response.body().string();
+                    Log.d("response  option", rsp);
+                    String jsonString = rsp;
+                     LeMonde data;
+                    Gson gson = new Gson();
+                    data = gson.fromJson(jsonString, LeMonde.class);
+                    Gson gson1 = new Gson();
+                    CardApi data1 = gson1.fromJson(leMondeCard, CardApi.class);
+                    for (int i = 0; i < data1.getArray().size(); i++) {
+                        ArrayItem myVar = data1.getArray().get(i);
+                        if (myVar.getKey().equals(data.getLemondeRsp().getActualCard(myVar.getKey())))
+                            fake.getArray().add(data1.getArray().get(i));
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
                         }
                     });
                 }
