@@ -56,6 +56,8 @@
         </activity>
         <activity android:name="exportkit.xd.register_activity"></activity>
         <activity android:name=".Twitter_activity"></activity>
+        <activity android:name=".Intra_activity"></activity>
+        <activity android:name=".WeatherActivity"></activity>
         <activity android:name="exportkit.xd.MicrosoftGraphService"></activity>
         <activity android:name="exportkit.xd.bottom_navigation_activity"></activity>
         <activity android:name="exportkit.xd.my_waves___add_activity"></activity>
