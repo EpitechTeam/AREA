@@ -14,7 +14,6 @@ declare var ace: any;
 export class AboutComponent implements OnInit {
 
     about = {};
-
     constructor(private userService: UserService,
                 private http: HttpClient) {
     }
