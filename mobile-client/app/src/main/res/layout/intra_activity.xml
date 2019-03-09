@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="35dp"
+        android:textSize="35dp"
+        android:text="Auto Login Epitech"/>
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/autologin"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="auth-87838f95ba37ac25d7f9470b0cd233d215e7fa61"
+        android:hint="auth-36d12f6b40a50dd0cb4eee4c0157e65e06fa9677"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/autolog_push"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="500dp"
+        android:layout_centerHorizontal="true"
+        android:text="Send"/>
+
+</RelativeLayout>

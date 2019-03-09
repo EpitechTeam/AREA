@@ -45,10 +45,37 @@ public class ActionAdapter extends  RecyclerView.Adapter<ActionViewholder> {
         return new ActionViewholder(v);
     }
 
+    private void getActionImage(@NonNull ActionViewholder actionViewholder, int i) {
+        switch (action.get(i).getType()) {
+            case "facebook":
+                actionViewholder.img_action.setImageResource(R.drawable.facebook_banner);
+                break;
+            case "twitter":
+                actionViewholder.img_action.setImageResource(R.drawable.twitter_banner);
+                break;
+            case "intra":
+                actionViewholder.img_action.setImageResource(R.drawable.epitech_banner);
+                break;
+            case "meteo":
+                actionViewholder.img_action.setImageResource(R.drawable.meteo_banner);
+                break;
+            case "outlook":
+                actionViewholder.img_action.setImageResource(R.drawable.outlook_banner);
+                break;
+            case "lemonde":
+                actionViewholder.img_action.setImageResource(R.drawable.le_monde_banner);
+                break;
+
+        }
+    }
+
+
+
     @Override
     public void onBindViewHolder(@NonNull ActionViewholder actionViewholder, final int i) {
         actionViewholder.actionTxt.setText(action.get(i).getTitle());
         actionViewholder.descriptionTxt.setText(action.get(i).getDescription());
+        getActionImage(actionViewholder, i);
         actionViewholder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
