@@ -81,9 +81,9 @@ class Nasa {
   async handleApod(body) {
     let json = JSON.parse(body)
     let mail = ''
-    mail += '<h2>' + item.title._text+ '</h2>';
-    mail += '<p>' + item.description._text + '</p>'
-    mail += '<a href=\"' + item.link._text+ '\">Lien vers l\'article sur nasa</a>'
+    mail += '<h2>' + json.title + '</h2>';
+    mail += '<p>' + json.explanation + '</p>'
+    mail += '<img src=\"' + json.hdurl + '\"/>'
     mail += '<br>'
 
     let newOutlook = new OutlookSpec.Outlook(this.token);
