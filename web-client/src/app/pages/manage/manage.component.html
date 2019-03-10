@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div *ngIf="FilterConnectors(false).length === 0" class="connectServices noservices connectorLoginLink">
-                <span class="link"><a>No services connected</a></span>
+                <span class="link"><a>No services to connect</a></span>
             </div>
         </div>
         <div class="flex-box column col-80" id="connected-services">
@@ -18,11 +18,11 @@
                     <div class="cs-header s-18 font-bold {{ connector.class }}">
                         {{ connector.name }}
                     </div>
-                    <div class="cs-body s-16 font-medium">
+                    <div class="flex-box column cs-body s-16 font-medium">
                         <div class="statusRow" *ngIf="connector.user.userImage">
                             <img src="{{ connector.user.userImage }}" alt="profile image" width="50px" height="50px">
                         </div>
-                        <div class="statusRow" *ngIf="connector.class !== 'meteo'"><span class="lightGreyStatus">Connected as </span><span class="capitalize">{{ connector.user.userName }}</span></div>
+                        <div class="statusRow" *ngIf="AnnexCards(connector.class)"><span class="lightGreyStatus">Connected as </span><span class="capitalize">{{ connector.user.userName }}</span></div>
                         <div class="statusRow" *ngIf="connector.class === 'meteo'">
                             <div class="flex-box row space-between">
                                 <div class="flex-box column center text-centered" *ngFor="let day of connector.days">

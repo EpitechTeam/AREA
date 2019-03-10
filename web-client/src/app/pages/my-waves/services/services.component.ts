@@ -33,6 +33,12 @@ export class ServicesComponent implements OnInit {
     }, {
         name: 'Epitech',
         class: 'intra'
+    }, {
+        name: 'Le Monde',
+        class: 'lemonde'
+    }, {
+        name: 'Nasa',
+        class: 'nasa'
     }];
 
     constructor(private cardService: CardService,
@@ -61,9 +67,6 @@ export class ServicesComponent implements OnInit {
     }
 
     private async OnServiceClicked(serviceType) {
-        // if (serviceType === 'outlook') {
-        //     serviceType = 'office365';
-        // }
         this.searchText = '';
         this.selectedService = serviceType;
         this.cards = this.stockCards.filter((item) => item.type === this.selectedService);

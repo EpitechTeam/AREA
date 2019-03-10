@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {serialize} from '@angular/compiler/src/i18n/serializers/xml_helper';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UserService} from '../../../user.service';
 
@@ -22,6 +20,7 @@ export class Card {
 export class CardService {
     constructor(private userService: UserService,
                 private http: HttpClient) {
+        console.log(JSON.stringify(this.NASACARDS));
     }
 
     private services = [
@@ -298,6 +297,30 @@ export class CardService {
         class: 'card-intra'
     }];
 
+    LEMONDECARDS: Card[] = [{
+        id: 0,
+        type: 'lemonde',
+        enabled: false,
+        enableEndpoint: 'addNewsToEmail',
+        disableEndpoint: 'removeNewsToEmail',
+        key: 'newToEmail',
+        title: 'Sends to Email',
+        description: 'You receive the news by mail',
+        class: 'card-lemonde'
+    }];
+
+    NASACARDS: Card[] = [{
+        id: 0,
+        type: 'nasa',
+        enabled: false,
+        enableEndpoint: 'addApodToEmail',
+        disableEndpoint: 'removeApodToEmail',
+        key: 'apodToEmail',
+        title: 'Picture of the day to email',
+        description: 'You receive the astronomy picture of the day by Email',
+        class: 'card-nasa'
+    }];
+
     public async getDisabledCardsFromType(serviceType) {
         // @ts-ignore
         let cards: Card[] = [];
@@ -347,6 +370,22 @@ export class CardService {
                 }
             });
         }
+
+        if (serviceType === 'lemonde') {
+            this.LEMONDECARDS.forEach(card => {
+                if (res['data'][card.key] === false) {
+                    cards.push(card);
+                }
+            });
+        }
+
+        if (serviceType === 'nasa') {
+            this.NASACARDS.forEach(card => {
+                if (res['data'][card.key] === false) {
+                    cards.push(card);
+                }
+            });
+        }
         return (cards);
     }
 
@@ -373,21 +412,35 @@ export class CardService {
         });
         res = await this.http.get(this.userService.baseUrl + 'meteo' + '/myOption', httpOptions).toPromise();
         this.WEATHERCARDS.forEach(card => {
-            if (res['data'][card.key] === false) {
+            if (res['data'] && res['data'][card.key] === false) {
                 cards.push(card);
             }
         });
 
         res = await this.http.get(this.userService.baseUrl + 'outlook' + '/myOption', httpOptions).toPromise();
         this.OUTLOOKCARDS.forEach(card => {
-            if (res['data'][card.key] === false) {
+            if (res['data'] && res['data'] && res['data'][card.key] === false) {
                 cards.push(card);
             }
         });
 
         res = await this.http.get(this.userService.baseUrl + 'intra' + '/myOption', httpOptions).toPromise();
         this.INTRACARDS.forEach(card => {
-            if (res['data'][card.key] === false) {
+            if (res['data'] && res['data'][card.key] === false) {
+                cards.push(card);
+            }
+        });
+
+        res = await this.http.get(this.userService.baseUrl + 'lemonde' + '/myOption', httpOptions).toPromise();
+        this.LEMONDECARDS.forEach(card => {
+            if (res['data'] && res['data'][card.key] === false) {
+                cards.push(card);
+            }
+        });
+
+        res = await this.http.get(this.userService.baseUrl + 'nasa' + '/myOption', httpOptions).toPromise();
+        this.NASACARDS.forEach(card => {
+            if (res['data'] && res['data'][card.key] === false) {
                 cards.push(card);
             }
         });
@@ -404,21 +457,21 @@ export class CardService {
         };
         let res = await this.http.get(this.userService.baseUrl + 'facebook/myOption', httpOptions).toPromise();
         this.FACEBOOKCARDS.forEach(card => {
-            if (res['data'][card.key] === enabled) {
+            if (res['data'] && res['data'][card.key] === enabled) {
                 card.enabled = enabled;
                 cards.push(card);
             }
         });
         res = await this.http.get(this.userService.baseUrl + 'twitter/myOption', httpOptions).toPromise();
         this.TWITTERCARDS.forEach(card => {
-            if (res['data'][card.key] === enabled) {
+            if (res['data'] && res['data'][card.key] === enabled) {
                 card.enabled = enabled;
                 cards.push(card);
             }
         });
         res = await this.http.get(this.userService.baseUrl + 'meteo/myOption', httpOptions).toPromise();
         this.WEATHERCARDS.forEach(card => {
-            if (res['data'][card.key] === enabled) {
+            if (res['data'] && res['data'][card.key] === enabled) {
                 card.enabled = enabled;
                 cards.push(card);
             }
@@ -426,7 +479,7 @@ export class CardService {
 
         res = await this.http.get(this.userService.baseUrl + 'outlook/myOption', httpOptions).toPromise();
         this.OUTLOOKCARDS.forEach(card => {
-            if (res['data'][card.key] === enabled) {
+            if (res['data'] && res['data'][card.key] === enabled) {
                 card.enabled = enabled;
                 cards.push(card);
             }
@@ -434,7 +487,23 @@ export class CardService {
 
         res = await this.http.get(this.userService.baseUrl + 'intra/myOption', httpOptions).toPromise();
         this.INTRACARDS.forEach(card => {
-            if (res['data'][card.key] === enabled) {
+            if (res['data'] && res['data'][card.key] === enabled) {
+                card.enabled = enabled;
+                cards.push(card);
+            }
+        });
+
+        res = await this.http.get(this.userService.baseUrl + 'lemonde/myOption', httpOptions).toPromise();
+        this.LEMONDECARDS.forEach(card => {
+            if (res['data'] && res['data'][card.key] === enabled) {
+                card.enabled = enabled;
+                cards.push(card);
+            }
+        });
+
+        res = await this.http.get(this.userService.baseUrl + 'nasa/myOption', httpOptions).toPromise();
+        this.NASACARDS.forEach(card => {
+            if (res['data'] && res['data'][card.key] === enabled) {
                 card.enabled = enabled;
                 cards.push(card);
             }
