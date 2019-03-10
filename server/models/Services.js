@@ -11,7 +11,8 @@ var ServiceSchema   = mongoose.Schema({
 	outlook : String,
 	calendar : String,
 	one_drive : String,
-	lemonde : String
+	lemonde : String,
+	nasa : String
 });
 
 var Service = module.exports = mongoose.model('Service', ServiceSchema);
