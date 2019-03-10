@@ -11,6 +11,8 @@ import {AddWaveComponent} from './my-waves/add-wave/add-wave.component';
 import {FormsModule} from '@angular/forms';
 import { EditWaveComponent } from './my-waves/edit-wave/edit-wave.component';
 import { AccountComponent } from './account/account.component';
+import { AboutComponent } from './about/about.component';
+import {AceEditorModule} from 'ng2-ace-editor';
 
 @NgModule({
     declarations: [
@@ -19,13 +21,15 @@ import { AccountComponent } from './account/account.component';
         ManageComponent,
         AddWaveComponent,
         EditWaveComponent,
-        AccountComponent
+        AccountComponent,
+        AboutComponent
     ],
     imports: [
         CommonModule,
         PagesRoutingModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        AceEditorModule
     ]
 })
 export class PagesModule {
