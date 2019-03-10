@@ -1,24 +1,24 @@
 <nav class="header-nav" *ngIf="userService.isConnected()">
-  <img routerLink="/pages/myWaves" src="../assets/img/logo.svg" alt="logo">
+    <img routerLink="/pages/myWaves" src="../assets/img/logo.svg" alt="logo">
 
-  <div id="nav-links">
-    <a routerLink="/pages/myWaves">My Waves</a>
-    <a routerLink="/pages/manage">Manage</a>
-  </div>
+    <div id="nav-links">
+        <a routerLink="/pages/myWaves">My Waves</a>
+        <a routerLink="/pages/manage">Manage</a>
+    </div>
 
-  <div class="flex-box flex-box-centered" id="profile-box">
-    <div id="profile-box-info" (click)="onProfileNavClicked()">
-      <img src="{{ userService.getUser().userImage }}" alt="avatar">
-      <span id="user-name">{{ userService.getUser().first_name }} {{ userService.getUser().last_name }}</span>
-      <i class="fa fa-angle-down"></i>
+    <div class="flex-box flex-box-centered" id="profile-box">
+        <div id="profile-box-info" (click)="onProfileNavClicked()">
+            <img src="{{ userService.getUser().userImage }}" alt="avatar">
+            <span id="user-name">{{ userService.getUser().first_name }} {{ userService.getUser().last_name }}</span>
+            <i class="fa fa-angle-down"></i>
+        </div>
+        <div id="profile-box-dropdown" *ngIf="profileNavShow">
+            <a class="font-bold" href="client.apk" download>Get Mobile app now!</a>
+            <a class="font-light" routerLink="pages/myWaves/addWave">Create a new wave</a>
+            <a class="font-light" routerLink="pages/account">Account</a>
+            <a class="font-light" routerLink="pages/about">About</a>
+            <a class="font-black" (click)="onLogout()">Sign out</a>
+        </div>
     </div>
-    <div id="profile-box-dropdown" *ngIf="profileNavShow">
-        <a class="font-bold" routerLink="client.apk">Get Mobile app now!</a>
-      <a class="font-light" routerLink="pages/myWaves/addWave">Create a new wave</a>
-      <a class="font-light" routerLink="pages/account">Account</a>
-      <a class="font-light" routerLink="pages/about">About</a>
-      <a class="font-black" (click)="onLogout()">Sign out</a>
-    </div>
-  </div>
 </nav>
 <router-outlet></router-outlet>

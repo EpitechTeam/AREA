@@ -20,7 +20,6 @@ export class Card {
 export class CardService {
     constructor(private userService: UserService,
                 private http: HttpClient) {
-        console.log(JSON.stringify(this.NASACARDS));
     }
 
     private services = [
