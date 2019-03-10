@@ -5,6 +5,7 @@
 
     <RelativeLayout
         android:id="@+id/inputs_ek1"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="39dp"
@@ -16,12 +17,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="230dp">
 
             <Button
                 android:id="@+id/background_ek3"
                 android:layout_width="282dp"
                 android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="100dp"
@@ -45,6 +48,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="230dp">
 
             <EditText
@@ -63,6 +67,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="280dp">
 
             <EditText
@@ -81,6 +86,7 @@
         <RelativeLayout
             android:id="@+id/password_ek1"
             android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="140dp">
@@ -104,6 +110,7 @@
         <RelativeLayout
             android:id="@+id/password_ek2"
             android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="70dp">
@@ -129,6 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="0dp">
 
             <EditText

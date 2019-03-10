@@ -66,6 +66,9 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionViewholder> {
             case "lemonde":
                 actionViewholder.img_action.setImageResource(R.drawable.le_monde_banner);
                 break;
+            case "nasa":
+                actionViewholder.img_action.setImageResource(R.drawable.nasa);
+                break;
         }
     }
 
