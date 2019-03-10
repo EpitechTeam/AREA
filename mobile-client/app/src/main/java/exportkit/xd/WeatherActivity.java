@@ -2,6 +2,7 @@ package exportkit.xd;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,14 +35,14 @@ public class WeatherActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String postUrl = ((Global) getApplication()).getBaseUrl() +"/meteo/addTwitterConnection";
+                String postUrl = ((Global) getApplication()).getBaseUrl() +"/meteo/addMeteoConnection";
                 String postBody = "{\n" +
                         "    \"insee\": \"" + insee.getText().toString() + "\",\n" +
                         "    \"city\": \"" + city.getText().toString() + "\"\n" +
                         "}";
                 OkHttpClient client = new OkHttpClient();
                 RequestBody body = RequestBody.create(JSON, postBody);
-                Request request = new Request.Builder()
+                final Request request = new Request.Builder()
                         .url(postUrl)
                         .addHeader("Authorization", tokenApi)
                         .post(body)
@@ -54,6 +55,7 @@ public class WeatherActivity extends Activity {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        Log.d("response Sign In Weather", response.body().string());
                             finish();
                     }
                 });

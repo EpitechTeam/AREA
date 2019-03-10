@@ -17,7 +17,7 @@ public class IntraOpt{
 	private boolean activityToEmail;
 
 	@SerializedName("GPA_intra")
-	private int gPAIntra;
+	private float gPAIntra;
 
 	@SerializedName("activityToCalendar")
 	private boolean activityToCalendar;
@@ -58,11 +58,11 @@ public class IntraOpt{
 		return activityToEmail;
 	}
 
-	public void setGPAIntra(int gPAIntra){
+	public void setGPAIntra(float gPAIntra){
 		this.gPAIntra = gPAIntra;
 	}
 
-	public int getGPAIntra(){
+	public float getGPAIntra(){
 		return gPAIntra;
 	}
 

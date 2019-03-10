@@ -70,6 +70,8 @@
         private Button intraButton;
         private Button intraButtonOut;
         private TextView name;
+        private Button meteoButton;
+        private Button meteoButtonOut;
 
         @Override
         public void onResume() {
@@ -370,6 +372,69 @@
                     }
                 }
             });
+            String postUrl4 = ((Global) this.getActivity().getApplication()).getBaseUrl() + "/meteo/isConnected";
+            OkHttpClient client4 = new OkHttpClient();
+            Request request4 = new Request.Builder()
+                    .url(postUrl4)
+                    .addHeader("Authorization", token)
+                    .build();
+            client.newCall(request4).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String rsp = response.body().string();
+                    Log.d("response meteo Facebook", rsp);
+                    String jsonString = rsp;
+                    IsConnected data = new IsConnected();
+                    Gson gson = new Gson();
+                    data = gson.fromJson(jsonString, IsConnected.class);
+                    if (data.isType()) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                meteoButton.setVisibility(View.INVISIBLE);
+                                meteoButtonOut.setVisibility(View.VISIBLE);
+                                meteoButtonOut.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String postUrl = ((Global) getActivity().getApplication()).getBaseUrl() + "/meteo/logout";
+                                        OkHttpClient client = new OkHttpClient();
+                                        Request request = new Request.Builder()
+                                                .url(postUrl)
+                                                .addHeader("Authorization", token)
+                                                .build();
+                                        client.newCall(request).enqueue(new Callback() {
+                                            @Override
+                                            public void onFailure(Call call, IOException e) {
+
+                                            }
+
+                                            @Override
+                                            public void onResponse(Call call, Response response) throws IOException {
+                                                Log.d("Log out Api Meteo", "ok");
+
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                meteoButton.setVisibility(View.VISIBLE);
+                                meteoButtonOut.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }
+                }
+
+            });
         }
 
         @RequiresApi(api = Build.VERSION_CODES.M)
@@ -383,6 +448,8 @@
             facebookLogout = (Button) view.findViewById(R.id.facebook_logout);
             intraButton = (Button) view.findViewById(R.id.intra_launch);
             intraButtonOut = (Button) view.findViewById(R.id.intra_logout);
+            meteoButton = (Button) view.findViewById(R.id.meteo_login);
+            meteoButtonOut = (Button) view.findViewById(R.id.meteo_logout);
             name = (TextView) view.findViewById(R.id.david_zakrzewski);
             String nameStr = getArguments().getString("name");
             name.setText(nameStr);

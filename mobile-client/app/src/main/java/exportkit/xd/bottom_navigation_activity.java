@@ -107,6 +107,23 @@ public class bottom_navigation_activity extends Activity {
 
             }
         });
+        String postUrl1 = ((Global) getApplication()).getBaseUrl() + "/nasa/addNasaConnection";
+        OkHttpClient client1 = new OkHttpClient();
+        Request request1 = new Request.Builder()
+                .url(postUrl1)
+                .addHeader("Authorization", loginResponse.getData().getToken())
+                .build();
+        client1.newCall(request1).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
         setContentView(R.layout.bottom_nav);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

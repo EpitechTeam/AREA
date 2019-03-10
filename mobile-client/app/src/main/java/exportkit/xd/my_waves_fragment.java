@@ -374,6 +374,20 @@
                 "   }\n" +
                 "]}";
 
+        String nasaCard = "{\"data\":[\n" +
+                "   {\n" +
+                "      \"id\":0,\n" +
+                "      \"type\":\"nasa\",\n" +
+                "      \"enabled\":false,\n" +
+                "      \"enableEndpoint\":\"addApodToEmail\",\n" +
+                "      \"disableEndpoint\":\"removeApodToEmail\",\n" +
+                "      \"key\":\"apodToEmail\",\n" +
+                "      \"title\":\"Picture of the day to email\",\n" +
+                "      \"description\":\"You receive the astronomy picture of the day by Email\",\n" +
+                "      \"class\":\"card-nasa\"\n" +
+                "   }\n" +
+                "]}";
+
         CardApi fake = new Gson().fromJson(twitterCard, CardApi.class);
         private OptionAdapter adapter;
 
@@ -394,6 +408,7 @@
                     myIntent.putExtra("intraCard", intraCard);
                     myIntent.putExtra("outlookCard", outlookCard);
                     myIntent.putExtra("leMondeCard", leMondeCard);
+                    myIntent.putExtra("nasaCard", nasaCard);
                     startActivity(myIntent);
                 }
             });
@@ -408,7 +423,7 @@
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-
+            onResume();
         }
 
         @Override
@@ -620,6 +635,41 @@
                     for (int i = 0; i < data1.getArray().size(); i++) {
                         ArrayItem myVar = data1.getArray().get(i);
                         if (myVar.getKey().equals(data.getLemondeRsp().getActualCard(myVar.getKey())))
+                            fake.getArray().add(data1.getArray().get(i));
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            });
+            String postUrlNasa = ((Global) getActivity().getApplication()).getBaseUrl() + "/nasa/myOption";
+            OkHttpClient clientNasa = new OkHttpClient();
+            Request requestNasa = new Request.Builder()
+                    .url(postUrlNasa)
+                    .addHeader("Authorization", token)
+                    .build();
+            clientNasa.newCall(requestNasa).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String rsp = response.body().string();
+                    Log.d("response  option", rsp);
+                    String jsonString = rsp;
+                    Nasa data;
+                    Gson gson = new Gson();
+                    data = gson.fromJson(jsonString, Nasa.class);
+                    Gson gson1 = new Gson();
+                    CardApi data1 = gson1.fromJson(nasaCard, CardApi.class);
+                    for (int i = 0; i < data1.getArray().size(); i++) {
+                        ArrayItem myVar = data1.getArray().get(i);
+                        if (myVar.getKey().equals(data.getNasaOpt().getActualCard(myVar.getKey())))
                             fake.getArray().add(data1.getArray().get(i));
                     }
                     getActivity().runOnUiThread(new Runnable() {

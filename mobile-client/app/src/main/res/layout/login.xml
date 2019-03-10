@@ -98,6 +98,7 @@
                 android:background="@drawable/background_ek2_shape"
                 android:text="marvyn@epitech.eu"
                 android:hint="example@mail.com" />
+
         </RelativeLayout>
 
     </RelativeLayout>

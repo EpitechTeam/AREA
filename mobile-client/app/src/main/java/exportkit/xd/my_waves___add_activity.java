@@ -39,6 +39,7 @@
         private String meteoCard;
         private String outlookCard;
         private String leMondeCard;
+        private String nasaCard;
 
 
         @Override
@@ -99,6 +100,15 @@
                     startActivity(myIntent);
                 }
             });
+            ImageButton nasaButton = (ImageButton) findViewById(R.id.nasa);
+            nasaButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(getBaseContext(), my_waves___add___action_activity.class);
+                    myIntent.putExtra("facebookcard", nasaCard);
+                    startActivity(myIntent);
+                }
+            });
             Intent intent = getIntent();
             facebookcard = intent.getStringExtra("facebookcard");
             twitterCard = intent.getStringExtra("twitterCard");
@@ -106,6 +116,7 @@
             meteoCard = intent.getStringExtra("meteoCard");
             outlookCard = intent.getStringExtra("outlookCard");
             leMondeCard = intent.getStringExtra("leMondeCard");
+            nasaCard = intent.getStringExtra("nasaCard");
         }
     }
 	

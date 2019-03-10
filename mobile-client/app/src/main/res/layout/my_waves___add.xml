@@ -29,7 +29,7 @@
             <RelativeLayout
                 android:id="@+id/services"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="115dp">
@@ -54,7 +54,6 @@
                         />
                 </RelativeLayout>
 
-
                 <RelativeLayout
                     android:id="@+id/gmail"
                     android:layout_width="wrap_content"
@@ -73,19 +72,6 @@
                         android:layout_marginBottom="0dp"
                         android:background="@drawable/meteo"
                         />
-
-                    <TextView
-                        android:id="@+id/gmail_ek1"
-                        android:layout_width="73dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center_horizontal|center"
-                        android:layout_marginLeft="122dp"
-                        android:layout_marginTop="18dp"
-                        android:fontFamily="Roboto"
-                        android:gravity="center"
-                        android:text="Gmail"
-                        android:textColor="#ffffff"
-                        android:textSize="26sp" />
 
 
                     <RelativeLayout
@@ -370,7 +356,24 @@
                     android:background="@drawable/box_ek3_shape" />
 
             </RelativeLayout>
-
+            <RelativeLayout
+                android:id="@+id/yam"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="700dp">
+                <ImageButton
+                    android:id="@+id/nasa"
+                    android:layout_width="320dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:contentDescription="item_ek6"
+                    android:background="@drawable/nasa"
+                    />
+            </RelativeLayout>
         </RelativeLayout>
 
 
