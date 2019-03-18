@@ -5,13 +5,14 @@ API REST du projet AREA
 Liens entre plusieurs services:
 
 	- Facebook
-	- Instagram
-	- Messenger
-	- Intra Epitech
+	- Twitter
+	- Intranet Epitech
 	- Outlook
 	- Office 365
-	- Yammer
 	- One Drive
+	- Calendar
+	- Meteo
+	- Nasa
 
 ## For development mode :
 
@@ -23,11 +24,3 @@ $ npm install
 $ npm start
 
 ```
-
-## For Production mode :
-
-```sh
-
-$ npm install
-
-$ pm2 start ecosystem.config.js --env production
